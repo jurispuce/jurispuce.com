@@ -32,21 +32,41 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
     color: var(--text-color);
 }
 
 h1 {
-    font-size: 3.5rem;
+    font-size: 4rem;
     letter-spacing: -0.02em;
+    font-weight: 700;
 }
 
 h2 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     letter-spacing: -0.01em;
+    margin-top: 2.5rem;
+}
+
+h3 {
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Improve readability of body text */
+p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
 }
 
 /* Layout */
@@ -81,10 +101,12 @@ h2 {
 }
 
 .brand {
-    font-weight: 700;
-    font-size: 1.5rem;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.75rem;
     color: var(--text-color);
     text-decoration: none;
+    letter-spacing: -0.01em;
 }
 
 .nav-links {
@@ -184,22 +206,95 @@ section {
     transform: translateY(-4px);
 }
 
-/* Newsletter Form */
-.newsletter-form {
+/* Newsletter Section */
+.newsletter-section {
     background: var(--background-alt);
-    padding: 3rem;
-    border-radius: 1rem;
-    text-align: center;
+    padding: 5rem 0;
     margin: 4rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.newsletter-form input[type="email"] {
-    width: 100%;
-    max-width: 400px;
-    padding: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
+.newsletter-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.newsletter-content h2 {
+    font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.newsletter-description {
+    font-size: 1.25rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.newsletter-form .form-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.newsletter-button {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.newsletter-button:hover {
+    background: var(--secondary-color);
+}
+
+.form-note {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+}
+
+/* Responsive newsletter form */
+@media (max-width: 640px) {
+    .newsletter-form .form-group {
+        flex-direction: column;
+    }
+
+    .newsletter-button {
+        width: 100%;
+    }
+
+    .newsletter-content h2 {
+        font-size: 2rem;
+    }
+
+    .newsletter-description {
+        font-size: 1.125rem;
+    }
 }
 
 /* Footer */
@@ -230,11 +325,21 @@ footer a:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
+        line-height: 1.1;
     }
 
     h2 {
-        font-size: 2rem;
+        font-size: 2.25rem;
+        margin-top: 2rem;
+    }
+
+    h3 {
+        font-size: 1.75rem;
+    }
+
+    .brand {
+        font-size: 1.5rem;
     }
 
     .hero-content {
