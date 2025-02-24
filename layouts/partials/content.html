@@ -1,0 +1,17 @@
+<section class='content'>
+  <h2>Content</h2>
+  <div class='blog-posts'>
+    {{ range .Site.RegularPages }}
+      <article>
+        <h3><a href='{{ .Permalink }}'>{{ .Title }}</a></h3>
+        <p>{{ .Summary }}</p>
+      </article>
+    {{ end }}
+  </div>
+  <div class='youtube-videos'>
+    <h3>YouTube Videos</h3>
+    <ul>
+      <li><a href='https://youtube.com/jurispuce'>My YouTube Channel</a></li>
+    </ul>
+  </div>
+</section>

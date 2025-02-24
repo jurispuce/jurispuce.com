@@ -1,0 +1,33 @@
+baseURL = 'https://jurispuce.com/'
+languageCode = 'en-us'
+title = 'Juris Puce'
+theme = 'adritian-free'
+
+[params]
+  description = 'Personal site of Juris Puce'
+  author = 'Juris Puce'
+  email = 'juris.puce@example.com'
+  github = 'jurispuce'
+  twitter = 'jurispuce'
+
+[menu]
+  [[menu.main]]
+    identifier = 'about'
+    name = 'About'
+    url = '/about/'
+    weight = 1
+  [[menu.main]]
+    identifier = 'blog'
+    name = 'Blog'
+    url = '/blog/'
+    weight = 2
+  [[menu.main]]
+    identifier = 'useful-links'
+    name = 'Useful Links'
+    url = '/useful-links/'
+    weight = 3
+  [[menu.main]]
+    identifier = 'cohort-training'
+    name = 'Cohort Training'
+    url = '/cohort-training/'
+    weight = 4
