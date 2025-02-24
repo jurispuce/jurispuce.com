@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="container">
+    <h1>{{ .Title }}</h1>
+    <div class="taxonomy-content">
+        {{ range .Pages }}
+            <article class="taxonomy-item">
+                <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+                <div class="metadata">
+                    <time>{{ .Date.Format "January 2, 2006" }}</time>
+                </div>
+                <p>{{ .Summary }}</p>
+                <a href="{{ .Permalink }}" class="read-more">Read More</a>
+            </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

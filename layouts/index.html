@@ -1,0 +1,19 @@
+{{ define "main" }}
+    {{ partial "hero.html" . }}
+    
+    <div class="container">
+        {{ partial "subscribe.html" . }}
+        
+        <section class="content-section">
+            {{ partial "content.html" . }}
+        </section>
+        
+        <section class="useful-links-section">
+            {{ partial "useful-links.html" . }}
+        </section>
+        
+        <section class="cohort-training-section">
+            {{ partial "cohort-training.html" . }}
+        </section>
+    </div>
+{{ end }}
