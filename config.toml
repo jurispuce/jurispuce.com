@@ -2,6 +2,7 @@ baseURL = 'https://jurispuce.com/'
 languageCode = 'en-us'
 title = 'Juris Puce'
 theme = 'adritian-free'
+buildFuture = true
 
 [params]
   description = 'Personal site of Juris Puce'

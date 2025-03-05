@@ -1,0 +1,166 @@
+{{ define "main" }}
+<section class="blog-header">
+    <div class="container">
+        <h1>Resources & Events</h1>
+        <p class="section-description">Discover upcoming events, past recordings, and valuable resources on AI and cybersecurity.</p>
+    </div>
+</section>
+
+<!-- Featured/Upcoming Events Section -->
+<section class="featured-events">
+    <div class="container">
+        <h2>Featured & Upcoming</h2>
+        <div class="featured-grid">
+            {{ $featuredPosts := where .Pages ".Params.featured" true | first 3 }}
+            {{ range $featuredPosts }}
+            <div class="featured-card">
+                <div class="card-image">
+                    {{ if .Params.videoEmbed }}
+                        {{ $videoURL := .Params.videoEmbed }}
+                        {{ if in $videoURL "youtube.com" }}
+                            {{ $videoID := index (last 1 (split $videoURL "/")) 0 }}
+                            {{ if in $videoID "?v=" }}
+                                {{ $videoID = index (last 1 (split $videoID "?v=")) 0 }}
+                            {{ end }}
+                            {{ if in $videoID "&" }}
+                                {{ $videoID = index (first 1 (split $videoID "&")) 0 }}
+                            {{ end }}
+                            <img src="https://img.youtube.com/vi/{{ $videoID }}/maxresdefault.jpg" alt="{{ .Title }}" loading="lazy">
+                            <div class="video-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                </svg>
+                            </div>
+                        {{ else }}
+                            {{ if .Params.thumbnail }}
+                                <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                            {{ else }}
+                                <div class="placeholder-image"></div>
+                            {{ end }}
+                        {{ end }}
+                    {{ else }}
+                        {{ if .Params.thumbnail }}
+                            <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{ else }}
+                            <div class="placeholder-image"></div>
+                        {{ end }}
+                    {{ end }}
+                    {{ if .Params.upcoming }}
+                    <span class="event-badge">Upcoming</span>
+                    {{ end }}
+                </div>
+                <div class="card-content">
+                    <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                    {{ if .Params.eventDate }}
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                        {{ dateFormat "January 2, 2006" .Params.eventDate }}
+                    </div>
+                    {{ end }}
+                    <p>{{ .Description }}</p>
+                    <div class="card-footer">
+                        <div class="card-actions">
+                            {{ if .Params.externalLink }}
+                            <a href="{{ .Params.externalLink }}" class="card-link" target="_blank" rel="noopener">View Resource →</a>
+                            {{ else }}
+                            <a href="{{ .Permalink }}" class="card-link">Read More →</a>
+                            {{ end }}
+                            
+                            {{ if .Params.ctaButton }}
+                            <a href="{{ if .Params.ctaLink }}{{ .Params.ctaLink }}{{ else }}{{ .Permalink }}{{ end }}" class="card-cta-button">{{ .Params.ctaText }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+<!-- All Resources and Events -->
+<section class="all-posts">
+    <div class="container">
+        <h2>All Resources & Events</h2>
+        <div class="posts-grid">
+            {{ range .Pages.ByDate.Reverse }}
+            {{ if not .Params.featured }}
+            <div class="post-card">
+                <div class="card-image">
+                    {{ if .Params.videoEmbed }}
+                        {{ $videoURL := .Params.videoEmbed }}
+                        {{ if in $videoURL "youtube.com" }}
+                            {{ $videoID := index (last 1 (split $videoURL "/")) 0 }}
+                            {{ if in $videoID "?v=" }}
+                                {{ $videoID = index (last 1 (split $videoID "?v=")) 0 }}
+                            {{ end }}
+                            {{ if in $videoID "&" }}
+                                {{ $videoID = index (first 1 (split $videoID "&")) 0 }}
+                            {{ end }}
+                            <img src="https://img.youtube.com/vi/{{ $videoID }}/maxresdefault.jpg" alt="{{ .Title }}" loading="lazy">
+                            <div class="video-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                </svg>
+                            </div>
+                        {{ else }}
+                            {{ if .Params.thumbnail }}
+                                <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                            {{ else }}
+                                <div class="placeholder-image"></div>
+                            {{ end }}
+                        {{ end }}
+                    {{ else }}
+                        {{ if .Params.thumbnail }}
+                            <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{ else }}
+                            <div class="placeholder-image"></div>
+                        {{ end }}
+                    {{ end }}
+                    {{ if .Params.upcoming }}
+                    <span class="event-badge">Upcoming</span>
+                    {{ end }}
+                </div>
+                <div class="card-content">
+                    <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                    <div class="post-meta">
+                        <span class="post-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            {{ dateFormat "January 2, 2006" .Date }}
+                        </span>
+                        {{ if .Params.categories }}
+                        <span class="post-categories">
+                            {{ range .Params.categories }}
+                            <span class="category-tag">{{ . }}</span>
+                            {{ end }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    <p>{{ .Description }}</p>
+                    <div class="card-footer">
+                        <div class="card-actions">
+                            {{ if .Params.externalLink }}
+                            <a href="{{ .Params.externalLink }}" class="card-link" target="_blank" rel="noopener">View Resource →</a>
+                            {{ else }}
+                            <a href="{{ .Permalink }}" class="card-link">Read More →</a>
+                            {{ end }}
+                            
+                            {{ if .Params.ctaButton }}
+                            <a href="{{ if .Params.ctaLink }}{{ .Params.ctaLink }}{{ else }}{{ .Permalink }}{{ end }}" class="card-cta-button">{{ .Params.ctaText }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>
+{{ end }}

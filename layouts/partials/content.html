@@ -1,17 +1,77 @@
 <section class='content'>
-  <h2>Content</h2>
-  <div class='blog-posts'>
-    {{ range .Site.RegularPages }}
-      <article>
-        <h3><a href='{{ .Permalink }}'>{{ .Title }}</a></h3>
-        <p>{{ .Summary }}</p>
+  <h2>Latest Content</h2>
+  <div class='blog-posts-grid'>
+    {{ range first 6 (where .Site.RegularPages "Section" "blog") }}
+      <article class='blog-card'>
+        <div class='blog-card-image'>
+          {{ if .Params.videoEmbed }}
+            {{ $videoURL := .Params.videoEmbed }}
+            {{ if in $videoURL "youtube.com" }}
+              {{ $videoID := index (last 1 (split $videoURL "/")) 0 }}
+              {{ if in $videoID "?v=" }}
+                {{ $videoID = index (last 1 (split $videoID "?v=")) 0 }}
+              {{ end }}
+              {{ if in $videoID "&" }}
+                {{ $videoID = index (first 1 (split $videoID "&")) 0 }}
+              {{ end }}
+              <img src="https://img.youtube.com/vi/{{ $videoID }}/maxresdefault.jpg" alt="{{ .Title }}" loading="lazy">
+              <div class="video-overlay">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+              </div>
+            {{ else }}
+              {{ if .Params.thumbnail }}
+                <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+              {{ else }}
+                <img src="/images/blog/default-thumbnail.jpg" alt="{{ .Title }}" loading="lazy">
+              {{ end }}
+            {{ end }}
+          {{ else }}
+            {{ if .Params.thumbnail }}
+              <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+            {{ else }}
+              <img src="/images/blog/default-thumbnail.jpg" alt="{{ .Title }}" loading="lazy">
+            {{ end }}
+          {{ end }}
+          {{ if .Params.upcoming }}
+            <span class="blog-badge">Upcoming</span>
+          {{ end }}
+        </div>
+        <div class='blog-card-content'>
+          <h3><a href='{{ .Permalink }}'>{{ .Title }}</a></h3>
+          <div class="blog-meta">
+            <span class="blog-date">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+              </svg>
+              {{ if .Params.eventDate }}
+                {{ dateFormat "Jan 2, 2006" .Params.eventDate }}
+              {{ else }}
+                {{ dateFormat "Jan 2, 2006" .Date }}
+              {{ end }}
+            </span>
+          </div>
+          <p>{{ .Description | truncate 120 }}</p>
+          <div class="blog-card-footer">
+            <div class="blog-card-actions">
+              {{ if .Params.externalLink }}
+                <a href="{{ .Params.externalLink }}" class="blog-card-link" target="_blank" rel="noopener">View Resource →</a>
+              {{ else }}
+                <a href="{{ .Permalink }}" class="blog-card-link">Read More →</a>
+              {{ end }}
+              
+              {{ if .Params.ctaButton }}
+                <a href="{{ if .Params.ctaLink }}{{ .Params.ctaLink }}{{ else }}{{ .Permalink }}{{ end }}" class="blog-card-cta-button">{{ .Params.ctaText }}</a>
+              {{ end }}
+            </div>
+          </div>
+        </div>
       </article>
     {{ end }}
   </div>
-  <div class='youtube-videos'>
-    <h3>YouTube Videos</h3>
-    <ul>
-      <li><a href='https://youtube.com/jurispuce'>My YouTube Channel</a></li>
-    </ul>
+  <div class="content-footer">
+    <a href="/blog/" class="view-all-button">View All Resources & Events</a>
   </div>
 </section>

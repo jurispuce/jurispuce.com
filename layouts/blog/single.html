@@ -1,0 +1,79 @@
+{{ define "main" }}
+<article class="blog-post">
+    <div class="container">
+        <header class="post-header">
+            <h1>{{ .Title }}</h1>
+            <div class="post-meta">
+                <span class="post-date">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
+                    {{ if .Params.eventDate }}
+                    Event Date: {{ dateFormat "January 2, 2006" .Params.eventDate }}
+                    {{ else }}
+                    Published: {{ dateFormat "January 2, 2006" .Date }}
+                    {{ end }}
+                </span>
+                {{ if .Params.categories }}
+                <span class="post-categories">
+                    {{ range .Params.categories }}
+                    <span class="category-tag">{{ . }}</span>
+                    {{ end }}
+                </span>
+                {{ end }}
+            </div>
+        </header>
+
+        {{ if .Params.thumbnail }}
+        <div class="post-featured-image">
+            <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+        </div>
+        {{ end }}
+
+        {{ if .Params.videoEmbed }}
+        <div class="video-container">
+            <iframe src="{{ .Params.videoEmbed }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        {{ end }}
+
+        <div class="post-content">
+            {{ .Content }}
+        </div>
+
+        {{ if .Params.externalLink }}
+        <div class="external-link-container">
+            <a href="{{ .Params.externalLink }}" class="external-link-button" target="_blank" rel="noopener">
+                View External Resource
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                </svg>
+            </a>
+        </div>
+        {{ end }}
+
+        {{ if .Params.ctaButton }}
+        <div class="event-registration">
+            <h3>{{ if .Params.upcoming }}Register for this Event{{ else }}Take Action{{ end }}</h3>
+            <p>Don't miss this opportunity to enhance your knowledge and skills in AI and cybersecurity.</p>
+            <a href="{{ if .Params.ctaLink }}{{ .Params.ctaLink }}{{ else }}#{{ end }}" class="registration-button">{{ .Params.ctaText }}</a>
+        </div>
+        {{ end }}
+
+        <div class="post-footer">
+            {{ if .Params.tags }}
+            <div class="post-tags">
+                <span>Tags:</span>
+                {{ range .Params.tags }}
+                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+                {{ end }}
+            </div>
+            {{ end }}
+            
+            <div class="post-navigation">
+                <a href="/blog/" class="back-to-blog">← Back to Resources & Events</a>
+            </div>
+        </div>
+    </div>
+</article>
+{{ end }}
