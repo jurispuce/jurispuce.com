@@ -1,14 +1,14 @@
 {{ define "main" }}
     {{ partial "hero.html" . }}
     
-    {{ partial "how-can-i-help.html" . }}
-    
     <div class="container">
         {{ partial "subscribe.html" . }}
         
         <section class="content-section">
             {{ partial "content.html" . }}
         </section>
+        
+        {{ partial "how-can-i-help.html" . }}
         
         <section class="useful-links-section">
             {{ partial "useful-links.html" . }}

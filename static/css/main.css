@@ -1231,8 +1231,8 @@ footer a:hover {
 
 /* How Can I Help Section */
 .how-can-i-help-section {
-  padding: 4rem 2rem;
-  background-color: var(--background-color);
+  padding: 4rem 0;
+  margin-bottom: 4rem;
 }
 
 .how-can-i-help-section .section-header {
