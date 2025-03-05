@@ -1228,3 +1228,57 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* How Can I Help Section */
+.how-can-i-help-section {
+  padding: 4rem 2rem;
+  background-color: var(--background-color);
+}
+
+.how-can-i-help-section .section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.help-card {
+  background-color: var(--background-alt);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.help-card h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.help-card p {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.help-card .cta-button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .help-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .how-can-i-help-section {
+    padding: 3rem 1rem;
+  }
+}
