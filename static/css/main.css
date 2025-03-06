@@ -1261,6 +1261,25 @@ footer a:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
+.help-card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 1rem 1rem 0 0;
+  margin-bottom: 1rem;
+}
+
+.help-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.help-card-image img:hover {
+  transform: scale(1.05);
+}
+
 .help-card {
   background-color: var(--background-alt);
   border-radius: 1rem;
