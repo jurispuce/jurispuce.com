@@ -26,9 +26,14 @@ In order to help you along the process, lets create a "virtual organization" for
 >
 > PonziPay Solutions is a versatile financial technology provider specializing in payment intermediary services for small to medium-sized businesses. Founded in 2019, the company has established itself as a trusted payment processor handling over $15 million in monthly transaction volume. PonziPay's payment intermediary service enables merchants to securely accept various payment methods including credit cards, digital wallets, and bank transfers through a unified platform. The company's proprietary transaction processing engine ensures high reliability with 99.9% uptime and meets PCI DSS compliance standards. Operating with a team of 45 professionals across technology, operations, and customer support, PonziPay differentiates itself through competitive transaction fees, rapid merchant onboarding, and customizable integration options. The company maintains strategic partnerships with major banking institutions and card networks to facilitate seamless fund settlement for clients across retail, e-commerce, and service industries.
 
-## Step 1: Identify Critical Business Functions
+## Step 1: Identify Critical Business Elements
 
-Begin by identifying all business functions and processes within your organization. Then determine which are critical to your operations.
+Begin by identifying all business functions and processes within your the selected SCOPE. Then determine which are critical to your operations. In the example below following elements are used (but you can also use less or more elements):
+- Business processes
+- Business functions
+- IT assets
+- Human resources
+- Documentation resources
 
 > **Example: PonziPay Solutions Critical Resources**
 > 
@@ -92,7 +97,7 @@ Begin by identifying all business functions and processes within your organizati
 > - Financial Analysis: Evaluating transaction profitability
 > - Budget Planning: Forecasting operational costs and revenue
 > 
-> **IT Systems and Infrastructure**
+> **IT assets**
 > 
 > **1. Core Payment Systems**
 > - Payment Gateway: Front-end system receiving payment requests
