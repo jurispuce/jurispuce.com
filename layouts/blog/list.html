@@ -1,6 +1,15 @@
 {{ define "main" }}
 <!-- Custom CSS for blog styling -->
 <link rel="stylesheet" href="/css/custom-blog.css">
+
+{{ $nonDraftPages := where .Site.RegularPages "Draft" false }}
+{{ $blogPages := where $nonDraftPages "Section" "blog" }}
+{{ $featuredPosts := where $blogPages ".Params.featured" true }}
+{{ $upcomingPosts := where $blogPages ".Params.upcoming" true }}
+{{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
+{{ $regularPosts := where $blogPages "Params.featured" "ne" true }}
+{{ $regularPosts = where $regularPosts "Params.upcoming" "ne" true }}
+
 <section class="blog-header">
     <div class="container">
         <h1>Resources & Events</h1>
@@ -28,20 +37,24 @@
 </section>
 
 <!-- No Results Message -->
-<div id="no-results-message" class="no-results-message container">
+<div id="no-results-message" class="no-results-message container" style="display: none;">
     <p>No resources or events found matching your search. Please try different keywords.</p>
 </div>
 
+<!-- No Content Message -->
+{{ if and (eq (len $combinedPosts) 0) (eq (len $regularPosts) 0) }}
+<div class="no-content-message container">
+    <p>No published resources or events are currently available. Please check back later.</p>
+</div>
+{{ else }}
+{{ $regularPosts = where $regularPosts "Params.upcoming" "ne" true }}
+
 <!-- Featured & Upcoming Events Section -->
+{{ if gt (len $combinedPosts) 0 }}
 <section class="featured-events">
     <div class="container">
         <h2>Featured & Upcoming</h2>
         <div class="featured-grid">
-            {{ $nonDraftPages := where .Site.RegularPages "Draft" false }}
-            {{ $blogPages := where $nonDraftPages "Section" "blog" }}
-            {{ $featuredPosts := where $blogPages ".Params.featured" true }}
-            {{ $upcomingPosts := where $blogPages ".Params.upcoming" true }}
-            {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
             {{ range $combinedPosts.ByDate.Reverse }}
             <div class="featured-card">
                 <div class="card-image">
@@ -123,19 +136,14 @@
         </div>
     </div>
 </section>
+{{ end }}
 
 <!-- All Resources and Events -->
+{{ if gt (len $regularPosts) 0 }}
 <section class="all-posts">
     <div class="container">
         <h2>All Resources & Events</h2>
         <div class="posts-grid">
-            {{ $nonDraftPages := where .Site.RegularPages "Draft" false }}
-            {{ $blogPages := where $nonDraftPages "Section" "blog" }}
-            {{ $featuredPosts := where $blogPages ".Params.featured" true }}
-            {{ $upcomingPosts := where $blogPages ".Params.upcoming" true }}
-            {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
-            {{ $regularPosts := where $blogPages "Params.featured" "ne" true }}
-            {{ $regularPosts = where $regularPosts "Params.upcoming" "ne" true }}
             {{ range $regularPosts.ByDate.Reverse }}
             
             <div class="post-card">
@@ -212,6 +220,9 @@
         </div>
     </div>
 </section>
+{{ end }}
+{{ end }}
+
 <!-- Include search script -->
 <link rel="stylesheet" href="/css/blog-search.css">
 <script src="/js/blog-search.js"></script>
