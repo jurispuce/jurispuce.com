@@ -1066,27 +1066,61 @@ function createRiskHistoryChart(risk) {
   if (history.length === 0) return '<div class="no-data">No history data available</div>';
   
   const maxValue = Math.max(...history.map(h => h.value));
+  const minValue = Math.min(...history.map(h => h.value));
   const chartHeight = 150;
+  const chartWidth = 100; // Percentage width
+  const padding = 20; // Padding for the chart
+  const effectiveHeight = chartHeight - (padding * 2);
   
-  let chartHtml = '';
-  
-  // Create a simple bar chart
-  chartHtml += '<div style="display: flex; height: 100%; align-items: flex-end; justify-content: space-around;">';
-  
-  history.forEach(point => {
-    const barHeight = (point.value / maxValue) * chartHeight;
-    const formattedDate = formatDate(point.date, true);
+  // Calculate positions for the line graph
+  const points = history.map((point, index) => {
+    // Normalize the value between 0 and effectiveHeight
+    // Add padding to the bottom to ensure points don't touch the bottom
+    const range = maxValue - minValue;
+    const normalizedValue = range === 0 ? effectiveHeight / 2 : ((point.value - minValue) / range) * effectiveHeight;
     
-    chartHtml += `
-      <div style="display: flex; flex-direction: column; align-items: center; width: ${100 / history.length}%;">
-        <div style="margin-bottom: 5px;">${point.value}</div>
-        <div style="background-color: #0d6efd; width: 30px; height: ${barHeight}px; border-radius: 3px 3px 0 0;"></div>
-        <div style="margin-top: 5px; font-size: 0.8rem; text-align: center;">${formattedDate}</div>
-      </div>
-    `;
+    // Calculate x position (evenly spaced)
+    const xPercent = (index / (history.length - 1)) * 100;
+    
+    return {
+      x: xPercent,
+      y: effectiveHeight - normalizedValue + padding, // Invert y-axis (SVG coordinates start from top)
+      value: point.value,
+      date: point.date
+    };
   });
   
-  chartHtml += '</div>';
+  // Create SVG for the line chart
+  let chartHtml = `
+    <div style="position: relative; width: 100%; height: ${chartHeight}px;">
+      <svg width="100%" height="${chartHeight}" style="overflow: visible;">
+        <!-- Line connecting the points -->
+        <polyline
+          points="${points.map(p => `${p.x}% ${p.y}`).join(' ')}"
+          style="fill:none; stroke:#0d6efd; stroke-width:2;"
+        />
+        
+        <!-- Points on the line -->
+        ${points.map(p => `
+          <circle cx="${p.x}%" cy="${p.y}" r="4" fill="#0d6efd" stroke="white" stroke-width="1" />
+        `).join('')}
+      </svg>
+      
+      <!-- Value labels above points -->
+      ${points.map(p => `
+        <div style="position: absolute; top: ${p.y - 20}px; left: ${p.x}%; transform: translateX(-50%); font-size: 0.8rem; font-weight: 500;">
+          ${p.value}
+        </div>
+      `).join('')}
+      
+      <!-- Date labels below points -->
+      ${points.map(p => `
+        <div style="position: absolute; bottom: 0; left: ${p.x}%; transform: translateX(-50%); font-size: 0.8rem; color: #6c757d;">
+          ${formatDate(p.date, true)}
+        </div>
+      `).join('')}
+    </div>
+  `;
   
   return chartHtml;
 }
