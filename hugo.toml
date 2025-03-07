@@ -1,4 +1,6 @@
-baseURL = 'https://example.org/'
+# The baseURL will be set by environment variable HUGO_BASEURL
+# Default for local development
+baseURL = 'http://localhost:1313/'
 languageCode = 'en-us'
 title = 'Sparkurity by Juris Puce'
 

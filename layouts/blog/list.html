@@ -37,7 +37,7 @@
     <div class="container">
         <h2>Featured & Upcoming</h2>
         <div class="featured-grid">
-            {{ $featuredPosts := where .Pages ".Params.featured" true | first 3 }}
+            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true | first 3 }}
             {{ range $featuredPosts }}
             <div class="featured-card">
                 <div class="card-image">
@@ -112,8 +112,8 @@
     <div class="container">
         <h2>All Resources & Events</h2>
         <div class="posts-grid">
-            {{ range .Pages.ByDate.Reverse }}
-            {{ if not .Params.featured }}
+            {{ range (where (where .Site.RegularPages "Section" "blog") ".Params.featured" false).ByDate.Reverse }}
+            
             <div class="post-card">
                 <div class="card-image">
                     {{ if .Params.videoEmbed }}
@@ -184,7 +184,6 @@
                     </div>
                 </div>
             </div>
-            {{ end }}
             {{ end }}
         </div>
     </div>
