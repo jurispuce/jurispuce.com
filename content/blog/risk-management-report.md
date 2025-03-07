@@ -20,6 +20,10 @@ categories: ["resources"]
 
 Risk management is a critical component of organizational governance, especially in today's complex and rapidly evolving threat landscape. Regular, structured risk management reports provide stakeholders with the visibility they need to make informed decisions about risk treatment, resource allocation, and strategic planning.
 
+<div style="text-align: center; margin: 2rem 0;">
+  <a href="#risk-report-demo" class="btn btn-primary" style="display: inline-block; padding: 0.75rem 1.5rem; background-color: #0d6efd; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: all 0.2s ease;">Try the Interactive Risk Report Demo</a>
+</div>
+
 An effective risk management report serves multiple purposes:
 
 - **Transparency**: Provides clear visibility into the organization's risk posture
