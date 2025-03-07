@@ -15,3 +15,9 @@ title = 'Sparkurity by Juris Puce'
     name = 'Resources & Events'
     url = '/blog/'
     weight = 20
+
+# Allow raw HTML in Markdown content
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
