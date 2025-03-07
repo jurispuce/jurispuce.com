@@ -11,7 +11,7 @@ externalLink: ""
 videoEmbed: ""
 ctaButton: true
 ctaText: "Try Interactive Demo"
-ctaLink: "#risk-report-demo"
+ctaLink: "/blog/risk-management-report/#risk-report-demo"
 tags: ["risk management", "cybersecurity", "compliance", "reporting"]
 categories: ["resources"]
 ---
