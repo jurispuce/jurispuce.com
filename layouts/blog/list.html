@@ -32,13 +32,15 @@
     <p>No resources or events found matching your search. Please try different keywords.</p>
 </div>
 
-<!-- Featured/Upcoming Events Section -->
+<!-- Featured & Upcoming Events Section -->
 <section class="featured-events">
     <div class="container">
         <h2>Featured & Upcoming</h2>
         <div class="featured-grid">
-            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true | first 3 }}
-            {{ range $featuredPosts }}
+            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true }}
+            {{ $upcomingPosts := where (where .Site.RegularPages "Section" "blog") ".Params.upcoming" true }}
+            {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
+            {{ range $combinedPosts.ByDate.Reverse }}
             <div class="featured-card">
                 <div class="card-image">
                     {{ if .Params.videoEmbed }}
@@ -74,18 +76,31 @@
                     {{ end }}
                     {{ if .Params.upcoming }}
                     <span class="event-badge">Upcoming</span>
+                    {{ else if .Params.featured }}
+                    <span class="event-badge featured-badge">Featured</span>
                     {{ end }}
                 </div>
                 <div class="card-content">
                     <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                    {{ if .Params.eventDate }}
-                    <div class="event-date">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                        </svg>
-                        {{ dateFormat "January 2, 2006" .Params.eventDate }}
+                    <div class="post-meta">
+                        <span class="post-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            {{ if .Params.eventDate }}
+                                {{ dateFormat "January 2, 2006" .Params.eventDate }}
+                            {{ else }}
+                                {{ dateFormat "January 2, 2006" .Date }}
+                            {{ end }}
+                        </span>
+                        {{ if .Params.categories }}
+                        <span class="post-categories">
+                            {{ range .Params.categories }}
+                            <span class="category-tag">{{ . }}</span>
+                            {{ end }}
+                        </span>
+                        {{ end }}
                     </div>
-                    {{ end }}
                     <p>{{ .Description }}</p>
                     <div class="card-footer">
                         <div class="card-actions">
@@ -112,7 +127,12 @@
     <div class="container">
         <h2>All Resources & Events</h2>
         <div class="posts-grid">
-            {{ range (where (where .Site.RegularPages "Section" "blog") ".Params.featured" false).ByDate.Reverse }}
+            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true }}
+            {{ $upcomingPosts := where (where .Site.RegularPages "Section" "blog") ".Params.upcoming" true }}
+            {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
+            {{ $regularPosts := where (where .Site.RegularPages "Section" "blog") "Params.featured" "ne" true }}
+            {{ $regularPosts = where $regularPosts "Params.upcoming" "ne" true }}
+            {{ range $regularPosts.ByDate.Reverse }}
             
             <div class="post-card">
                 <div class="card-image">
@@ -188,8 +208,7 @@
         </div>
     </div>
 </section>
-{{ end }}
-
 <!-- Include search script -->
 <link rel="stylesheet" href="/css/blog-search.css">
 <script src="/js/blog-search.js"></script>
+{{ end }}

@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
+        // Initial search to handle any URL parameters
+        performSearch();
+        
         function performSearch() {
             const searchTerm = searchInput.value.toLowerCase().trim();
             let featuredMatchCount = 0;
@@ -49,11 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const title = post.querySelector('h3 a').textContent.toLowerCase();
                 const description = post.querySelector('p').textContent.toLowerCase();
                 const categories = Array.from(post.querySelectorAll('.category-tag')).map(tag => tag.textContent.toLowerCase());
+                const date = post.querySelector('.post-date').textContent.toLowerCase();
                 
                 if (searchTerm === '' || 
                     title.includes(searchTerm) || 
                     description.includes(searchTerm) ||
-                    categories.some(cat => cat.includes(searchTerm))) {
+                    categories.some(cat => cat.includes(searchTerm)) ||
+                    date.includes(searchTerm)) {
                     post.style.display = '';
                     featuredMatchCount++;
                 } else {
@@ -66,11 +71,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const title = post.querySelector('h3 a').textContent.toLowerCase();
                 const description = post.querySelector('p').textContent.toLowerCase();
                 const categories = Array.from(post.querySelectorAll('.category-tag')).map(tag => tag.textContent.toLowerCase());
+                const date = post.querySelector('.post-date').textContent.toLowerCase();
                 
                 if (searchTerm === '' || 
                     title.includes(searchTerm) || 
                     description.includes(searchTerm) ||
-                    categories.some(cat => cat.includes(searchTerm))) {
+                    categories.some(cat => cat.includes(searchTerm)) ||
+                    date.includes(searchTerm)) {
                     post.style.display = '';
                     regularMatchCount++;
                 } else {
