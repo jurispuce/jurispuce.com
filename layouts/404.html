@@ -1,0 +1,147 @@
+{{ define "main" }}
+<div class="container error-page">
+    <div class="error-content">
+        <div class="error-image">
+            <img src="/images/http404.png" alt="404 Error - Page Not Found" class="error-img">
+        </div>
+        
+        <div class="error-message">
+            <h1>404: Page Not Found</h1>
+            <h2>Oops! Looks like this page took a security vacation...</h2>
+            
+            <p>Even the most secure systems have vulnerabilities, and it seems like you've found one of ours!</p>
+            
+            <div class="error-jokes">
+                <p><strong>Why couldn't you find this page?</strong><br>
+                Because it was using incognito mode!</p>
+                
+                <p><strong>What did the security expert say about the missing page?</strong><br>
+                "It's not a bug, it's an undocumented feature!"</p>
+                
+                <p><strong>How many security professionals does it take to find a missing page?</strong><br>
+                None. They'll just blame it on user error!</p>
+            </div>
+            
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">Back to Safety (Home)</a>
+                <a href="/blog/" class="btn btn-outline">Explore Our Blog</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 3rem 1rem;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.error-image {
+    max-width: 100%;
+}
+
+.error-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+    max-width: 600px;
+}
+
+.error-message h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #e74c3c;
+}
+
+.error-message h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #34495e;
+}
+
+.error-jokes {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.error-jokes p {
+    margin-bottom: 1rem;
+}
+
+.error-jokes p:last-child {
+    margin-bottom: 0;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline:hover {
+    background-color: #f8f9fa;
+}
+
+@media (min-width: 768px) {
+    .error-content {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+    }
+    
+    .error-image {
+        flex: 1;
+    }
+    
+    .error-message {
+        flex: 1;
+    }
+    
+    .error-actions {
+        justify-content: flex-start;
+    }
+}
+</style>
+{{ end }}
