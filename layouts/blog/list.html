@@ -37,8 +37,10 @@
     <div class="container">
         <h2>Featured & Upcoming</h2>
         <div class="featured-grid">
-            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true }}
-            {{ $upcomingPosts := where (where .Site.RegularPages "Section" "blog") ".Params.upcoming" true }}
+            {{ $nonDraftPages := where .Site.RegularPages "Draft" false }}
+            {{ $blogPages := where $nonDraftPages "Section" "blog" }}
+            {{ $featuredPosts := where $blogPages ".Params.featured" true }}
+            {{ $upcomingPosts := where $blogPages ".Params.upcoming" true }}
             {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
             {{ range $combinedPosts.ByDate.Reverse }}
             <div class="featured-card">
@@ -127,10 +129,12 @@
     <div class="container">
         <h2>All Resources & Events</h2>
         <div class="posts-grid">
-            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") ".Params.featured" true }}
-            {{ $upcomingPosts := where (where .Site.RegularPages "Section" "blog") ".Params.upcoming" true }}
+            {{ $nonDraftPages := where .Site.RegularPages "Draft" false }}
+            {{ $blogPages := where $nonDraftPages "Section" "blog" }}
+            {{ $featuredPosts := where $blogPages ".Params.featured" true }}
+            {{ $upcomingPosts := where $blogPages ".Params.upcoming" true }}
             {{ $combinedPosts := $featuredPosts | union $upcomingPosts | uniq }}
-            {{ $regularPosts := where (where .Site.RegularPages "Section" "blog") "Params.featured" "ne" true }}
+            {{ $regularPosts := where $blogPages "Params.featured" "ne" true }}
             {{ $regularPosts = where $regularPosts "Params.upcoming" "ne" true }}
             {{ range $regularPosts.ByDate.Reverse }}
             
