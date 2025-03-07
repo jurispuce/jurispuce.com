@@ -1,6 +1,7 @@
-# The baseURL will be set by environment variable HUGO_BASEURL
-# Default for local development
-baseURL = 'http://localhost:1313/'
+# The baseURL is set by environment variables
+# For local development: http://localhost:1313/
+# For Netlify: Uses NETLIFY_URL environment variable
+baseURL = '/'
 languageCode = 'en-us'
 title = 'Sparkurity by Juris Puce'
 
