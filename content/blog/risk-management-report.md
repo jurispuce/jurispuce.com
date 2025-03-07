@@ -53,8 +53,8 @@ Otherwise you should focus here on summarizing
 - Emerging risks that require monitoring
 
 ### 3. Risk Treatment Progress
-- **Automated risk register reporting**: Our approach collects this information automatically from risk registry. Subsection for each risk of "Risk Actions" shows the changes here
-For risks with active treatment plans:
+- **Automated risk register reporting**: Our approach collects this information automatically from risk registry. Subsection for each risk of "Risk Actions" shows the changes!
+For risks with active treatment plans if you fill in this section manually, please provide a summary of changes in the period of:
 - Status updates on risk treatment actions
 - Changes to control effectiveness
 - New controls implemented
@@ -62,7 +62,7 @@ For risks with active treatment plans:
 
 ### 4. Compliance and Regulatory Considerations
 
-How risks relate to:
+In this section you can provide a summary of external factors affecting risks in relation to:
 - Regulatory requirements
 - Industry standards
 - Contractual obligations
@@ -70,7 +70,7 @@ How risks relate to:
 
 ### 5. Resource Allocation and Budgeting
 
-Financial and resource aspects of risk management:
+This section is optional, but can add parts about financial and resource aspects of risk management (again in automated data collection we could collect this information from linked assets and tasks):
 - Budget allocated vs. spent on risk treatment
 - Resource constraints affecting risk treatment
 - Cost-benefit analysis of risk treatment options
