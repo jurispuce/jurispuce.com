@@ -11,7 +11,7 @@ case $ENVIRONMENT in
     export HUGO_BASEURL="http://localhost:1313/"
     ;;
   staging)
-    export HUGO_BASEURL="https://staging.jurispuce.com/"
+    export HUGO_BASEURL="https://jurispuceweb.netlify.app/"
     ;;
   production)
     export HUGO_BASEURL="https://jurispuce.com/"
