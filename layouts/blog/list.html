@@ -1,10 +1,36 @@
 {{ define "main" }}
+<!-- Custom CSS for blog styling -->
+<link rel="stylesheet" href="/css/custom-blog.css">
 <section class="blog-header">
     <div class="container">
         <h1>Resources & Events</h1>
         <p class="section-description">Discover upcoming events, past recordings, and valuable resources on AI and cybersecurity.</p>
+        
+        <!-- Search Form -->
+        <div class="blog-search-container">
+            <form id="blog-search-form" class="blog-search-form">
+                <input type="text" id="blog-search-input" class="blog-search-input" placeholder="Search by topic, title or description..." aria-label="Search blog posts">
+                <button type="button" id="clear-search-btn" class="clear-search-btn hidden" aria-label="Clear search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <button type="submit" class="blog-search-button" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
 </section>
+
+<!-- No Results Message -->
+<div id="no-results-message" class="no-results-message container">
+    <p>No resources or events found matching your search. Please try different keywords.</p>
+</div>
 
 <!-- Featured/Upcoming Events Section -->
 <section class="featured-events">
@@ -164,3 +190,7 @@
     </div>
 </section>
 {{ end }}
+
+<!-- Include search script -->
+<link rel="stylesheet" href="/css/blog-search.css">
+<script src="/js/blog-search.js"></script>
