@@ -1,0 +1,125 @@
+/* Cookie Consent Banner Styles */
+.cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+}
+
+.cookie-consent-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.cookie-consent-content h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.cookie-consent-content p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.cookie-settings-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cookie-setting {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.cookie-setting label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.cookie-setting input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.cookie-setting p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.cookie-consent-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cookie-policy-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    text-decoration: underline;
+    color: #6c757d;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5c636a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cookie-settings-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .cookie-consent-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}

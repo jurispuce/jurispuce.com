@@ -30,4 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Add 'Manage Cookies' link to footer
+    const policiesUl = document.querySelector('.footer-links-group:nth-child(3) ul');
+    if (policiesUl) {
+        const manageCookiesLi = document.createElement('li');
+        const manageCookiesLink = document.createElement('a');
+        manageCookiesLink.href = '#';
+        manageCookiesLink.id = 'manage-cookies-link';
+        manageCookiesLink.textContent = 'Manage Cookies';
+        manageCookiesLi.appendChild(manageCookiesLink);
+        policiesUl.appendChild(manageCookiesLi);
+    }
 });
