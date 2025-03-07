@@ -45,13 +45,15 @@ The executive summary should provide a high-level overview of the organization's
 ### 2. Risk Register Updates
 
 This section should detail changes to the risk register during the reporting period:
+- **Automated risk register reporting**: Our approach to generating the risks from the active registry allows this data to be collected automatically (see the demo app)
+Otherwise you should focus here on summarizing
 - Newly identified risks
 - Risks with significant changes in assessment (probability, impact, or overall rating)
 - Risks that have been closed or accepted
 - Emerging risks that require monitoring
 
 ### 3. Risk Treatment Progress
-
+- **Automated risk register reporting**: Our approach collects this information automatically from risk registry. Subsection for each risk of "Risk Actions" shows the changes here
 For risks with active treatment plans:
 - Status updates on risk treatment actions
 - Changes to control effectiveness

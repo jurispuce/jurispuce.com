@@ -167,6 +167,7 @@ function generateSampleRisks(fromDate, toDate, riskType) {
       probability: 3,
       impact: 4,
       lastUpdate: new Date(2025, 2, 5, 14, 30),
+      identificationDate: new Date(2025, 1, 10),
       tags: ['cybersecurity', 'personal-data'],
       owner: {
         name: 'Sarah Johnson',
@@ -245,6 +246,7 @@ function generateSampleRisks(fromDate, toDate, riskType) {
       probability: 2,
       impact: 4,
       lastUpdate: new Date(2025, 2, 6, 9, 45),
+      identificationDate: new Date(2025, 2, 1),
       tags: ['ai', 'personal-data'],
       owner: {
         name: 'David Kim',
@@ -314,6 +316,7 @@ function generateSampleRisks(fromDate, toDate, riskType) {
       probability: 3,
       impact: 5,
       lastUpdate: new Date(2025, 2, 4, 16, 20),
+      identificationDate: new Date(2025, 0, 20),
       tags: ['supplier'],
       owner: {
         name: 'Robert Chen',
@@ -387,6 +390,7 @@ function generateSampleRisks(fromDate, toDate, riskType) {
       probability: 2,
       impact: 5,
       lastUpdate: new Date(2025, 2, 7, 13, 10),
+      identificationDate: new Date(2025, 2, 4),
       tags: ['cybersecurity', 'personal-data'],
       owner: {
         name: 'Jennifer Lee',
@@ -457,6 +461,7 @@ function generateSampleRisks(fromDate, toDate, riskType) {
       probability: 3,
       impact: 3,
       lastUpdate: new Date(2025, 2, 3, 15, 45),
+      identificationDate: new Date(2025, 1, 25),
       tags: ['ai'],
       owner: {
         name: 'Maria Garcia',
@@ -537,6 +542,11 @@ function generateSampleRisks(fromDate, toDate, riskType) {
     
     // Check if risk matches the selected type
     const matchesType = riskType === 'all' || risk.tags.includes(riskType);
+    
+    // Add a flag to indicate if the risk was identified within the selected period
+    if (isInDateRange && matchesType) {
+      risk.identifiedInPeriod = risk.identificationDate >= fromDate && risk.identificationDate <= toDate;
+    }
     
     return isInDateRange && matchesType;
   });
@@ -627,11 +637,13 @@ function createRiskElement(risk) {
   riskHeader.innerHTML = `
     <div class="risk-item-title">
       <span class="risk-id">${risk.id}</span>
+      ${risk.identifiedInPeriod ? '<span class="new-risk-badge">New</span>' : ''}
       <span class="risk-description-short">${truncateText(risk.description, 150)}</span>
     </div>
     <div class="risk-meta">
       <span class="risk-value ${riskValueClass}">${riskValue}</span>
       <span class="risk-date">${formattedDate}</span>
+      <span class="risk-identification-date">Identified: ${formatDate(risk.identificationDate)}</span>
       <div class="risk-tags">${tagsHtml}</div>
     </div>
   `;
@@ -722,6 +734,11 @@ function createMainTabContent(risk) {
           <div class="risk-owner-name">${risk.owner.name}</div>
           <div class="risk-owner-email">${risk.owner.email}</div>
         </div>
+      </div>
+      <div class="risk-dates">
+        <div><strong>Identified:</strong> ${formatDate(risk.identificationDate)}</div>
+        <div><strong>Last Updated:</strong> ${formatDate(risk.lastUpdate)}</div>
+        ${risk.identifiedInPeriod ? '<div class="new-risk-badge">Identified in selected period</div>' : ''}
       </div>
     </div>
     
