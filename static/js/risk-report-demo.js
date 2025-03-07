@@ -68,19 +68,20 @@ function createFilters() {
   const filters = document.createElement('div');
   filters.className = 'risk-report-filters';
   
-  // Date range filters
-  const dateRangeGroup = document.createElement('div');
-  dateRangeGroup.className = 'filter-group';
-  dateRangeGroup.innerHTML = `
-    <label>Date Range</label>
-    <div style="display: flex; gap: 0.5rem;">
-      <div style="flex: 1;">
-        <input type="date" id="filter-from-date" name="filter-from-date">
-      </div>
-      <div style="flex: 1;">
-        <input type="date" id="filter-to-date" name="filter-to-date">
-      </div>
-    </div>
+  // Date range filters - From date
+  const fromDateGroup = document.createElement('div');
+  fromDateGroup.className = 'filter-group';
+  fromDateGroup.innerHTML = `
+    <label>From Date</label>
+    <input type="date" id="filter-from-date" name="filter-from-date">
+  `;
+  
+  // Date range filters - To date
+  const toDateGroup = document.createElement('div');
+  toDateGroup.className = 'filter-group';
+  toDateGroup.innerHTML = `
+    <label>To Date</label>
+    <input type="date" id="filter-to-date" name="filter-to-date">
   `;
   
   // Risk type filter
@@ -106,7 +107,8 @@ function createFilters() {
   `;
   
   // Append all filter groups
-  filters.appendChild(dateRangeGroup);
+  filters.appendChild(fromDateGroup);
+  filters.appendChild(toDateGroup);
   filters.appendChild(riskTypeGroup);
   filters.appendChild(filterActions);
   
