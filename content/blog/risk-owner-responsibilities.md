@@ -108,6 +108,10 @@ Evaluate how existing controls have performed:
 
 The risk review process itself should be methodical and comprehensive. Here's a structured approach to ensure you cover all necessary aspects:
 
+Some of the datapoints which can be used are similar to what is described here:
+<a href="/blog/risk-management-report/#risk-report-demo" class="btn btn-primary">Try Interactive Risk Report Demo</a>
+
+
 ### 1. Review and Update Risk Information
 
 Start by reviewing the fundamental information about the risk:
@@ -126,6 +130,10 @@ Start by reviewing the fundamental information about the risk:
 - Are all applicable requirements correctly linked?
 - Are the controls associated with the risk still relevant?
 - Should additional controls be linked based on new requirements?
+
+Below is a sample screenshot from <a href="https://www.peakdefence.com" target="_blank" rel="noopener noreferrer">Peak Defence WINGMAN GRC</a> on risk basic data:
+![WINGMAN GRC Risk View](/images/blog/wingman-risk-view.png)
+
 
 ### 2. Reassess Risk Parameters
 
@@ -159,6 +167,9 @@ Even if nothing has changed, documenting your review is crucial:
 ## Evaluating Risk Treatment Actions
 
 A critical component of the risk review is evaluating the status and effectiveness of risk treatment actions:
+
+A sample screen from items linked to risk in <a href="https://www.peakdefence.com" target="_blank" rel="noopener noreferrer">Peak Defence WINGMAN GRC</a> is below:
+![WINGMAN GRC Risk View](/images/blog/wingman-risk-related-items.png)
 
 ### 1. Review Planned Actions
 
