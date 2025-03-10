@@ -6,7 +6,7 @@ description: "A comprehensive guide for risk owners on how to effectively prepar
 featured: true
 upcoming: false
 eventDate: 2025-03-10T10:00:00+01:00
-thumbnail: "/images/blog/risk-owner-review.jpg"
+thumbnail: "/images/blog/what-it-means-to-be-a-risk-owner.jpg"
 externalLink: ""
 videoEmbed: ""
 ctaButton: false
