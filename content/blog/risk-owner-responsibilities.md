@@ -62,6 +62,17 @@ Maintaining accurate and up-to-date risk documentation is essential:
 
 When you receive notification of an upcoming risk review, gathering relevant information is your first critical task. This preparation phase sets the foundation for an effective review.
 
+### The Risk Data Model: A Centralized View of Risk
+
+The risk data model is a visual representation of the risk's components and their relationships. It provides a centralized view of the risk, making it easier to understand and manage.
+
+<div class="image-container" style="max-width: 100%; margin: 1.5rem 0;">
+  <img src="/images/blog/risk-data-model.png" alt="Risk Data Model" style="width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+</div>
+
+The risk data model includes the risk's description, risk parameters (probability, impact, and overall rating), risk owner, related assets, controls, requirements, and treatment actions. It also includes other relevant information such as the risk's history, including changes to the risk's assessment, treatment plans, and their progress.
+
+
 ### 1. Related Events and Incidents
 
 Compile information about events and incidents that have occurred since the last review:
@@ -107,6 +118,14 @@ Evaluate how existing controls have performed:
 ## Conducting the Risk Review: A Structured Approach
 
 The risk review process itself should be methodical and comprehensive. Here's a structured approach to ensure you cover all necessary aspects:
+### Risk Management Flow
+
+The risk management process is a continuous cycle of identifying, assessing, prioritizing, and managing risks. The risk management flow diagram below illustrates the different stages of risk management and how they relate to the risk review process.
+
+<div class="image-container" style="max-width: 100%; margin: 1.5rem 0;">
+  <img src="/images/blog/risk-management-flow.png" alt="Risk Management Flow" style="width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+</div>
+
 
 Some of the datapoints which can be used are similar to what is described here:<p>
 <a href="/blog/risk-management-report/#risk-report-demo" class="btn btn-primary">Try Interactive Risk Report Demo Here</a>
