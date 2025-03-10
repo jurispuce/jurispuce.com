@@ -108,8 +108,8 @@ Evaluate how existing controls have performed:
 
 The risk review process itself should be methodical and comprehensive. Here's a structured approach to ensure you cover all necessary aspects:
 
-Some of the datapoints which can be used are similar to what is described here:
-<a href="/blog/risk-management-report/#risk-report-demo" class="btn btn-primary">Try Interactive Risk Report Demo</a>
+Some of the datapoints which can be used are similar to what is described here:<p>
+<a href="/blog/risk-management-report/#risk-report-demo" class="btn btn-primary">Try Interactive Risk Report Demo Here</a>
 
 
 ### 1. Review and Update Risk Information
@@ -132,7 +132,9 @@ Start by reviewing the fundamental information about the risk:
 - Should additional controls be linked based on new requirements?
 
 Below is a sample screenshot from <a href="https://www.peakdefence.com" target="_blank" rel="noopener noreferrer">Peak Defence WINGMAN GRC</a> on risk basic data:
-![WINGMAN GRC Risk View](/images/blog/wingman-risk-view.png)
+<div class="image-container" style="max-width: 100%; margin: 1.5rem 0;">
+  <img src="/images/blog/wingman-risk-view.png" alt="WINGMAN GRC Risk View" style="width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+</div>
 
 
 ### 2. Reassess Risk Parameters
@@ -169,7 +171,9 @@ Even if nothing has changed, documenting your review is crucial:
 A critical component of the risk review is evaluating the status and effectiveness of risk treatment actions:
 
 A sample screen from items linked to risk in <a href="https://www.peakdefence.com" target="_blank" rel="noopener noreferrer">Peak Defence WINGMAN GRC</a> is below:
-![WINGMAN GRC Risk View](/images/blog/wingman-risk-related-items.png)
+<div class="image-container" style="max-width: 100%; margin: 1.5rem 0;">
+  <img src="/images/blog/wingman-risk-related-items.png" alt="WINGMAN GRC Risk Related Items" style="width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+</div>
 
 ### 1. Review Planned Actions
 
