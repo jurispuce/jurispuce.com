@@ -181,19 +181,24 @@ class CookieConsent {
     }
     
     loadGoogleAnalytics() {
-        // Check if Google Analytics is already loaded
-        if (window.ga || window.gtag) return;
-        
-        // Add Google Analytics script
-        const gaScript = document.createElement('script');
-        gaScript.async = true;
-        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID'; // Replace with your actual GA ID
-        document.head.appendChild(gaScript);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID'); // Replace with your actual GA ID
+        // Enable Google Analytics by setting the consent parameter
+        if (window.gtag) {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted'
+            });
+        } else {
+            // If Google Analytics isn't loaded yet (unlikely with our implementation), we'll enable it
+            // Add Google Analytics script
+            const gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-JXNC3QP8DW';
+            document.head.appendChild(gaScript);
+            
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-JXNC3QP8DW');
+        }
     }
     
     loadHubSpot() {
@@ -210,5 +215,12 @@ class CookieConsent {
 
 // Initialize cookie consent when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Set default consent mode to denied for analytics
+    if (window.gtag) {
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied'
+        });
+    }
+    
     window.cookieConsent = new CookieConsent();
 });

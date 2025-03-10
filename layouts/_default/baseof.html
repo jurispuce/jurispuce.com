@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 <head>
-    <!-- Google Analytics -->
+    <!-- Google Analytics with Consent Mode -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXNC3QP8DW"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
+      
+      // Set default consent to denied until user provides consent
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied'
+      });
+      
       gtag('config', 'G-JXNC3QP8DW');
     </script>
     
