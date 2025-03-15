@@ -3,7 +3,7 @@ title: "Futureproof Your Startup for EU Cybersecurity Requirements"
 date: 2025-02-11T14:00:00+01:00
 draft: false
 description: "A comprehensive guide to navigating EU cybersecurity regulations for startups and scale-ups"
-featured: true
+featured: false
 upcoming: false
 eventDate: 2025-02-11T14:00:00+01:00
 thumbnail: "/images/blog/maven-eu-cybersecurity.jpg"

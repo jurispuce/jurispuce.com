@@ -3,7 +3,7 @@ title: "From Business Impact Analysis to Business Continuity Planning: A Compreh
 date: 2025-03-07T08:30:00+01:00
 draft: false
 description: "Learn how to conduct a thorough Business Impact Analysis and develop an effective Business Continuity Plan to ensure your organization can withstand and recover from disruptions."
-featured: true
+featured: false
 upcoming: false
 thumbnail: "/images/blog/bcp-approach.jpg"
 tags: ["business continuity", "disaster recovery", "risk management", "resilience"]

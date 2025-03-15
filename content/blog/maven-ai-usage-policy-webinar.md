@@ -10,7 +10,7 @@ thumbnail: "/images/blog/maven-build-ai-usage-policy.png"
 externalLink: "https://maven.com/p/e7b006/building-ai-usage-policy-for-your-organization"
 videoEmbed: ""
 ctaButton: true
-ctaText: "Register Now - Free Event"
+ctaText: "Access the Recording"
 ctaLink: "https://maven.com/p/e7b006/building-ai-usage-policy-for-your-organization"
 tags: ["AI policy", "risk management", "compliance", "webinar"]
 categories: ["events", "AI governance"]
