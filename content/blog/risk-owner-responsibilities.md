@@ -18,45 +18,46 @@ categories: ["resources"]
 
 ## Understanding the Critical Role of a Risk Owner
 
-In today's complex risk landscape, the role of a risk owner is pivotal to an organization's security and compliance posture. Risk owners serve as the primary stewards of specific risks, responsible for their ongoing assessment, management, and mitigation. One of the most crucial responsibilities of a risk owner is conducting thorough and effective risk reviews.
+It is essential in the present world where risk is more dynamic and global that the role of a risk owner is central to an organization’s security and compliance posture. Risk owners are supposed to be the primary stewards of specific risks and must be able to justify their assessment, management, and mitigation of the risks. One of the most crucial responsibilities of a risk owner is conducting thorough and effective risk reviews.
 
-This guide aims to provide risk owners with a clear framework for approaching risk reviews, ensuring they fulfill their responsibilities effectively and contribute to the organization's overall risk management strategy.
+This guide is meant to help risk owners understand how to approach risk reviews so they can fulfill their responsibilities and support the organization’s risk management strategy.
 
 ## General Obligations of a Risk Owner
 
-Before diving into the specifics of risk reviews, it's important to understand the broader responsibilities of a risk owner:
+This paper first outlines the general obligations of a risk owner before delving into the specifics of risk reviews.
 
-### 1. Risk Accountability
+ ### 1. Risk Accountability
 
-As a risk owner, you are accountable for:
-- The accurate assessment of your assigned risks
-- Ensuring appropriate controls are in place
-- Monitoring the effectiveness of risk treatments (hint: controls)
-- Reporting on risk status to relevant stakeholders
+In your position as a risk owner, you are responsible for:
+-  The correct identification of risks that are assigned to you
+- Confirming that the right measures are taken
+ - Watching over the efficiency of risk management (control) measures
+- Presenting risk information to  the stakeholders who require it
 
 ### 2. Continuous Monitoring
 
-Risk ownership is not a periodic activity but requires ongoing attention:
-- Staying alert to changes that might affect your risks
-- Proactively identifying emerging threats
-- Monitoring control effectiveness (hint: controls)
-- Tracking the implementation of risk treatment actions (hint: controls being improved or new controls implemented)
+Risk management is not an occasional process but an  ongoing one:
+- Of being watchful of events that may affect your risks
+- Of recognizing potential  risks before they become real risks
+- Monitoring control effectiveness (control, in layman’s language)
+ - Observing the execution of risk treatment actions (control, which is being enhanced or created)
 
 ### 3. Cross-Functional Collaboration
 
-Effective risk management requires collaboration across the organization:
-- Working with control owners to ensure controls are properly implemented
-- Coordinating with infraops, desktop egineering, security, compliance, and business teams
-- Engaging with executive leadership on high-priority risks
-- Communicating with other risk owners on interdependent risks
+For effective risk management, collaboration between different areas of the organization is necessary:
+ - Interacting with control owners to guarantee that the control is properly embedded in the organization
+-  Interfacing with infraops, desktop egineering, security, compliance, and business teams
+ - Interacting with senior management in the case of important risks
+- Interacting with other risk owners  in relation to related risks
 
 ### 4. Documentation and Reporting
 
-Maintaining accurate and up-to-date risk documentation is essential:
-- Ensuring risk descriptions are clear and comprehensive
-- Documenting risk assessments and their justification (this doesn't have to be complicated - sometimes just a comment on the risk)
-- Tracking risk treatment plans and their progress
-- Recording decisions and their rationale
+This paper aims at emphasizing the importance of  proper risk documentation:
+- To ensure that risk descriptions are clear and specific
+- Risk descriptions and justification  of the assessment made (this doesn’t have to be a full analysis – sometimes, just a comment  on the risk)
+- Risk treatment plans and their implementation status
+- The decisions made and the reasons  for them
+
 
 ## Preparing for a Risk Review: Essential Information to Consider
 
