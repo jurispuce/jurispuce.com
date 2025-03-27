@@ -208,7 +208,9 @@ class CookieConsent {
         // Add HubSpot script
         const hsScript = document.createElement('script');
         hsScript.async = true;
-        hsScript.src = '//js.hs-scripts.com/HUBSPOT_ID.js'; // Replace with your actual HubSpot ID
+        hsScript.defer = true;
+        hsScript.id = 'hs-script-loader';
+        hsScript.src = '//js.hs-scripts.com/49235167.js';
         document.head.appendChild(hsScript);
     }
 }
