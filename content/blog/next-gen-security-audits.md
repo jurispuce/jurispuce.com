@@ -6,7 +6,7 @@ description: "Discover how AI-powered audit automation can transform security do
 featured: true
 upcoming: false
 eventDate: 2025-03-31T10:36:56+03:00
-thumbnail: "/images/blog/SCR-20250331-jmxj.png"
+thumbnail: "/images/blog/next-gen-audits.png"
 externalLink: ""
 videoEmbed: ""
 ctaButton: true
