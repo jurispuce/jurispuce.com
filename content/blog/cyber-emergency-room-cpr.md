@@ -11,7 +11,7 @@ externalLink: ""
 videoEmbed: ""
 ctaButton: true
 ctaText: "Download CPR Framework Template"
-ctaLink: "#"
+ctaLink: "https://docs.google.com/spreadsheets/d/1ZzsQKRuDK2MxoOELkSwBtFOfAUhNIWw1c5v_-ewf224/edit?gid=0#gid=0"
 tags: ["incident management", "security", "CPR framework", "best practices"]
 categories: ["security"]
 ---
