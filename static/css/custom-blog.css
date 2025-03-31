@@ -1,5 +1,38 @@
 /* Custom styles for blog content */
 
+/* Blog post content images */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive image sizing for different screen widths */
+@media (min-width: 768px) {
+    .post-content img {
+        max-width: 85%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .post-content img {
+        max-width: 75%;
+    }
+}
+
+/* Image caption styling */
+.post-content img + em {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+}
+
 /* Blog card and badge styling */
 .event-badge {
     position: absolute;

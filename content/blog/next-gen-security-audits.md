@@ -70,7 +70,10 @@ If Stage 1 is about finding what you claim to do, Stage 2 is proving you actuall
 
 AI transforms this stage from a scavenger hunt into a precision operation:
 
-![Limited representation of just a few questions to verify specific short set of requirements in Neo4J](/images/blog/SCR-20250331-jndd.png)
+![Limited representation of just a few questions to verify specific short set of requirements in Neo4J](/images/blog/SCR-20250331-jndd.png)<br>
+<p align="center">
+Limited representation of just a few questions to verify specific short set of requirements in Neo4J
+</p>
 
 1. **Custom Evidence Questions**: AI generates tailored validation questions based on documentation found in Stage 1 and those sneaky internal requirements. Instead of generic "Do you review access?" questions, it asks "Please provide the last three quarterly access reviews from March, June, and September as specified in Policy SEC-035, section 4.2." Try wriggling out of that one!
 
