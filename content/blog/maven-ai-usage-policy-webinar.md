@@ -3,8 +3,8 @@ title: "Building AI Usage Policy for Your Organization"
 date: 2025-02-13T14:30:00+01:00
 draft: false
 description: "Learn how to develop and implement effective AI usage policies to address organizational challenges and regulatory requirements"
-featured: true
-upcoming: true
+featured: false
+upcoming: false
 eventDate: 2025-03-13T14:30:00+01:00
 thumbnail: "/images/blog/maven-build-ai-usage-policy.png"
 externalLink: "https://maven.com/p/e7b006/building-ai-usage-policy-for-your-organization"

@@ -3,7 +3,7 @@ title: "AWS Cloud Adventures with PEAK DEFENCE"
 date: 2023-09-15T14:00:00+01:00
 draft: false
 description: "Exploring AWS cloud security strategies and best practices with PEAK DEFENCE"
-featured: true
+featured: false
 upcoming: false
 eventDate: 2023-09-15T14:00:00+01:00
 thumbnail: "/images/blog/aws-cloud-adventures.jpg"

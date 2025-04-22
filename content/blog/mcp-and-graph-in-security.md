@@ -1,16 +1,16 @@
 ---
 title: "MCP and Graph Databases: A Security Operations Game Changer"
-date: 2025-04-22T11:35:07+03:00
+date: 2025-04-21T11:35:07+03:00
 draft: false
 description: "Using MCP in combination with Graph Databases to up your security operations game."
 featured: true
 upcoming: false
-eventDate: 2025-04-22T11:35:07+03:00
+eventDate: 2025-04-21T11:35:07+03:00
 thumbnail: "/images/blog/mcp-graph.png"
 externalLink: ""
 videoEmbed: ""
 ctaButton: true
-ctaText: "Subscribe to my Linkeding Newsletter"
+ctaText: "Subscribe to my Linkedin Newsletter"
 ctaLink: "https://www.linkedin.com/newsletters/become-better-ai-cybersec-7310993646709825537"
 tags: ["incident management", "security", "MCP", "graph databases", "wingman"]
 categories: ["security"]

@@ -3,7 +3,7 @@ title: "The Risk Owner's Guide to Effective Risk Reviews"
 date: 2025-03-10T10:00:00+01:00
 draft: false
 description: "A comprehensive guide for risk owners on how to effectively prepare for and conduct risk reviews, including key responsibilities and best practices."
-featured: true
+featured: false
 upcoming: false
 eventDate: 2025-03-10T10:00:00+01:00
 thumbnail: "/images/blog/what-it-means-to-be-a-risk-owner.jpg"
