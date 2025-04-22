@@ -88,7 +88,7 @@ Anticipating future risk developments:
 Below you'll find an interactive demonstration of a comprehensive risk treatment report. This demo illustrates how effective risk reporting can provide stakeholders with clear visibility into risk status, treatment actions, and related elements.
 
 The demo allows you to:
-1. Select a date range for the report
+1. Select a date range for the report (select something between February 1st, 2025 and March 31st 2025)
 2. Filter risks by category (cybersecurity, AI, supplier, personal data)
 3. Explore detailed risk information including:
    - Risk descriptions and ratings
