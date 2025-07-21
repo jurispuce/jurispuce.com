@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    {{ partial "head.html" . }}
+    <style>
+        {{ readFile "static/css/ict-dashboard.css" | safeCSS }}
+    </style>
+</head>
+<body>
+    {{ partial "header.html" . }}
+    
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="brand-accent"></div>
+            <h1>TNA IKT Pakalpojumu Katalogs</h1>
+            <p>Tieslietu sektora IKT kompetenču centra pakalpojumu struktūra</p>
+        </div>
+        
+        <div class="content">
+            <!-- Platform Categories Overview -->
+            <div class="platform-overview">
+                <h2>Platformu kategorijas un to raksturojums</h2>
+                <div class="platform-cards">
+                    <div class="platform-info-card">
+                        <div class="platform-icon">🖥️</div>
+                        <h3>Darbvirsmas lietotnes</h3>
+                        <p class="platform-desc">Tradicionālas datora lietotnes, kas tiek izmantotas tieši darba vietā</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li>Microsoft Office lietotnes</li>
+                                <li>Adobe produkti</li>
+                                <li>Specializētas biznesa lietotnes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="platform-info-card">
+                        <div class="platform-icon">🌐</div>
+                        <h3>Tīmekļa lietotnes</h3>
+                        <p class="platform-desc">Lietotnes, kas pieejamas caur tīmekļa pārlūku no jebkuras ierīces</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li>E-pakalpojumi</li>
+                                <li>Iekšējie biznesa portāli</li>
+                                <li>Klientu pašapkalpošanās portāli</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="platform-info-card">
+                        <div class="platform-icon">📱</div>
+                        <h3>Mobilās lietotnes</h3>
+                        <p class="platform-desc">Lietotnes, kas izstrādātas speciāli mobilajām ierīcēm</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li>Android lietotnes</li>
+                                <li>iOS lietotnes</li>
+                                <li>Progresīvās tīmekļa lietotnes (PWA)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="service-grid">
+                <div class="service-card" data-service="requirements-analysis">
+                    <h3>📋 Prasību analīze un iepirkuma process</h3>
+                    <p>Sistēmiska prasību apzināšana un iepirkuma procesa organizēšana visiem platform tipiem</p>
+                    <div class="service-items">
+                        <span class="service-item">Biznesa prasību analīze</span>
+                        <span class="service-item">Tehnisko specifikāciju sagatavošana</span>
+                        <span class="service-item">Iepirkuma dokumentācijas izstrāde</span>
+                        <span class="service-item">Piedāvājumu izvērtēšanas kritēriju noteikšana</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="infrastructure">
+                    <h3>🛠️ Infrastruktūras nodrošināšana</h3>
+                    <p>Pilna IKT infrastruktūras dzīves cikla pārvaldība visām platformu kategorijām</p>
+                    <div class="service-items">
+                        <span class="service-item">Mākoņa infrastruktūras pārvaldība</span>
+                        <span class="service-item">Konteinerizācijas risinājumi</span>
+                        <span class="service-item">Tīkla infrastruktūra</span>
+                        <span class="service-item">Glabāšanas risinājumi</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="development">
+                    <h3>💻 Izstrādes pakalpojumi</h3>
+                    <p>Pielāgotu lietojumprogrammu izstrāde un uzturēšana</p>
+                    <div class="service-items">
+                        <span class="service-item">Web lietojumprogrammu izstrāde</span>
+                        <span class="service-item">Mobilo lietotņu izstrāde</span>
+                        <span class="service-item">Datu bāzu izstrāde un optimizācija</span>
+                        <span class="service-item">API integrācijas</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="security">
+                    <h3>🔒 Drošības pārvaldība</h3>
+                    <p>Visaptveroša informācijas drošības pārvaldība</p>
+                    <div class="service-items">
+                        <span class="service-item">Identitātes un piekļuves pārvaldība</span>
+                        <span class="service-item">Datu šifrēšana</span>
+                        <span class="service-item">Drošības auditi</span>
+                        <span class="service-item">Incidentu apstrāde</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="user-support">
+                    <h3>👥 Lietotāju atbalsts</h3>
+                    <p>Visaptverošs lietotāju atbalsta pakalpojums</p>
+                    <div class="service-items">
+                        <span class="service-item">Help Desk atbalsts</span>
+                        <span class="service-item">Lietotāju apmācības</span>
+                        <span class="service-item">Dokumentācija</span>
+                        <span class="service-item">Problēmu novēršana</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="monitoring">
+                    <h3>📊 Uzraudzības pakalpojumi</h3>
+                    <p>Nepārtraukta sistēmu un lietotāju pieredzes uzraudzība</p>
+                    <div class="service-items">
+                        <span class="service-item">Pieejamības monitorings</span>
+                        <span class="service-item">Veiktspējas uzraudzība</span>
+                        <span class="service-item">Drošības notikumu uzraudzība</span>
+                        <span class="service-item">Pārskatu veidošana</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+    
+    <script>
+        const serviceDetails = {
+            'requirements-analysis': {
+                title: 'Prasību analīze un iepirkuma procesa organizēšana',
+                description: 'Sistēmiska prasību apzināšana, analīze un iepirkuma procesa organizēšana visiem IKT risinājumiem',
+                subservices: [
+                    'Biznesa prasību analīze un dokumentēšana',
+                    'Tehnisko specifikāciju sagatavošana',
+                    'Iepirkuma dokumentācijas izstrāde',
+                    'Piedāvājumu izvērtēšanas kritēriju noteikšana',
+                    'Piedāvājumu salīdzinošā analīze',
+                    'Līgumu sagatavošana un pārrunas'
+                ]
+            },
+            'infrastructure': {
+                title: 'Infrastruktūras nodrošināšana',
+                description: 'Pilna IKT infrastruktūras dzīves cikla pārvaldība visām platformu kategorijām',
+                subservices: [
+                    'Konteinerizācijas risinājumi (Docker, Kubernetes)',
+                    'Mākoņa infrastruktūras pārvaldība (AWS, Azure, GCP)',
+                    'Tīkla infrastruktūras pārvaldība',
+                    'Glabāšanas risinājumi un pārvaldība',
+                    'Datu bāzu pārvaldība un uzturēšana',
+                    'Dublēšanas un atveseļošanas risinājumi'
+                ]
+            },
+            'development': {
+                title: 'Izstrādes pakalpojumi',
+                description: 'Pielāgotu lietojumprogrammu izstrāde un uzturēšana visām platformām',
+                subservices: [
+                    'Web lietojumprogrammu izstrāde',
+                    'Mobilo lietotņu izstrāde (iOS, Android, PWA)',
+                    'Darbvirsmas lietojumprogrammu izstrāde',
+                    'Datu bāzu izstrāde un optimizācija',
+                    'API izstrāde un integrācijas',
+                    'Testēšana un kvalitātes nodrošināšana'
+                ]
+            },
+            'user-support': {
+                title: 'Lietotāju atbalsta pakalpojumi',
+                description: 'Visaptverošs lietotāju atbalsts un darbavietu nodrošināšana visām platformām',
+                subservices: [
+                    'Help Desk 1., 2. un 3. līmeņa atbalsts',
+                    'Lietotāju apmācību organizēšana un vadība',
+                    'Lietotāju dokumentācijas sagatavošana',
+                    'Problēmu novēršana un tehniskais atbalsts',
+                    'Lietotāju kontu un piekļuves pārvaldība',
+                    'Darbvietu iestatīšana un konfigurēšana'
+                ]
+            },
+            'security': {
+                title: 'Drošības pārvaldības pakalpojumi',
+                description: 'Visaptverošs kiberdrošības un informācijas drošības pārvaldības komplekss',
+                subservices: [
+                    'Endpoint protection un ļaunatūras aizsardzības pārvaldība',
+                    'Identitātes un piekļuves pārvaldība (IAM)',
+                    'Datu šifrēšanas un atslēgu pārvaldība',
+                    'Drošības politiku izstrāde un ieviešana',
+                    'Vājuma izvērtēšana un penetrācijas testēšana',
+                    'Incidentu apstrāde un reaģēšana'
+                ]
+            },
+            'monitoring': {
+                title: 'Uzraudzības un pārskatu veidošanas pakalpojumi',
+                description: 'Visaptveroša sistēmu un lietotāju aktivitāšu uzraudzība',
+                subservices: [
+                    '24/7 infrastruktūras un lietojumprogrammu monitorings',
+                    'Veiktspējas uzraudzība un optimizācija',
+                    'Drošības notikumu uzraudzība un analīze (SIEM)',
+                    'Lietotāju aktivitāšu uzraudzība un analīze',
+                    'Pielāgotu pārskatu veidošana un analīze',
+                    'Prognozējošā analīze un brīdinājumu konfigurēšana'
+                ]
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('serviceModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeBtn = document.querySelector('.close');
+
+        // Add click event to all service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service');
+                const service = serviceDetails[serviceId];
+                
+                if (service) {
+                    let html = `
+                        <h2>${service.title}</h2>
+                        <p class="modal-description">${service.description}</p>
+                        <h3>Pakalpojumu sastāvdaļas:</h3>
+                        <ul class="modal-services">
+                            ${service.subservices.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    `;
+                    
+                    modalContent.innerHTML = html;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close modal when clicking the X
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside the content
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

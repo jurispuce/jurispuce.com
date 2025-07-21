@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNA IKT Pakalpojumu Komponentu Pārskats</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #3F3D56 0%, #2a2840 50%, #1e1b2e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #000000;
+        }
+
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 3px solid #CC002E;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #CC002E 0%, #a8001e 100%);
+            color: #FFFFFF;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            padding: 40px 30px;
+            background: #FFFFFF;
+        }
+
+        .platform-overview {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            border: 2px solid #3F3D56;
+        }
+
+        .platform-overview h2 {
+            color: #3F3D56;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        .platform-overview h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #CC002E, #3F3D56);
+            border-radius: 2px;
+        }
+
+        .platform-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .platform-info-card {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #CC002E;
+            box-shadow: 0 6px 20px rgba(204, 0, 46, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .platform-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(204, 0, 46, 0.15);
+        }
+
+        .platform-info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #CC002E, #3F3D56);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .platform-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .platform-info-card h3 {
+            color: #3F3D56;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .platform-desc {
+            color: #666666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .platform-examples {
+            border-top: 2px solid #e9ecef;
+            padding-top: 20px;
+        }
+
+        .platform-examples h4 {
+            color: #CC002E;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .platform-examples ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .platform-examples li {
+            color: #333333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .platform-examples li::before {
+            content: '▶';
+            color: #CC002E;
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+        }
+
+        .platform-examples strong {
+            color: #3F3D56;
+            font-weight: 600;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .service-card {
+            background: #FFFFFF;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #3F3D56;
+            box-shadow: 0 6px 20px rgba(63, 61, 86, 0.15);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card.limited-platforms {
+            border-color: #CC002E;
+            background: linear-gradient(135deg, #fff5f5, #ffffff);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #CC002E, #3F3D56);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(63, 61, 86, 0.25);
+            border-color: #CC002E;
+        }
+
+        .service-card h3 {
+            color: #3F3D56;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'Rubik', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-card p {
+            color: #666666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .platform-badge {
+            background: #CC002E;
+            color: #FFFFFF;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, #3F3D56, #2a2840);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: linear-gradient(135deg, #CC002E, #a8001e);
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(63, 61, 86, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            margin: 3% auto;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            border: 3px solid #CC002E;
+            position: relative;
+        }
+
+        .close {
+            color: #CC002E;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(204, 0, 46, 0.1);
+        }
+
+        .close:hover {
+            background: #CC002E;
+            color: #FFFFFF;
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            color: #3F3D56;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #CC002E;
+            padding-bottom: 15px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .modal h3 {
+            color: #3F3D56;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .modal ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .modal li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #333333;
+        }
+
+        .relationships {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            border-left: 5px solid #3F3D56;
+        }
+
+        .relationship-item {
+            background: #FFFFFF;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #CC002E;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .relationship-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(204, 0, 46, 0.2);
+        }
+
+        .best-practice {
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.1);
+        }
+
+        .platform-coverage {
+            background: linear-gradient(135deg, #fff5f5, #ffe6e6);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #CC002E;
+        }
+
+        /* Brand accent elements */
+        .brand-accent {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #CC002E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-accent::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 20px solid #FFFFFF;
+        }
+
+        .brand-accent::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 10px solid #CC002E;
+            bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .platform-overview {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+
+            .platform-overview h2 {
+                font-size: 1.6rem;
+            }
+
+            .platform-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                padding: 25px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #CC002E;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8001e;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="brand-accent"></div>
+            <h1>TNA IKT Pakalpojumu Katalogs</h1>
+            <p>Tieslietu sektora IKT kompetenču centra pakalpojumu struktūra</p>
+        </div>
+
+        <div class="content">
+            <!-- Platform Categories Overview -->
+            <div class="platform-overview">
+                <h2>Platformu kategorijas un to raksturojums</h2>
+                <div class="platform-cards">
+                    <div class="platform-info-card">
+                        <div class="platform-icon">📦</div>
+                        <h3>Standarta platformas</h3>
+                        <p class="platform-desc">Gatavas komerciālas programmatūras no pazīstamiem piegādātājiem, kas netiek būtiski modificētas</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li><strong>Microsoft Office 365</strong> - productivity suite</li>
+                                <li><strong>Windows Server & Desktop</strong> - operētājsistēmas</li>
+                                <li><strong>Active Directory</strong> - autentifikācijas sistēma</li>
+                                <li><strong>SharePoint</strong> - sadarbības platforma</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-info-card">
+                        <div class="platform-icon">🔧</div>
+                        <h3>Pielāgojamas platformas</h3>
+                        <p class="platform-desc">Komerciālas programmatūras ar plašām konfigurācijas iespējām un customization funkcionalitāti</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li><strong>VISMA Horizon ERP</strong> - grāmatvedības un finanšu sistēma</li>
+                                <li><strong>Namejs DMS</strong> - dokumentu pārvaldības sistēma</li>
+                                <li><strong>DocLogix</strong> - lietvedības sistēma</li>
+                                <li><strong>MicroStrategy</strong> - biznesa analīzes platforma</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-info-card">
+                        <div class="platform-icon">⚡</div>
+                        <h3>Pielāgotas platformas</h3>
+                        <p class="platform-desc">Unikāli izstrādātas informācijas sistēmas specifiskiem tieslietu sektora procesiem</p>
+                        <div class="platform-examples">
+                            <h4>Piemēri:</h4>
+                            <ul>
+                                <li><strong>TIS (Tiesu informācijas sistēma)</strong> - lietu vadības sistēma</li>
+                                <li><strong>E-lietas ekosistēma</strong> - izmeklēšanas un tiesvedības process</li>
+                                <li><strong>VZD kadastra sistēmas</strong> - nekustamā īpašuma reģistri</li>
+                                <li><strong>Uzņēmumu reģistra sistēmas</strong> - juridisko personu dati</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-grid">
+                <div class="service-card" data-service="requirements-analysis">
+                    <h3>📋 Prasību analīze un iepirkuma process</h3>
+                    <p>Sistēmiska prasību apzināšana un iepirkuma procesa organizēšana visiem platform tipiem</p>
+                    <div class="service-items">
+                        <span class="service-item">Lietotāju prasības</span>
+                        <span class="service-item">Drošības prasības</span>
+                        <span class="service-item">Veiktspējas prasības</span>
+                        <span class="service-item">Arhitektūras atbilstība</span>
+                        <span class="service-item">Iepirkumu organizēšana</span>
+                    </div>
+                </div>
+
+                <div class="service-card limited-platforms" data-service="development-support">
+                    <h3>💻 Izstrādes atbalsts <span class="platform-badge">Pielāgojamas + Pielāgotas</span></h3>
+                    <p>Specializēts atbalsts sistēmu izstrādei un pielāgošanai</p>
+                    <div class="service-items">
+                        <span class="service-item">Kodu pārskatīšana</span>
+                        <span class="service-item">Arhitektūras konsultācijas</span>
+                        <span class="service-item">Izstrādes metodikas</span>
+                        <span class="service-item">Kvalitātes nodrošināšana</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="infrastructure">
+                    <h3>🏗️ Infrastruktūras nodrošināšana</h3>
+                    <p>Pilns infrastruktūras dzīves cikla pārvaldība visām platformām</p>
+                    <div class="service-items">
+                        <span class="service-item">Konteinerizācija</span>
+                        <span class="service-item">Virtualizācija</span>
+                        <span class="service-item">Tīkla infrastruktūra</span>
+                        <span class="service-item">Datu centru darbināšana</span>
+                        <span class="service-item">Rezerves kopijas</span>
+                    </div>
+                </div>
+
+                <div class="service-card limited-platforms" data-service="delivery-management">
+                    <h3>🚀 Risinājumu piegādes nodrošināšana <span class="platform-badge">Pielāgojamas + Pielāgotas</span></h3>
+                    <p>DevOps procesi un automatizēta risinājumu piegāde</p>
+                    <div class="service-items">
+                        <span class="service-item">CI/CD pipeline</span>
+                        <span class="service-item">Deployment automatizācija</span>
+                        <span class="service-item">Jauninājumu testēšana</span>
+                        <span class="service-item">Release management</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="user-support">
+                    <h3>👥 Lietotāju atbalsta pakalpojumi</h3>
+                    <p>Visaptverošs lietotāju atbalsts visām platformām</p>
+                    <div class="service-items">
+                        <span class="service-item">Help Desk</span>
+                        <span class="service-item">Datorizētas darbavietas</span>
+                        <span class="service-item">Programmatūras instalācija</span>
+                        <span class="service-item">Lietotāju apmācības</span>
+                        <span class="service-item">Problēmu risināšana</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="testing">
+                    <h3>🧪 Testēšanas pakalpojumi</h3>
+                    <p>Strukturēta testēšanas procesa nodrošināšana</p>
+                    <div class="service-items">
+                        <span class="service-item">UAT organizēšana</span>
+                        <span class="service-item">Funkcionālā testēšana</span>
+                        <span class="service-item">Veiktspējas testēšana</span>
+                        <span class="service-item">Regresijas testēšana</span>
+                        <span class="service-item">Test data management</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="monitoring">
+                    <h3>📊 Uzraudzības pakalpojumi</h3>
+                    <p>Nepārtraukta sistēmu un lietotāju pieredzes uzraudzība</p>
+                    <div class="service-items">
+                        <span class="service-item">Pieejamības monitorings</span>
+                        <span class="service-item">Veiktspējas monitorings</span>
+                        <span class="service-item">APM risinājumi</span>
+                        <span class="service-item">UX uzraudzība</span>
+                        <span class="service-item">Alerting sistēmas</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-service="security">
+                    <h3>🛡️ Drošības pārvaldības pakalpojumi</h3>
+                    <p>Visaptverošs kiberdrošības un drošības pārvaldības komplekss</p>
+                    <div class="service-items">
+                        <span class="service-item">Ļaunatūras aizsardzība</span>
+                        <span class="service-item">Firewall pārvaldība</span>
+                        <span class="service-item">SIEM un log analīze</span>
+                        <span class="service-item">Drošības patchi</span>
+                        <span class="service-item">Ievainojamību skenēšana</span>
+                        <span class="service-item">Penetrācijas testēšana</span>
+                        <span class="service-item">Incidentu pārvaldība</span>
+                        <span class="service-item">Drošības auditi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const serviceDetails = {
+            'requirements-analysis': {
+                title: 'Prasību analīze un iepirkuma procesa organizēšana',
+                description: 'Sistēmiska prasību apzināšana, analīze un iepirkuma procesa organizēšana visiem IKT risinājumiem',
+                subservices: [
+                    'Biznesa un funkcionālo prasību apzināšana un dokumentēšana',
+                    'Tehnisku prasību definēšana un specifikāciju sagatavošana',
+                    'Drošības prasību analīze un klasifikācija',
+                    'Veiktspējas un nefunkcionālo prasību noteikšana',
+                    'Arhitektūras atbilstības novērtējums tieslietu sektora IKT arhitektūrai',
+                    'Iepirkuma dokumentācijas sagatavošana',
+                    'Piegādātāju izvērtēšanas kritēriju izstrāde',
+                    'Tehnisko piedāvājumu novērtēšana',
+                    'Līgumu tehnisko nosacījumu sagatavošana'
+                ],
+                bestPractice: 'Labākā prakse ietver sistēmisku prasību hierarhiju (biznesa → funkcionālās → tehniskās), stakeholder analīzi, prototipu izveidi prasību validācijai, traceability matrices, un agile prasību pārvaldības metodikas izmantošanu.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām - standarta, pielāgojamām un pielāgotām sistēmām',
+                relationships: [
+                    { service: 'Izstrādes atbalsts', type: 'Ieejas dati - prasības izstrādes procesam' },
+                    { service: 'Testēšana', type: 'Sadarbība - prasību validācija caur testēšanu' },
+                    { service: 'Drošības pārvaldība', type: 'Koordinācija - drošības prasību implementācija' }
+                ]
+            },
+            'development-support': {
+                title: 'Izstrādes atbalsts',
+                description: 'Specializēts atbalsts pielāgojamu un pielāgotu sistēmu izstrādei un modificēšanai',
+                subservices: [
+                    'Kodu pārskatīšana (code review) un kvalitātes kontrole',
+                    'Arhitektūras konsultācijas un design patterns',
+                    'Izstrādes metodiku un standartu ieviešana',
+                    'Git versiju kontroles un sadarbības procesu organizēšana',
+                    'Dokumentācijas standartu izstrāde un uzturēšana',
+                    'Mentoring un apmācības izstrādātājiem',
+                    'Performance optimization konsultācijas',
+                    'Refactoring un tehniskā parāda pārvaldība'
+                ],
+                bestPractice: 'Labākā prakse ietver agile/scrum metodikas, continuous integration prakses, automatizētu kodu kvalitātes pārbaudi, pair programming, clean code principus, un arhitektūras lēmumu dokumentēšanu (ADR).',
+                platformCoverage: 'Attiecas tikai uz pielāgojamām (ERP, DMS) un pielāgotām (TIS) platformām',
+                relationships: [
+                    { service: 'Prasību analīze', type: 'Atkarība - izmanto prasības kā izstrādes pamatu' },
+                    { service: 'Risinājumu piegāde', type: 'Integrācija - izstrādes rezultāti piegādes procesā' },
+                    { service: 'Testēšana', type: 'Sadarbība - testējamu risinājumu izstrāde' }
+                ]
+            },
+            'infrastructure': {
+                title: 'Infrastruktūras nodrošināšana',
+                description: 'Pilna IKT infrastruktūras dzīves cikla pārvaldība visām platformu kategorijām',
+                subservices: [
+                    'Konteinerizācijas risinājumi (Docker, Kubernetes)',
+                    'Virtualizācijas platformu pārvaldība (VMware, Hyper-V)',
+                    'Tīkla infrastruktūras projektēšana un uzturēšana',
+                    'Datu centru ekspluatācija un uzturēšana',
+                    'Storage risinājumu pārvaldība (SAN, NAS, Cloud)',
+                    'Rezerves kopiju sistēmu organizēšana',
+                    'Disaster recovery plānu izstrāde un testēšana',
+                    'Infrastruktūras kā koda (IaC) ieviešana',
+                    'Kapacitātes plānošana un resursu optimizācija'
+                ],
+                bestPractice: 'Labākā prakse ietver infrastructure as code (Terraform, Ansible), immutable infrastructure principus, multi-layered backup stratēģijas, disaster recovery testēšanu, monitoring integrāciju, un cloud-first pieeju ar hybrid risinājumiem.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām ar dažādiem sarežģītības līmeņiem',
+                relationships: [
+                    { service: 'Risinājumu piegāde', type: 'Nodrošina - infrastruktūru deployment procesiem' },
+                    { service: 'Uzraudzība', type: 'Integrācija - infrastruktūras monitorings' },
+                    { service: 'Drošības pārvaldība', type: 'Koordinācija - infrastruktūras drošība' }
+                ]
+            },
+            'delivery-management': {
+                title: 'Risinājumu piegādes nodrošināšana (DevOps)',
+                description: 'Automatizēta risinājumu piegāde un deployment procesi sarežģītākām platformām',
+                subservices: [
+                    'CI/CD pipeline izstrāde un uzturēšana',
+                    'Automated deployment procesi',
+                    'Blue-green un canary deployment stratēģijas',
+                    'Jauninājumu testēšanas automatizācija',
+                    'Release management un versiju kontrole',
+                    'Environment management (dev, test, prod)',
+                    'Configuration management un secrets handling',
+                    'Rollback procesu automatizācija',
+                    'Deployment metriku un analītikas nodrošināšana'
+                ],
+                bestPractice: 'Labākā prakse ietver GitOps workflow, zero-downtime deployments, automated rollback capabilities, feature flags izmantošanu, deployment pipeline security scanning, un continuous monitoring integration.',
+                platformCoverage: 'Attiecas uz pielāgojamām (ERP, DMS) un pielāgotām (TIS) platformām - standarta platformām jauninājumus piegādā vendor',
+                relationships: [
+                    { service: 'Izstrādes atbalsts', type: 'Atkarība - saņem risinājumus no izstrādes' },
+                    { service: 'Infrastruktūra', type: 'Izmanto - deployment target infrastruktūru' },
+                    { service: 'Testēšana', type: 'Integrācija - automatizēta testēšana pipeline' }
+                ]
+            },
+            'user-support': {
+                title: 'Lietotāju atbalsta pakalpojumi',
+                description: 'Visaptverošs lietotāju atbalsts un darbavietu nodrošināšana visām platformām',
+                subservices: [
+                    'Help Desk 1., 2. un 3. līmeņa atbalsts',
+                    'Datorizēto darbavietu konfigurācija un uzstādīšana',
+                    'Standarta programmatūras instalācija un atjaunināšana',
+                    'Lietotāju kontu pārvaldība un piekļuves kontrole',
+                    'Remote support un screen sharing risinājumi',
+                    'Lietotāju apmācību organizēšana un materiālu sagatavošana',
+                    'Self-service portāla uzturēšana',
+                    'Asset management un inventarizācija',
+                    'Mobile device management (MDM)'
+                ],
+                bestPractice: 'Labākā prakse ietver ITIL ietvarstruktūru, service kataloga izmantošanu, SLA definēšanu un uzraudzību, customer satisfaction surveys, knowledge base uzturēšanu, un proactive support ar predictive analytics.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām ar atšķirīgu specializācijas līmeni',
+                relationships: [
+                    { service: 'Infrastruktūra', type: 'Atkarība - darbavietu infrastruktūra' },
+                    { service: 'Drošības pārvaldība', type: 'Sadarbība - lietotāju drošības awareness' },
+                    { service: 'Testēšana', type: 'Ievade - lietotāju atsauksmes un problēmu ziņojumi' }
+                ]
+            },
+            'testing': {
+                title: 'Testēšanas pakalpojumi',
+                description: 'Strukturēta un visaptveroša testēšanas procesa nodrošināšana',
+                subservices: [
+                    'User Acceptance Testing (UAT) organizēšana un vadība',
+                    'Funkcionālās testēšanas plānu izstrāde un izpilde',
+                    'Veiktspējas testēšana (load, stress, volume testing)',
+                    'Regresijas testēšanas automatizācija',
+                    'Integrācijas testēšana starp sistēmām',
+                    'Test data management un sintētisko datu ģenerēšana',
+                    'Testēšanas vides pārvaldība',
+                    'Defect tracking un lifecycle pārvaldība',
+                    'Test reporting un metriku analīze'
+                ],
+                bestPractice: 'Labākā prakse ietver shift-left testing, risk-based testing prioritization, test automation pyramid, continuous testing CI/CD pipeline, exploratory testing sessions, un comprehensive test documentation.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām ar dažādiem testēšanas veidiem',
+                relationships: [
+                    { service: 'Prasību analīze', type: 'Validē - prasību izpildi caur testēšanu' },
+                    { service: 'Risinājumu piegāde', type: 'Integrācija - testing kā deployment gate' },
+                    { service: 'Lietotāju atbalsts', type: 'Sadarbība - UAT koordinācija ar lietotājiem' }
+                ]
+            },
+            'monitoring': {
+                title: 'Uzraudzības pakalpojumi',
+                description: 'Nepārtraukta sistēmu, infrastruktūras un lietotāju pieredzes monitoringa nodrošināšana',
+                subservices: [
+                    'Pieejamības monitorings un uptime tracking',
+                    'Veiktspējas monitorings (response time, throughput)',
+                    'Application Performance Monitoring (APM) risinājumi',
+                    'Real User Monitoring (RUM) un lietotāju pieredzes analīze',
+                    'Infrastructure monitoring (CPU, memory, storage, network)',
+                    'Log aggregation un analīze',
+                    'Alerting sistēmas un escalation procedures',
+                    'Dashboard un reporting risinājumi',
+                    'Capacity planning based on monitoring data'
+                ],
+                bestPractice: 'Labākā prakse ietver proactive monitoring ar predictive alerting, comprehensive dashboards ar business metrics, SLA monitoring, mean time to detection (MTTD) optimization, un monitoring as code pieeju.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām ar dažādiem monitoringa līmeņiem',
+                relationships: [
+                    { service: 'Infrastruktūra', type: 'Uzrauga - infrastruktūras komponenšu stāvokli' },
+                    { service: 'Drošības pārvaldība', type: 'Integrācija - security monitoring feeds' },
+                    { service: 'Lietotāju atbalsts', type: 'Atbalsta - proactive issue identification' }
+                ]
+            },
+            'security': {
+                title: 'Drošības pārvaldības pakalpojumi',
+                description: 'Visaptverošs kiberdrošības un informācijas drošības pārvaldības komplekss',
+                subservices: [
+                    'Endpoint protection un ļaunatūras aizsardzības pārvaldība',
+                    'Next-generation firewall (NGFW) konfigurācija un uzturēšana',
+                    'SIEM risinājumu pārvaldība un log analīze',
+                    'Security patching un ievainojamību novēršana',
+                    'Ievainojamību skenēšana un vulnerability management',
+                    'Penetrācijas testēšana un ethical hacking',
+                    'Security incident response un forensics',
+                    'Drošības auditu veikšana un compliance monitoring',
+                    'Identity and Access Management (IAM)',
+                    'Data Loss Prevention (DLP) risinājumi',
+                    'Security awareness training organizēšana'
+                ],
+                bestPractice: 'Labākā prakse ietver defense-in-depth stratēģiju, zero-trust network architecture, continuous security monitoring, automated threat response, security by design principus, un regulārus security assessments.',
+                platformCoverage: 'Attiecas uz visām platformu kategorijām ar platform-specific drošības pasākumiem',
+                relationships: [
+                    { service: 'Prasību analīze', type: 'Koordinācija - drošības prasību implementācija' },
+                    { service: 'Infrastruktūra', type: 'Aizsargā - infrastruktūras komponenšu drošība' },
+                    { service: 'Uzraudzība', type: 'Integrācija - drošības monitoringa signāli' }
+                ]
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('serviceModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeBtn = document.querySelector('.close');
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceKey = this.getAttribute('data-service');
+                const service = serviceDetails[serviceKey];
+                
+                if (service) {
+                    modalContent.innerHTML = `
+                        <h2>${service.title}</h2>
+                        <p style="font-size: 1.1rem; color: #666; margin-bottom: 25px;">${service.description}</p>
+                        
+                        ${service.platformCoverage ? `
+                        <div class="platform-coverage">
+                            <h3>🎯 Platformu pārklājums</h3>
+                            <p>${service.platformCoverage}</p>
+                        </div>
+                        ` : ''}
+                        
+                        <h3>📋 Pakalpojuma komponenti</h3>
+                        <ul>
+                            ${service.subservices.map(sub => `<li>${sub}</li>`).join('')}
+                        </ul>
+                        
+                        <div class="best-practice">
+                            <h3>✅ Labākā prakse</h3>
+                            <p>${service.bestPractice}</p>
+                        </div>
+                        
+                        <div class="relationships">
+                            <h3>🔗 Saiknes ar citiem pakalpojumiem</h3>
+                            ${service.relationships.map(rel => `
+                                <div class="relationship-item">
+                                    <strong>${rel.service}:</strong> ${rel.type}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    modal.style.display = 'block';
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
