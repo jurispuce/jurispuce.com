@@ -15,6 +15,15 @@ title = 'Sparkurity by Juris Puce'
     name = 'Resources & Events'
     url = '/blog/'
     weight = 20
+  [[menu.main]]
+    name = 'TNA'
+    url = '/tna/'
+    weight = 30
+    [[menu.main]]
+      parent = 'TNA'
+      name = 'ICT Dashboard'
+      url = '/tna/ict-dashboard/'
+      weight = 1
 
 # Allow raw HTML in Markdown content
 [markup]
