@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNA pakalpojumi Tiesu administrācijai - Kompetenču konsolidācija</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .category {
+            background: white;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: #34495e;
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header:hover {
+            background: #2c3e50;
+        }
+
+        .category-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .category-count {
+            background: #3498db;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .category.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .category.expanded .category-content {
+            max-height: 5000px;
+        }
+
+        .function-item {
+            border-bottom: 1px solid #ecf0f1;
+            background: white;
+        }
+
+        .function-item:last-child {
+            border-bottom: none;
+        }
+
+        .function-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .function-header:hover {
+            background: #f8f9fa;
+        }
+
+        .function-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .function-responsibility {
+            background: #e74c3c;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .function-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .function-item.expanded .function-content {
+            max-height: 2000px;
+        }
+
+        .function-details {
+            padding: 1.5rem;
+            border-left: 4px solid #3498db;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .tis-example {
+            background: #e8f6f3;
+            border: 1px solid #26a69a;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .role-division {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .role-card {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid;
+        }
+
+        .ta-role {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .tna-role {
+            background: #f3e5f5;
+            border-color: #9c27b0;
+        }
+
+        .role-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .strategic-note {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .expand-all-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .expand-all-btn:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .role-division {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TNA pakalpojumi Tiesu administrācijai</h1>
+            <p>Kompetenču konsolidācijas ietvaros sniegtie pakalpojumi - TIS piemērs</p>
+        </div>
+
+        <button class="expand-all-btn" onclick="toggleAll()">📋 Izvērst visas kategorijas</button>
+
+        <!-- Category 1: Tehniskā uzturēšana -->
+        <div class="category" id="tech-maintenance">
+            <div class="category-header" onclick="toggleCategory('tech-maintenance')">
+                <div class="category-title">🔧 Tehniskā uzturēšana</div>
+                <div class="category-count">7 funkcijas</div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="category-content">
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Sistēmas darbības monitorings un kļūdu izsekošana</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">📊</span>Apraksts</div>
+                                <p>24/7 TA uzturēto sistēmu darbības uzraudzība, veiktspējas monitorings, proaktīva kļūdu identificēšana un novēršana.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TNA uzrauga TIS serveru noslodzi, datubāzes vaicājumu ātrumu, lietotāju pieslēgumu skaitu. 
+                                Ja TIS atbildes laiks pārsniedz 3 sekundes vai rodas datubāzes kļūdas, TNA automātiski saņem brīdinājumu un sāk problēmas risināšanu. 
+                                Papildus darbi regulāri paredz nepieciešamību konfigurēt brīdinājumus un analizēt dažādus auditācijas pierakstus.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē biznesa kritiskās funkcijas</li>
+                                        <li>Nosaka pieļaujamās dīkstāves laikus</li>
+                                        <li>Informē par plānotajām sistēmas izmaiņām</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Ierīko monitoringa rīkus</li>
+                                        <li>Uzrauga sistēmas veiktspēju</li>
+                                        <li>Novērš tehniskās problēmas</li>
+                                        <li>Ziņo par incidentiem</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Rezerves kopiju veidošana un atjaunošana</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">💾</span>Apraksts</div>
+                                <p>Automatizēta rezerves kopiju sistēma ar regulāriem testiem, ātra datu atjaunošana ārkārtas situācijās.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TNA veic TIS datubāzes pilnas rezerves kopijas katru nakti un inkrementālas kopijas katras 4 stundas. Ja tiesneša datorā tiek nejauši izdzēsta lietas informācija, TNA var atjaunot datus no konkrētā laika punkta.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Nosaka datu saglabāšanas politiku</li>
+                                        <li>Definē atjaunošanas prioritātes</li>
+                                        <li>Apstiprina rezerves kopiju grafiku</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Ieviešo automātisko backup sistēmu</li>
+                                        <li>Testē kopiju integritāti</li>
+                                        <li>Veic datu atjaunošanu</li>
+                                        <li>Uztur arhīva sistēmu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">CI/CD ieviešana un versiju pārvaldība</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">🔄</span>Apraksts</div>
+                                <p>Automatizēts koda integrācijas un izvietošanas process, versiju kontrole un rollback iespējas.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> Kad TIS tiek pievienota jauna funkcionalitāte (piemēram, elektronisko lietu arhivēšana), TNA nodrošina, ka izmaiņas tiek automātiski testētas testvidē, un tikai pēc sekmīgiem testiem izvietotas produktīvā sistēmā bez dīkstāves.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Apstiprina jaunu versiju izvietošanu</li>
+                                        <li>Testē biznesa funkcionalitāti</li>
+                                        <li>Definē rollback kritērijus</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Uztur CI/CD pipeline</li>
+                                        <li>Veic automātiskos testus</li>
+                                        <li>Pārvalda versiju kontroli</li>
+                                        <li>Nodrošina safe deployment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Infrastruktūras mērogojamība un uzturēšana</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">📈</span>Apraksts</div>
+                                <p>Dinamiska resursu sadalīšana, slodzes balansēšana un kapacitātes palielināšana pēc vajadzības.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> Lietu izskatīšanas sezonas laikā, kad TIS slodze palielinās par 200%, TNA automātiski palielina serveru kapacitāti VVDC, lai nodrošinātu, ka tiesnešiem nav jāgaida, kamēr ielādējas lietu dokumenti.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Prognozē slodzes izmaiņas</li>
+                                        <li>Definē veiktspējas prasības</li>
+                                        <li>Apstiprina infrastruktūras izmaiņas</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Monitorē sistēmas slodzi</li>
+                                        <li>Pārvalda cloud resursus</li>
+                                        <li>Optimizē veiktspēju</li>
+                                        <li>Plāno kapacitātes palielināšanu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Serveru administrēšana un uzraudzība</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">🖥️</span>Apraksts</div>
+                                <p>Serveru konfigurācija, uzturēšana, drošības atjauninājumi un veiktspējas optimizācija.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TNA uztur TIS datubāzes serverus VVDC, uzstāda drošības patchus, optimizē datubāzes vaicājumus un nodrošina, ka sistēma darbojas 99.9% laika.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē biznesa prasības</li>
+                                        <li>Saskaņo maintenance logus</li>
+                                        <li>Apstiprina konfigurācijas izmaiņas</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Administrē serverus</li>
+                                        <li>Uzstāda atjauninājumus</li>
+                                        <li>Konfigurē drošības iestatījumus</li>
+                                        <li>Optimizē sistēmas resursu izmantošanu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 2: Drošība -->
+        <div class="category" id="security">
+            <div class="category-header" onclick="toggleCategory('security')">
+                <div class="category-title">🔒 Drošība</div>
+                <div class="category-count">8 funkcijas</div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="category-content">
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Autentifikācija, autorizācija, MFA</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">🔐</span>Apraksts</div>
+                                <p>Vienota identitātes pārvaldības sistēma ar daudzfaktoru autentifikāciju un granulāru piekļuves kontroli.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> Tiesnesis, lai piekļūtu slepeniem TIS dokumentiem, izmanto e-paraksta karti + SMS kodu. TNA nodrošina, ka katrs lietotājs redz tikai tās lietas, kurām viņam ir tiesības (pēc tiesu nozares un kompetences).
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē piekļuves politikas</li>
+                                        <li>Nosaka lietotāju lomas</li>
+                                        <li>Apstiprina piekļuves tiesības</li>
+                                        <li>Pārskata drošības politikas</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Ieviešo technisko autentifikāciju</li>
+                                        <li>Konfigurē MFA sistēmu</li>
+                                        <li>Pārvalda lietotāju kontus</li>
+                                        <li>Uzrauga neautorizētas piekļuves mēģinājumus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Drošības risku novērtēšana un pārvaldība</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">⚠️</span>Apraksts</div>
+                                <p>Regulāra risku analīze, ievainojamību testēšana un drošības incidentu pārvaldība.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TNA veic TIS penetrācijas testus, identificē, ka vecā TIS versijā ir SQL injection ievainojamība. TNA nekavējoties bloķē apdraudējumu, veic sistēmas atjaunināšanu un informē TA par risku novēršanu.
+                            </div>
+                            <div class="strategic-note">
+                                <strong>Stratēģiskā nozīme:</strong> Atbilst Latvijas kiberdrošības stratēģijas 2023-2026 mērķim - būt starp 10 kiberdrošākajām ES valstīm.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 3: Lietotāju atbalsts -->
+        <div class="category" id="user-support">
+            <div class="category-header" onclick="toggleCategory('user-support')">
+                <div class="category-title">👥 Lietotāju atbalsts un pieredze</div>
+                <div class="category-count">7 funkcijas</div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="category-content">
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Helpdesk / atbalsta biļešu sistēma</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">🎫</span>Apraksts</div>
+                                <p>Centralizēta atbalsta sistēma ar 24/7 pieejamību, biļešu prioritizāciju un SLA nodrošināšanu.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> Tiesnesis nevar atvērt TIS lietu 08:30 pirms sēdes. Viņš piezvana TNA helpdesk, problēma tiek reģistrēta ar "Augstu prioritāti" un atrisināta 15 minūšu laikā, nodrošinot, ka sēde var sākties laikus.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē atbalsta prioritātes</li>
+                                        <li>Nosaka SLA prasības</li>
+                                        <li>Sniedz biznesa kontekstu problēmām</li>
+                                        <li>Novērtē atbalsta kvalitāti</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Uztur helpdesk sistēmu</li>
+                                        <li>Nodrošina 1. līmeņa atbalstu</li>
+                                        <li>Eskalē sarežģītus gadījumus</li>
+                                        <li>Vada biļešu dzīves ciklu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 4: Datu pārvaldība -->
+        <div class="category" id="data-management">
+            <div class="category-header" onclick="toggleCategory('data-management')">
+                <div class="category-title">📊 Datu pārvaldība un analītika</div>
+                <div class="category-count">7 funkcijas</div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="category-content">
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Datu kvalitātes kontrole un validācija</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">✅</span>Apraksts</div>
+                                <p>Automatizēta datu integritātes pārbaude, dublējošo ierakstu identificēšana un datu standartizācija.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TNA uztur automatizētus skriptus, kas pārbauda TIS datu kvalitāti - ja lietas numurs nav standarta formātā vai trūkst obligātu lauku, sistēma brīdina lietotāju un neļauj saglabāt nepilnīgus datus.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē datu kvalitātes standartos</li>
+                                        <li>Nosaka obligātos laukus</li>
+                                        <li>Apstiprina validācijas noteikumus</li>
+                                        <li>Pārskata datu kvalitātes atskaites</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Ieviešo automatizētās validācijas</li>
+                                        <li>Uzrauga datu integritāti</li>
+                                        <li>Ģenerē kvalitātes atskaites</li>
+                                        <li>Novērš datu problēmas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Statistikas un pārskatu ģenerēšana</div>
+                        <div class="function-responsibility">TA/TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">📈</span>Apraksts</div>
+                                <p>Automatizēti pārskati un analītiska pārskatu sniegšana stratēģiskajiem un operatīvajiem mērķiem.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TA nepieciešams mēneša pārskats par lietu izskatīšanas terminiem. TNA izveido automatizētu pārskatu TIS datiem, kas katru mēneša pēdējo dienu nosūta TA vadībai detalizētu analīzi par tiesvedības efektivitāti.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē nepieciešamos pārskatus</li>
+                                        <li>Nosaka analīzes kritērijus</li>
+                                        <li>Interpretē biznesa rezultātos</li>
+                                        <li>Izmanto datus lēmumu pieņemšanai</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Izvieido tehnisko pārskatu infrastruktūru</li>
+                                        <li>Automatizē datu iegūšanu</li>
+                                        <li>Nodrošina pārskatu pieejamību</li>
+                                        <li>Uztur BI rīkus un dashboard</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 5: IKT projektu pārvaldība -->
+        <div class="category" id="project-management">
+            <div class="category-header" onclick="toggleCategory('project-management')">
+                <div class="category-title">🚀 IKT projektu pārvaldība</div>
+                <div class="category-count">4 funkcijas</div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="category-content">
+                <div class="function-item">
+                    <div class="function-header" onclick="toggleFunction(this)">
+                        <div class="function-name">Projektu vadības metodiskais atbalsts</div>
+                        <div class="function-responsibility">TNA</div>
+                    </div>
+                    <div class="function-content">
+                        <div class="function-details">
+                            <div class="detail-section">
+                                <div class="detail-title"><span class="icon">📋</span>Apraksts</div>
+                                <p>Profesionāla projektu vadības kompetence, metodikas un rīki IKT projektu sekmīgai realizācijai.</p>
+                            </div>
+                            <div class="tis-example">
+                                <strong>TIS piemērs:</strong> TA plāno TIS modernizācijas projektu (€2M, 18 mēneši). TNA nodrošina sertificētu projektu vadītāju, izstrādā projekta plānu, risku reģistru, un koordinē 15 dažādu piegādātāju darbu, nodrošinot projekta īstenošanu laikā un budžetā.
+                            </div>
+                            <div class="role-division">
+                                <div class="role-card ta-role">
+                                    <div class="role-title">TA loma:</div>
+                                    <ul>
+                                        <li>Definē biznesa vajadzības</li>
+                                        <li>Apstiprina projekta mērķus</li>
+                                        <li>Nodrošina finansējumu</li>
+                                        <li>Pieņem lēmumus par izmaiņām</li>
+                                    </ul>
+                                </div>
+                                <div class="role-card tna-role">
+                                    <div class="role-title">TNA loma:</div>
+                                    <ul>
+                                        <li>Nodrošina projektu vadītāju</li>
+                                        <li>Pieliet PMI/PRINCE2 metodikas</li>
+                                        <li>Vada risku pārvaldību</li>
+                                        <li>Koordinē tehnisko īstenošanu</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 10px; text-align: center;">
+            <h3>📋 Kopsavilkums</h3>
+            <p>Šis katalogs atspoguļo TNA transformāciju no infrastruktūras sniedzēja uz <strong>specializētu IKT kompetenču centru</strong>, kas atbilst Tiesu administrācijas kā "augsta brieduma līmeņa" iestādes vajadzībām un Tieslietu sektora digitālās stratēģijas 2024-2027 mērķiem.</p>
+            <br>
+            <p><em>Balstīts uz: Tieslietu sektora digitālo stratēģiju 2024-2027, VARAM IKT konsolidācijas plāniem, un TIS praktiskajiem piemēriem</em></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleCategory(categoryId) {
+            const category = document.getElementById(categoryId);
+            category.classList.toggle('expanded');
+        }
+
+        function toggleFunction(header) {
+            const functionItem = header.parentElement;
+            functionItem.classList.toggle('expanded');
+        }
+
+        let allExpanded = false;
+
+        function toggleAll() {
+            const categories = document.querySelectorAll('.category');
+            const functions = document.querySelectorAll('.function-item');
+            const button = document.querySelector('.expand-all-btn');
+            
+            if (!allExpanded) {
+                categories.forEach(cat => cat.classList.add('expanded'));
+                functions.forEach(func => func.classList.add('expanded'));
+                button.textContent = '📋 Sakļaut visas kategorijas';
+                allExpanded = true;
+            } else {
+                categories.forEach(cat => cat.classList.remove('expanded'));
+                functions.forEach(func => func.classList.remove('expanded'));
+                button.textContent = '📋 Izvērst visas kategorijas';
+                allExpanded = false;
+            }
+        }
+
+        // Auto-expand first category on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstCategory = document.querySelector('.category');
+            if (firstCategory) {
+                firstCategory.classList.add('expanded');
+            }
+        });
+    </script>
+</body>
+</html>
