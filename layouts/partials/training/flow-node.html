@@ -1,0 +1,82 @@
+{{/* Flow Node - Individual branch in the flow diagram */}}
+{{/* Expects: .branch (branch data), .modules (slice of module pages) */}}
+
+{{ $branch := .branch }}
+{{ $modules := .modules }}
+{{ $pathId := .pathId }}
+
+{{/* Determine primary access level for the branch */}}
+{{ $accessLevel := "free" }}
+{{ range $modules }}
+  {{ if eq .Params.accessLevel "commercial" }}
+    {{ $accessLevel = "commercial" }}
+  {{ else if and (eq .Params.accessLevel "authorized") (ne $accessLevel "commercial") }}
+    {{ $accessLevel = "authorized" }}
+  {{ end }}
+{{ end }}
+
+{{/* Collect content types */}}
+{{ $hasVideo := false }}
+{{ $hasQuiz := false }}
+{{ $hasExercise := false }}
+{{ $hasCertificate := false }}
+{{ $hasReading := false }}
+{{ $hasCaseStudy := false }}
+
+{{ range $modules }}
+  {{ range .Params.content }}
+    {{ if eq .type "video" }}{{ $hasVideo = true }}{{ end }}
+    {{ if eq .type "quiz" }}{{ $hasQuiz = true }}{{ end }}
+    {{ if eq .type "exercise" }}{{ $hasExercise = true }}{{ end }}
+    {{ if eq .type "reading" }}{{ $hasReading = true }}{{ end }}
+    {{ if eq .type "case-study" }}{{ $hasCaseStudy = true }}{{ end }}
+  {{ end }}
+  {{ if .Params.certificate.enabled }}
+    {{ $hasCertificate = true }}
+  {{ end }}
+{{ end }}
+
+<div class="flow-node access-{{ $accessLevel }}"
+     data-branch-id="{{ $branch.id }}"
+     data-branch-title="{{ $branch.title }}"
+     {{ with $branch.prerequisite }}data-prerequisite="{{ . }}"{{ end }}
+     {{ with $branch.prerequisites }}data-prerequisites="{{ delimit . "," }}"{{ end }}
+     data-modules="{{ delimit $branch.modules "," }}"
+     style="left: {{ $branch.x }}%; top: {{ $branch.y }}%;">
+
+  <div class="flow-node-card">
+    <div class="flow-node-header">
+      <h4 class="flow-node-title">{{ $branch.title }}</h4>
+      <div class="flow-node-status"></div>
+    </div>
+
+    {{ with $branch.description }}
+    <p class="flow-node-description">{{ . }}</p>
+    {{ end }}
+
+    <div class="flow-node-content-types">
+      {{ if $hasVideo }}
+      <span class="content-type-badge video" title="Video content">▶</span>
+      {{ end }}
+      {{ if $hasQuiz }}
+      <span class="content-type-badge quiz" title="Knowledge quiz">?</span>
+      {{ end }}
+      {{ if $hasExercise }}
+      <span class="content-type-badge exercise" title="Interactive exercise">⚙</span>
+      {{ end }}
+      {{ if $hasCaseStudy }}
+      <span class="content-type-badge case-study" title="Case study">📋</span>
+      {{ end }}
+      {{ if $hasReading }}
+      <span class="content-type-badge reading" title="Reading material">📖</span>
+      {{ end }}
+      {{ if $hasCertificate }}
+      <span class="content-type-badge certificate" title="Certificate available">★</span>
+      {{ end }}
+    </div>
+
+    <div class="flow-node-modules">
+      {{ len $modules }} module{{ if gt (len $modules) 1 }}s{{ end }}
+    </div>
+  </div>
+</div>

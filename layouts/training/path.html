@@ -1,0 +1,164 @@
+{{ define "main" }}
+{{ $pathId := .File.Dir | path.Base }}
+{{ $modules := .Pages }}
+
+<section class="training-path">
+  <div class="container">
+    {{/* Header */}}
+    <header class="training-path-header">
+      <h1>{{ .Title }}</h1>
+      <p class="description">{{ .Description }}</p>
+
+      {{/* Path Stats */}}
+      <div class="path-stats">
+        {{ with .Params.estimatedHours }}
+        <div class="path-stat">
+          <div class="path-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="path-stat-content">
+            <span class="path-stat-label">Duration</span>
+            <span class="path-stat-value">{{ . }} hours</span>
+          </div>
+        </div>
+        {{ end }}
+
+        {{ with .Params.difficulty }}
+        <div class="path-stat">
+          <div class="path-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="path-stat-content">
+            <span class="path-stat-label">Difficulty</span>
+            <span class="path-stat-value">{{ . }}</span>
+          </div>
+        </div>
+        {{ end }}
+
+        {{ with .Params.branches }}
+        <div class="path-stat">
+          <div class="path-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="6" y1="3" x2="6" y2="15"/>
+              <circle cx="18" cy="6" r="3"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a9 9 0 0 1-9 9"/>
+            </svg>
+          </div>
+          <div class="path-stat-content">
+            <span class="path-stat-label">Learning Tracks</span>
+            <span class="path-stat-value">{{ len . }} branches</span>
+          </div>
+        </div>
+        {{ end }}
+
+        <div class="path-stat">
+          <div class="path-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="path-stat-content">
+            <span class="path-stat-label">Modules</span>
+            <span class="path-stat-value">{{ len $modules }} modules</span>
+          </div>
+        </div>
+      </div>
+
+      {{/* Progress Card (shows when logged in) */}}
+      <div class="path-progress-card" id="path-progress" style="display: none;">
+        <div class="path-progress-header">
+          <h3>Your Progress</h3>
+          <span class="path-progress-percentage">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width: 0%"></div>
+        </div>
+        <p class="progress-text">Start your learning journey!</p>
+      </div>
+    </header>
+
+    {{/* Learning Objectives */}}
+    {{ with .Params.objectives }}
+    <div class="path-objectives">
+      <h2>What You'll Learn</h2>
+      <ul class="objectives-list">
+        {{ range . }}
+        <li>{{ . }}</li>
+        {{ end }}
+      </ul>
+    </div>
+    {{ end }}
+
+    {{/* Flow Diagram Section */}}
+    <div class="flow-diagram-section">
+      <h2>Choose Your Learning Path</h2>
+
+      {{/* Legend */}}
+      {{ partial "training/flow-legend.html" . }}
+
+      {{/* Flow Container */}}
+      <div class="flow-container" data-path-id="{{ $pathId }}">
+        {{/* SVG Connectors Layer */}}
+        <div class="flow-connectors"></div>
+
+        {{/* Flow Nodes Layer */}}
+        <div class="flow-nodes">
+          {{ range .Params.branches }}
+            {{ $branch := . }}
+            {{ $branchModules := slice }}
+
+            {{/* Find modules for this branch */}}
+            {{ range $branch.modules }}
+              {{ $moduleId := . }}
+              {{ range $modules }}
+                {{ if eq .File.BaseFileName $moduleId }}
+                  {{ $branchModules = $branchModules | append . }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+
+            {{ partial "training/flow-node.html" (dict
+              "branch" $branch
+              "modules" $branchModules
+              "pathId" $pathId
+            ) }}
+          {{ end }}
+        </div>
+      </div>
+    </div>
+
+    {{/* Module Panel */}}
+    {{ partial "training/module-panel.html" (dict "modules" $modules "pathId" $pathId) }}
+
+    {{/* Content from _index.md */}}
+    {{ with .Content }}
+    <div class="training-path-content">
+      {{ . }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+{{/* Auth Modal */}}
+{{ partial "auth/auth-modal.html" . }}
+
+<script>
+  // Show progress card if logged in
+  document.addEventListener('userLoggedIn', function() {
+    const progressCard = document.getElementById('path-progress');
+    if (progressCard) {
+      progressCard.style.display = 'block';
+    }
+  });
+</script>
+{{ end }}

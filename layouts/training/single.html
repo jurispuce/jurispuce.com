@@ -1,0 +1,123 @@
+{{ define "main" }}
+{{/* Determine if this is a module or a path */}}
+{{ if .Parent.IsSection }}
+  {{/* This is a module page within a path */}}
+  {{ $pathId := .Parent.File.BaseFileName }}
+  {{ $moduleId := .File.BaseFileName }}
+
+  <section class="training-module">
+    <div class="container">
+      {{/* Breadcrumb */}}
+      <nav class="module-breadcrumb" style="margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-light);">
+        <a href="/training/" style="color: var(--primary-color); text-decoration: none;">Training</a>
+        <span style="margin: 0 0.5rem;">/</span>
+        <a href="{{ .Parent.RelPermalink }}" style="color: var(--primary-color); text-decoration: none;">{{ .Parent.Title }}</a>
+        <span style="margin: 0 0.5rem;">/</span>
+        <span>{{ .Title }}</span>
+      </nav>
+
+      {{/* Header */}}
+      <header class="module-header" style="margin-bottom: 3rem;">
+        <h1>{{ .Title }}</h1>
+        <p style="font-size: 1.25rem; color: var(--text-light); margin-bottom: 1.5rem;">{{ .Description }}</p>
+
+        <div class="module-meta" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+          {{ with .Params.duration }}
+          <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {{ . }}
+          </span>
+          {{ end }}
+
+          {{ with .Params.difficulty }}
+          <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            {{ . }}
+          </span>
+          {{ end }}
+
+          <span class="access-badge {{ .Params.accessLevel }}">
+            {{ if eq .Params.accessLevel "free" }}Free Access{{ end }}
+            {{ if eq .Params.accessLevel "authorized" }}Login Required{{ end }}
+            {{ if eq .Params.accessLevel "commercial" }}Premium Content{{ end }}
+          </span>
+        </div>
+      </header>
+
+      {{/* Content */}}
+      <div class="module-content" style="max-width: 800px;">
+        {{ .Content }}
+
+        {{/* Content Items */}}
+        {{ with .Params.content }}
+        <div class="module-content-items" style="margin-top: 3rem;">
+          <h2>Module Content</h2>
+
+          {{ range . }}
+          <div class="content-item" style="margin-bottom: 1rem;" data-content-id="{{ .id }}" data-type="{{ .type }}" data-access-level="{{ .accessLevel }}">
+            <div class="content-item-icon {{ .type }}">
+              {{ if eq .type "video" }}▶{{ end }}
+              {{ if eq .type "quiz" }}?{{ end }}
+              {{ if eq .type "exercise" }}⚙{{ end }}
+              {{ if eq .type "case-study" }}📋{{ end }}
+              {{ if eq .type "reading" }}📖{{ end }}
+            </div>
+            <div class="content-item-details">
+              <div class="content-item-title">{{ .title }}</div>
+              <div class="content-item-meta">
+                {{ with .duration }}{{ . }}{{ end }}
+                {{ with .questions }}{{ . }} questions{{ end }}
+              </div>
+            </div>
+            <div class="content-item-access">
+              <span class="access-badge {{ .accessLevel }}">
+                {{ if eq .accessLevel "free" }}Free{{ end }}
+                {{ if eq .accessLevel "authorized" }}Login{{ end }}
+                {{ if eq .accessLevel "commercial" }}Premium{{ end }}
+              </span>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{/* Certificate */}}
+        {{ with .Params.certificate }}
+        {{ if .enabled }}
+        <div class="module-certificate" style="margin-top: 2rem;">
+          <h4>
+            <span>🏆</span>
+            Certificate: {{ .title }}
+          </h4>
+          <p>{{ .description }}</p>
+        </div>
+        {{ end }}
+        {{ end }}
+
+        {{/* Navigation */}}
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+          <a href="{{ .Parent.RelPermalink }}" class="cta-button" style="text-decoration: none;">
+            ← Back to Learning Path
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ else }}
+  {{/* Fallback content */}}
+  <section class="training-content">
+    <div class="container">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+    </div>
+  </section>
+{{ end }}
+
+{{/* Auth Modal */}}
+{{ partial "auth/auth-modal.html" . }}
+{{ end }}
