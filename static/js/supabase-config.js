@@ -11,11 +11,11 @@
  */
 
 const SUPABASE_CONFIG = {
-  // Replace with your Supabase project URL
-  url: 'https://your-project-id.supabase.co',
+  // Supabase project URL
+  url: 'https://trvhrdrrhejntqzbwmpz.supabase.co',
 
-  // Replace with your Supabase anon (public) key
-  anonKey: 'your-anon-key-here',
+  // Supabase anon (public) key
+  anonKey: 'sb_publishable_llksuWzpoxb17JW1pRFMrA_iqlHWKVO',
 
   // Redirect URL after authentication (update for production)
   redirectUrl: window.location.origin + '/training/'
