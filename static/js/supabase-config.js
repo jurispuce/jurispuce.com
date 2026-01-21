@@ -1,23 +1,26 @@
 /**
  * Supabase Configuration
  *
- * IMPORTANT: Replace these values with your actual Supabase project credentials.
+ * IMPORTANT: The Supabase JS client requires the JWT-format "anon" key.
  *
- * To get these values:
- * 1. Go to https://supabase.com and sign in
- * 2. Select your project (or create a new one)
+ * To get the correct key:
+ * 1. Go to https://supabase.com/dashboard and sign in
+ * 2. Select your project
  * 3. Go to Settings > API
- * 4. Copy the "Project URL" and "anon public" key
+ * 4. Under "Project API keys", copy the "anon" "public" key
+ *    (It should start with "eyJ..." - this is a JWT token)
+ *    Do NOT use the "publishable" key (sb_publishable_...) - that's for REST API only
  */
 
 const SUPABASE_CONFIG = {
   // Supabase project URL
   url: 'https://trvhrdrrhejntqzbwmpz.supabase.co',
 
-  // Supabase anon (public) key
-  anonKey: 'sb_publishable_llksuWzpoxb17JW1pRFMrA_iqlHWKVO',
+  // Supabase anon (public) key - MUST be the JWT format starting with "eyJ..."
+  // Replace this with your actual anon key from Settings > API
+  anonKey: 'YOUR_ANON_KEY_HERE',
 
-  // Redirect URL after authentication (update for production)
+  // Redirect URL after authentication
   redirectUrl: window.location.origin + '/training/'
 };
 
