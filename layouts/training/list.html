@@ -1,0 +1,70 @@
+{{ define "main" }}
+<section class="training-hub">
+  <div class="container">
+    {{/* Header */}}
+    <header class="training-hub-header">
+      <h1>{{ .Title }}</h1>
+      <p class="lead">{{ .Description }}</p>
+    </header>
+
+    {{/* Training Paths Grid */}}
+    <div class="training-paths-grid">
+      {{ range .Site.GetPage "training/paths" | .Pages }}
+      {{ if .IsSection }}
+      <article class="training-path-card">
+        <div class="training-path-card-image">
+          {{ if .Params.thumbnail }}
+          <img src="{{ .Params.thumbnail }}" alt="{{ .Title }}" loading="lazy">
+          {{ else }}
+          <div class="path-icon">🎯</div>
+          {{ end }}
+        </div>
+        <div class="training-path-card-content">
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+
+          <div class="training-path-meta">
+            {{ with .Params.estimatedHours }}
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ . }} hours
+            </span>
+            {{ end }}
+            {{ with .Params.difficulty }}
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              {{ . }}
+            </span>
+            {{ end }}
+          </div>
+
+          <p>{{ .Description }}</p>
+
+          <div class="training-path-card-footer">
+            <a href="{{ .RelPermalink }}" class="path-start-btn">Explore Path</a>
+            {{ with .Params.branches }}
+            <span class="branch-count">{{ len . }} tracks</span>
+            {{ end }}
+          </div>
+        </div>
+      </article>
+      {{ end }}
+      {{ end }}
+    </div>
+
+    {{/* Content from _index.md */}}
+    {{ with .Content }}
+    <div class="training-hub-content">
+      {{ . }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+{{/* Auth Modal */}}
+{{ partial "auth/auth-modal.html" . }}
+{{ end }}

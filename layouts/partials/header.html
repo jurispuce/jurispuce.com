@@ -7,7 +7,8 @@
                 <li><a href="{{ .URL }}" class="nav-link">{{ .Name }}</a></li>
                 {{ end }}
             </ul>
-            <a href="#subscribe" class="nav-cta-button">Join AI & Cybersecurity experts</a>
+            {{/* User Menu / Auth Trigger */}}
+            {{ partial "auth/user-menu.html" . }}
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>

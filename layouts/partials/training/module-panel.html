@@ -1,0 +1,103 @@
+{{/* Module Detail Panel - Slides in from right */}}
+{{/* Shows detailed information about modules in a branch */}}
+
+{{ $modules := .modules }}
+{{ $pathId := .pathId }}
+
+<div class="module-panel-backdrop"></div>
+<div class="module-panel">
+  <div class="module-panel-header">
+    <div>
+      <h3 class="module-panel-title">Module Details</h3>
+      <div class="module-panel-meta">
+        <span class="module-duration">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span class="duration-value">--</span>
+        </span>
+        <span class="access-badge free">Free</span>
+      </div>
+    </div>
+    <button class="module-panel-close" aria-label="Close panel">&times;</button>
+  </div>
+
+  <div class="module-panel-content">
+    <p class="module-panel-description">
+      Select a branch in the flow diagram to see module details.
+    </p>
+
+    {{/* Content items will be populated dynamically or via Hugo templating */}}
+    <div class="content-items-list">
+      <h3>Module Content</h3>
+
+      {{ range $modules }}
+      <div class="module-content-section" data-module-id="{{ .File.BaseFileName }}">
+        <h4>{{ .Title }}</h4>
+
+        {{ range .Params.content }}
+        <div class="content-item {{ if eq .accessLevel "commercial" }}locked{{ end }}"
+             data-module="{{ $.File.BaseFileName }}"
+             data-content-id="{{ .id }}"
+             data-type="{{ .type }}"
+             data-access-level="{{ .accessLevel }}"
+             {{ with .videoUrl }}data-video-url="{{ . }}"{{ end }}>
+
+          <div class="content-item-icon {{ .type }}">
+            {{ if eq .type "video" }}▶{{ end }}
+            {{ if eq .type "quiz" }}?{{ end }}
+            {{ if eq .type "exercise" }}⚙{{ end }}
+            {{ if eq .type "case-study" }}📋{{ end }}
+            {{ if eq .type "reading" }}📖{{ end }}
+          </div>
+
+          <div class="content-item-details">
+            <div class="content-item-title">{{ .title }}</div>
+            <div class="content-item-meta">
+              {{ with .duration }}{{ . }}{{ end }}
+              {{ with .questions }}{{ . }} questions{{ end }}
+            </div>
+          </div>
+
+          <div class="content-item-access">
+            <span class="access-badge {{ .accessLevel }}">
+              {{ if eq .accessLevel "free" }}Free{{ end }}
+              {{ if eq .accessLevel "authorized" }}Login{{ end }}
+              {{ if eq .accessLevel "commercial" }}Premium{{ end }}
+            </span>
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* Certificate */}}
+        {{ if .Params.certificate.enabled }}
+        <div class="module-certificate">
+          <h4>
+            <span>🏆</span>
+            Certificate: {{ .Params.certificate.title }}
+          </h4>
+          <p>{{ .Params.certificate.description }}</p>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="module-panel-actions">
+    <button class="module-action-btn primary" data-auth-trigger>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      Start Learning
+    </button>
+    <button class="module-action-btn secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      Preview Content
+    </button>
+  </div>
+</div>
