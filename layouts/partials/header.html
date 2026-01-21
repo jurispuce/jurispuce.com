@@ -8,8 +8,10 @@
                 {{ end }}
             </ul>
             <a href="https://www.linkedin.com/newsletters/become-better-ai-cybersec-7310993646709825537" class="nav-cta-button" target="_blank" rel="noopener noreferrer">Subscribe to LinkedIn Newsletter</a>
-            {{/* User Menu / Auth Trigger */}}
+            {{/* User Menu / Auth Trigger - Only show in training section */}}
+            {{ if hasPrefix .RelPermalink "/training" }}
             {{ partial "auth/user-menu.html" . }}
+            {{ end }}
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
