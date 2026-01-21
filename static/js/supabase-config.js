@@ -16,9 +16,8 @@ const SUPABASE_CONFIG = {
   // Supabase project URL
   url: 'https://trvhrdrrhejntqzbwmpz.supabase.co',
 
-  // Supabase anon (public) key - MUST be the JWT format starting with "eyJ..."
-  // Replace this with your actual anon key from Settings > API
-  anonKey: 'YOUR_ANON_KEY_HERE',
+  // Supabase anon (public) key
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydmhyZHJyaGVqbnRxemJ3bXB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4NDc5NjgsImV4cCI6MjA4NDQyMzk2OH0.p3S2DhyF6Jpus646H7OzkYBCfzzboTMt1ymzw_wpS5Q',
 
   // Redirect URL after authentication
   redirectUrl: window.location.origin + '/training/'
