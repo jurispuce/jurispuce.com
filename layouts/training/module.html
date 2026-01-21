@@ -1,0 +1,253 @@
+{{ define "main" }}
+{{ $pathId := .Parent.File.Dir | path.Base }}
+{{ $moduleId := .File.BaseFileName }}
+
+<section class="training-module">
+  <div class="container">
+    {{/* Breadcrumb */}}
+    <nav class="module-breadcrumb">
+      <a href="/training/">Training</a>
+      <span>/</span>
+      <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a>
+      <span>/</span>
+      <span>{{ .Title }}</span>
+    </nav>
+
+    {{/* Header */}}
+    <header class="module-header">
+      <div class="module-header-content">
+        <h1>{{ .Title }}</h1>
+        <p class="module-description">{{ .Description }}</p>
+
+        <div class="module-meta">
+          {{ with .Params.duration }}
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {{ . }}
+          </span>
+          {{ end }}
+
+          {{ with .Params.difficulty }}
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            {{ . }}
+          </span>
+          {{ end }}
+
+          <span class="access-badge {{ .Params.accessLevel }}">
+            {{ if eq .Params.accessLevel "free" }}Free Access{{ end }}
+            {{ if eq .Params.accessLevel "authorized" }}Login Required{{ end }}
+            {{ if eq .Params.accessLevel "commercial" }}Premium Content{{ end }}
+          </span>
+        </div>
+      </div>
+
+      {{/* Module Progress */}}
+      <div class="module-progress-card" id="module-progress">
+        <h4>Module Progress</h4>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width: 0%"></div>
+        </div>
+        <p class="progress-text">0 of {{ len .Params.content }} items completed</p>
+      </div>
+    </header>
+
+    {{/* Content */}}
+    <div class="module-content-wrapper">
+      {{/* Main Content */}}
+      <main class="module-main">
+        {{ .Content }}
+
+        {{/* Content Items */}}
+        <div class="module-content-items">
+          <h2>Module Content</h2>
+
+          {{ range .Params.content }}
+          <div class="content-section" id="{{ .id }}">
+            <div class="content-section-header">
+              <div class="content-section-icon {{ .type }}">
+                {{ if eq .type "video" }}▶{{ end }}
+                {{ if eq .type "quiz" }}?{{ end }}
+                {{ if eq .type "exercise" }}⚙{{ end }}
+                {{ if eq .type "case-study" }}📋{{ end }}
+                {{ if eq .type "reading" }}📖{{ end }}
+              </div>
+              <div class="content-section-info">
+                <h3>{{ .title }}</h3>
+                <span class="content-meta">
+                  {{ with .duration }}{{ . }}{{ end }}
+                  {{ with .questions }}{{ . }} questions{{ end }}
+                </span>
+              </div>
+              <span class="access-badge {{ .accessLevel }}">
+                {{ if eq .accessLevel "free" }}Free{{ end }}
+                {{ if eq .accessLevel "authorized" }}Login{{ end }}
+                {{ if eq .accessLevel "commercial" }}Premium{{ end }}
+              </span>
+            </div>
+
+            {{ with .description }}
+            <p class="content-section-description">{{ . }}</p>
+            {{ end }}
+
+            {{/* Video Player */}}
+            {{ if eq .type "video" }}
+            <div class="video-player-container">
+              {{ if eq .accessLevel "free" }}
+              <iframe src="{{ .videoUrl }}" frameborder="0" allowfullscreen loading="lazy"></iframe>
+              {{ else }}
+              <div class="video-locked-overlay">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <h3>{{ if eq .accessLevel "authorized" }}Login to Watch{{ else }}Premium Content{{ end }}</h3>
+                <p>{{ if eq .accessLevel "authorized" }}Create a free account to access this video{{ else }}Upgrade to access premium content{{ end }}</p>
+                <button class="auth-btn auth-btn--primary" data-auth-trigger>
+                  {{ if eq .accessLevel "authorized" }}Sign In{{ else }}Upgrade Now{{ end }}
+                </button>
+              </div>
+              {{ end }}
+            </div>
+            {{ end }}
+
+            {{/* Quiz */}}
+            {{ if eq .type "quiz" }}
+            <div class="quiz-container" data-quiz-id="{{ .id }}" data-passing-score="{{ .passingScore }}">
+              {{ if eq .accessLevel "free" }}
+              <div class="quiz-header">
+                <h4>Knowledge Check</h4>
+                <span class="quiz-progress">Question <span class="current">1</span> of {{ len .questions }}</span>
+              </div>
+
+              {{ range $index, $question := .questions }}
+              <div class="quiz-question {{ if eq $index 0 }}active{{ end }}" data-question="{{ $index }}">
+                <h4>{{ add $index 1 }}. {{ $question.question }}</h4>
+                <div class="quiz-options">
+                  {{ range $optIndex, $option := $question.options }}
+                  <label class="quiz-option" data-correct="{{ eq $optIndex $question.correct }}">
+                    <span class="quiz-option-marker"></span>
+                    <span>{{ $option }}</span>
+                  </label>
+                  {{ end }}
+                </div>
+              </div>
+              {{ end }}
+
+              <div class="quiz-actions">
+                <button class="module-action-btn secondary quiz-prev" disabled>Previous</button>
+                <button class="module-action-btn primary quiz-next">Next</button>
+              </div>
+
+              <div class="quiz-results" style="display: none;">
+                <h3>Quiz Complete!</h3>
+                <div class="quiz-score">0%</div>
+                <p class="quiz-feedback"></p>
+                <button class="module-action-btn primary quiz-retry">Try Again</button>
+              </div>
+              {{ else }}
+              <div class="content-locked">
+                <p>{{ if eq .accessLevel "authorized" }}Login to take this quiz{{ else }}Premium content{{ end }}</p>
+                <button class="auth-btn auth-btn--primary" data-auth-trigger>
+                  {{ if eq .accessLevel "authorized" }}Sign In{{ else }}Upgrade{{ end }}
+                </button>
+              </div>
+              {{ end }}
+            </div>
+            {{ end }}
+
+            {{/* Exercise / Case Study / Reading */}}
+            {{ if or (eq .type "exercise") (eq .type "case-study") (eq .type "reading") }}
+            <div class="content-body">
+              {{ if eq .accessLevel "free" }}
+                {{ with .instructions }}
+                <div class="instructions">{{ . | markdownify }}</div>
+                {{ end }}
+              {{ else }}
+              <div class="content-locked">
+                <p>{{ if eq .accessLevel "authorized" }}Login to access this content{{ else }}Premium content{{ end }}</p>
+                <button class="auth-btn auth-btn--primary" data-auth-trigger>
+                  {{ if eq .accessLevel "authorized" }}Sign In{{ else }}Upgrade{{ end }}
+                </button>
+              </div>
+              {{ end }}
+            </div>
+            {{ end }}
+          </div>
+          {{ end }}
+        </div>
+
+        {{/* Certificate */}}
+        {{ with .Params.certificate }}
+        {{ if .enabled }}
+        <div class="module-certificate-section">
+          <div class="module-certificate">
+            <h4>
+              <span>🏆</span>
+              Certificate: {{ .title }}
+            </h4>
+            <p>{{ .description }}</p>
+            <p class="certificate-requirement">Complete all module content to earn this certificate.</p>
+          </div>
+        </div>
+        {{ end }}
+        {{ end }}
+      </main>
+
+      {{/* Sidebar */}}
+      <aside class="module-sidebar">
+        <div class="sidebar-card">
+          <h4>In This Module</h4>
+          <nav class="module-nav">
+            {{ range .Params.content }}
+            <a href="#{{ .id }}" class="module-nav-item">
+              <span class="nav-icon {{ .type }}">
+                {{ if eq .type "video" }}▶{{ end }}
+                {{ if eq .type "quiz" }}?{{ end }}
+                {{ if eq .type "exercise" }}⚙{{ end }}
+                {{ if eq .type "case-study" }}📋{{ end }}
+                {{ if eq .type "reading" }}📖{{ end }}
+              </span>
+              <span class="nav-title">{{ .title }}</span>
+              <span class="nav-status"></span>
+            </a>
+            {{ end }}
+          </nav>
+        </div>
+
+        {{/* Next Module */}}
+        <div class="sidebar-card">
+          <h4>Continue Learning</h4>
+          <a href="{{ .Parent.RelPermalink }}" class="back-to-path">
+            ← Back to Learning Path
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{{/* Auth Modal */}}
+{{ partial "auth/auth-modal.html" . }}
+
+<script>
+  // Initialize module page interactions
+  document.addEventListener('DOMContentLoaded', function() {
+    const pathId = '{{ $pathId }}';
+    const moduleId = '{{ $moduleId }}';
+
+    // Mark module as in progress when page loads
+    if (window.ProgressTracker && pathId && moduleId) {
+      const status = window.ProgressTracker.getModuleStatus(pathId, moduleId);
+      if (status === 'not_started') {
+        window.ProgressTracker.updateModuleStatus(pathId, moduleId, 'in_progress');
+      }
+    }
+  });
+</script>
+{{ end }}
