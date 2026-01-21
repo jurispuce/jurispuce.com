@@ -9,8 +9,9 @@
 
     {{/* Training Paths Grid */}}
     <div class="training-paths-grid">
-      {{ range .Site.GetPage "training/paths" | .Pages }}
-      {{ if .IsSection }}
+      {{ $paths := .Site.GetPage "training/paths" }}
+      {{ with $paths }}
+      {{ range .Sections }}
       <article class="training-path-card">
         <div class="training-path-card-image">
           {{ if .Params.thumbnail }}
