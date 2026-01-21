@@ -106,34 +106,139 @@
       {{/* Legend */}}
       {{ partial "training/flow-legend.html" . }}
 
-      {{/* Flow Container */}}
-      <div class="flow-container" data-path-id="{{ $pathId }}">
-        {{/* SVG Connectors Layer */}}
-        <div class="flow-connectors"></div>
+      {{/* Flow Container - Grid Based Layout */}}
+      <div class="flow-container-grid" data-path-id="{{ $pathId }}">
 
-        {{/* Flow Nodes Layer */}}
-        <div class="flow-nodes">
-          {{ range .Params.branches }}
-            {{ $branch := . }}
-            {{ $branchModules := slice }}
+        {{/* Group branches by level */}}
+        {{ $level1 := slice }}
+        {{ $level2 := slice }}
+        {{ $level3 := slice }}
+        {{ $level4 := slice }}
 
-            {{/* Find modules for this branch */}}
-            {{ range $branch.modules }}
-              {{ $moduleId := . }}
-              {{ range $modules }}
-                {{ if eq .File.BaseFileName $moduleId }}
-                  {{ $branchModules = $branchModules | append . }}
+        {{ range .Params.branches }}
+          {{ if eq .level 1 }}
+            {{ $level1 = $level1 | append . }}
+          {{ else if eq .level 2 }}
+            {{ $level2 = $level2 | append . }}
+          {{ else if eq .level 3 }}
+            {{ $level3 = $level3 | append . }}
+          {{ else if eq .level 4 }}
+            {{ $level4 = $level4 | append . }}
+          {{ end }}
+        {{ end }}
+
+        {{/* Level 1 - Foundation */}}
+        {{ if $level1 }}
+        <div class="flow-level flow-level-1">
+          <div class="flow-level-nodes">
+            {{ range $level1 }}
+              {{ $branch := . }}
+              {{ $branchModules := slice }}
+              {{ range $branch.modules }}
+                {{ $moduleId := . }}
+                {{ range $modules }}
+                  {{ if eq .File.BaseFileName $moduleId }}
+                    {{ $branchModules = $branchModules | append . }}
+                  {{ end }}
                 {{ end }}
               {{ end }}
+              {{ partial "training/flow-node.html" (dict "branch" $branch "modules" $branchModules "pathId" $pathId) }}
             {{ end }}
-
-            {{ partial "training/flow-node.html" (dict
-              "branch" $branch
-              "modules" $branchModules
-              "pathId" $pathId
-            ) }}
-          {{ end }}
+          </div>
         </div>
+
+        {{/* Connector from Level 1 to Level 2 */}}
+        {{ if $level2 }}
+        <div class="flow-connector-row connector-split">
+          <div class="connector-line vertical"></div>
+          <div class="connector-line horizontal"></div>
+          <div class="connector-line vertical left"></div>
+          <div class="connector-line vertical right"></div>
+        </div>
+        {{ end }}
+        {{ end }}
+
+        {{/* Level 2 - Tracks */}}
+        {{ if $level2 }}
+        <div class="flow-level flow-level-2">
+          <div class="flow-level-nodes two-columns">
+            {{ range $level2 }}
+              {{ $branch := . }}
+              {{ $branchModules := slice }}
+              {{ range $branch.modules }}
+                {{ $moduleId := . }}
+                {{ range $modules }}
+                  {{ if eq .File.BaseFileName $moduleId }}
+                    {{ $branchModules = $branchModules | append . }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              {{ partial "training/flow-node.html" (dict "branch" $branch "modules" $branchModules "pathId" $pathId) }}
+            {{ end }}
+          </div>
+        </div>
+
+        {{/* Connector from Level 2 to Level 3 */}}
+        {{ if $level3 }}
+        <div class="flow-connector-row connector-parallel">
+          <div class="connector-line vertical left"></div>
+          <div class="connector-line vertical right"></div>
+        </div>
+        {{ end }}
+        {{ end }}
+
+        {{/* Level 3 - Advanced */}}
+        {{ if $level3 }}
+        <div class="flow-level flow-level-3">
+          <div class="flow-level-nodes two-columns">
+            {{ range $level3 }}
+              {{ $branch := . }}
+              {{ $branchModules := slice }}
+              {{ range $branch.modules }}
+                {{ $moduleId := . }}
+                {{ range $modules }}
+                  {{ if eq .File.BaseFileName $moduleId }}
+                    {{ $branchModules = $branchModules | append . }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              {{ partial "training/flow-node.html" (dict "branch" $branch "modules" $branchModules "pathId" $pathId) }}
+            {{ end }}
+          </div>
+        </div>
+
+        {{/* Connector from Level 3 to Level 4 */}}
+        {{ if $level4 }}
+        <div class="flow-connector-row connector-merge">
+          <div class="connector-line vertical left"></div>
+          <div class="connector-line vertical right"></div>
+          <div class="connector-line horizontal"></div>
+          <div class="connector-line vertical center"></div>
+        </div>
+        {{ end }}
+        {{ end }}
+
+        {{/* Level 4 - Capstone */}}
+        {{ if $level4 }}
+        <div class="flow-level flow-level-4">
+          <div class="flow-level-nodes">
+            {{ range $level4 }}
+              {{ $branch := . }}
+              {{ $branchModules := slice }}
+              {{ range $branch.modules }}
+                {{ $moduleId := . }}
+                {{ range $modules }}
+                  {{ if eq .File.BaseFileName $moduleId }}
+                    {{ $branchModules = $branchModules | append . }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              {{ partial "training/flow-node.html" (dict "branch" $branch "modules" $branchModules "pathId" $pathId) }}
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
       </div>
     </div>
 
