@@ -336,57 +336,141 @@
 .legend-icon.exercise { background: var(--content-exercise); }
 .legend-icon.certificate { background: var(--content-certificate); }
 
-/* Flow Container */
-.flow-container {
-  position: relative;
-  min-height: 600px;
+/* Flow Container - Grid Based Layout */
+.flow-container-grid {
   background: var(--background-alt);
   border-radius: 1rem;
   padding: 2rem;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-/* SVG Connectors Layer */
-.flow-connectors {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Flow Level - Each row of nodes */
+.flow-level {
   width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
-.flow-connectors line {
-  stroke: var(--connector-color);
-  stroke-width: var(--connector-width);
-  stroke-linecap: round;
+.flow-level-nodes {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
 }
 
-.flow-connectors line.active {
-  stroke: var(--primary-color);
-  stroke-width: 4px;
+.flow-level-nodes.two-columns {
+  width: 100%;
+  max-width: 700px;
+  justify-content: space-between;
 }
 
-/* Flow Nodes Layer */
-.flow-nodes {
+/* Connector Rows */
+.flow-connector-row {
   position: relative;
-  z-index: 2;
   width: 100%;
+  max-width: 700px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.connector-line {
+  background: var(--connector-color);
+  position: absolute;
+}
+
+.connector-line.vertical {
+  width: 3px;
   height: 100%;
+}
+
+.connector-line.horizontal {
+  height: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Split connector (1 to 2) */
+.connector-split .connector-line.vertical:first-child {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50%;
+  top: 0;
+}
+
+.connector-split .connector-line.horizontal {
+  width: 50%;
+  left: 25%;
+}
+
+.connector-split .connector-line.vertical.left {
+  left: 25%;
+  height: 50%;
+  bottom: 0;
+  top: auto;
+}
+
+.connector-split .connector-line.vertical.right {
+  right: 25%;
+  left: auto;
+  height: 50%;
+  bottom: 0;
+  top: auto;
+}
+
+/* Parallel connector (straight down) */
+.connector-parallel {
+  max-width: 700px;
+}
+
+.connector-parallel .connector-line.vertical.left {
+  left: 25%;
+}
+
+.connector-parallel .connector-line.vertical.right {
+  right: 25%;
+  left: auto;
+}
+
+/* Merge connector (2 to 1) */
+.connector-merge .connector-line.vertical.left {
+  left: 25%;
+  height: 50%;
+  top: 0;
+}
+
+.connector-merge .connector-line.vertical.right {
+  right: 25%;
+  left: auto;
+  height: 50%;
+  top: 0;
+}
+
+.connector-merge .connector-line.horizontal {
+  width: 50%;
+  left: 25%;
+  top: 50%;
+}
+
+.connector-merge .connector-line.vertical.center {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50%;
+  bottom: 0;
+  top: auto;
 }
 
 /* Individual Node */
 .flow-node {
-  position: absolute;
-  width: 200px;
-  transform: translateX(-50%);
+  width: 220px;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 
 .flow-node:hover {
-  transform: translateX(-50%) scale(1.03);
+  transform: scale(1.03);
 }
 
 .flow-node-card {

@@ -15,10 +15,11 @@ title = 'Sparkurity by Juris Puce'
     name = 'Resources & Events'
     url = '/blog/'
     weight = 20
-  [[menu.main]]
-    name = 'Training Paths'
-    url = '/training/'
-    weight = 30
+  # Training menu hidden until feature is complete
+  # [[menu.main]]
+  #   name = 'Training Paths'
+  #   url = '/training/'
+  #   weight = 30
 
 # Allow raw HTML in Markdown content
 [markup]
