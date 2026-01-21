@@ -1,4 +1,7 @@
-baseURL = 'https://example.org/'
+# The baseURL is set by environment variables
+# For local development: http://localhost:1313/
+# For Netlify: Uses NETLIFY_URL environment variable
+baseURL = '/'
 languageCode = 'en-us'
 title = 'Sparkurity by Juris Puce'
 
@@ -16,3 +19,9 @@ title = 'Sparkurity by Juris Puce'
     name = 'Training Paths'
     url = '/training/'
     weight = 30
+
+# Allow raw HTML in Markdown content
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
