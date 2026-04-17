@@ -1,0 +1,58 @@
+{{ define "main" }}
+<section class="course-single"
+         data-course-slug="{{ .Params.courseSlug | default .File.BaseFileName }}"
+         data-course-bucket="{{ .Params.bucket | default "course-materials" }}">
+  <div class="container">
+    <nav class="module-breadcrumb">
+      <a href="/courses/">Courses</a>
+      <span class="sep">/</span>
+      <span>{{ .Title }}</span>
+    </nav>
+
+    <header class="course-header">
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+      <div class="course-meta">
+        {{ with .Params.duration }}<span>⏱ {{ . }}</span>{{ end }}
+        {{ with .Params.difficulty }}<span>★ {{ . }}</span>{{ end }}
+        {{ with .Params.files }}<span>{{ len . }} files</span>{{ end }}
+      </div>
+    </header>
+
+    <div class="course-gate" data-show-when="logged-out">
+      <p>Sign in with the email from your invitation to open the course materials.</p>
+      <button class="path-start-btn" data-auth-trigger>Sign in</button>
+    </div>
+
+    <div class="course-gate" data-show-when="logged-in" hidden>
+      <div class="course-toolbar">
+        <input type="search" class="course-search" data-course-search
+               placeholder="Search lessons and slides…" aria-label="Search course materials">
+      </div>
+
+      {{ with .Params.files }}
+      <ul class="course-files">
+        {{ range . }}
+        <li class="course-file" data-kind="{{ .kind | default "lesson" }}">
+          <button type="button" class="course-file__open"
+                  data-file-path="{{ .path }}">
+            <span class="course-file__kind">{{ .kind | default "lesson" }}</span>
+            <span class="course-file__body">
+              <span class="course-file__title">{{ .title | default .path }}</span>
+              {{ with .description }}<span class="course-file__desc">{{ . }}</span>{{ end }}
+            </span>
+            <span class="course-file__arrow" aria-hidden="true">→</span>
+          </button>
+          <div class="course-file__status" role="status" hidden></div>
+        </li>
+        {{ end }}
+      </ul>
+      {{ else }}
+      <p class="course-empty">No materials uploaded yet.</p>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+{{ partial "auth/auth-modal.html" . }}
+{{ end }}

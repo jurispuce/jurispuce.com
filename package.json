@@ -1,0 +1,17 @@
+{
+  "name": "jurispuce-tooling",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "upload-course": "node scripts/upload-course.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "mime-types": "^2.1.35"
+  }
+}
