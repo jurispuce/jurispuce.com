@@ -16,3 +16,7 @@ title = 'Sparkurity by Juris Puce'
     name = 'Training Paths'
     url = '/training/'
     weight = 30
+  [[menu.main]]
+    name = 'Courses'
+    url = '/courses/'
+    weight = 40

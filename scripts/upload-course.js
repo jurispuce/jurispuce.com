@@ -80,7 +80,7 @@ for (const entry of meta.files) {
 await writeCatalog(slug, meta, uploaded);
 
 console.log(`\nDone. Uploaded ${uploaded.length} file(s) to bucket "${SUPABASE_COURSE_BUCKET}/${slug}".`);
-console.log(`Catalog written to content/courses/${slug}/_index.md`);
+console.log(`Catalog written to content/courses/${slug}.md`);
 
 async function ensureBucket(name) {
   const { data, error } = await supabase.storage.getBucket(name);
@@ -93,7 +93,7 @@ async function ensureBucket(name) {
 }
 
 async function writeCatalog(slug, meta, uploaded) {
-  const outDir = join(REPO_ROOT, 'content', 'courses', slug);
+  const outDir = join(REPO_ROOT, 'content', 'courses');
   await mkdir(outDir, { recursive: true });
 
   const frontMatter = {
@@ -124,5 +124,5 @@ async function writeCatalog(slug, meta, uploaded) {
     ''
   ].join('\n');
 
-  await writeFile(join(outDir, '_index.md'), body);
+  await writeFile(join(outDir, `${slug}.md`), body);
 }
