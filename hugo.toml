@@ -23,3 +23,9 @@ title = 'Sparkurity by Juris Puce'
     name = 'Courses'
     url = '/courses/'
     weight = 40
+
+# Allow raw HTML in Markdown content
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
