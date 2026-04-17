@@ -1,0 +1,28 @@
+# Per-course metadata. Source of truth for the catalog page.
+# Place this file at: course-source/<course-slug>/meta.yaml
+# The uploader reads it, uploads every file listed, and regenerates
+# content/courses/<course-slug>/_index.md so Hugo can render the catalog.
+
+title: "AI Risk Management"
+description: "Practical introduction to AI risk frameworks and controls."
+weight: 10               # order in the courses list
+difficulty: "Intermediate"
+duration: "4 hours"
+
+# Files are uploaded in the order listed here, and that order is what
+# the catalog page shows. Add/remove entries and re-run the uploader.
+files:
+  - path: "lesson-01-intro.html"
+    title: "Lesson 1 — What AI risk is"
+    description: "Why AI systems need a dedicated risk lens, and the vocabulary we'll use."
+    kind: "lesson"       # lesson | deck | handout | other
+
+  - path: "lesson-02-threat-modelling.html"
+    title: "Lesson 2 — Threat modelling AI systems"
+    description: "STRIDE and MITRE ATLAS applied to an ML pipeline."
+    kind: "lesson"
+
+  - path: "deck-session-01.pdf"
+    title: "Session 1 slides"
+    description: "Slides used during the live session."
+    kind: "deck"
