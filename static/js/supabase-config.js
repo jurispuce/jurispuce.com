@@ -18,7 +18,7 @@ const SUPABASE_CONFIG = {
   anonKey: 'sb_publishable_llksuWzpoxb17JW1pRFMrA_iqlHWKVO',
 
   // Redirect URL after authentication (update for production)
-  redirectUrl: window.location.origin + '/training/'
+  redirectUrl: window.location.origin + '/courses/'
 };
 
 // Export for use in other scripts

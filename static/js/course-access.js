@@ -86,7 +86,22 @@
       return;
     }
 
-    window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+    // For HTML files, fetch and render in a blob URL so the browser
+    // displays rendered HTML instead of raw source text.
+    if (/\.html?$/i.test(filePath)) {
+      try {
+        const resp = await fetch(data.signedUrl);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const html = await resp.blob();
+        const blob = new Blob([html], { type: 'text/html' });
+        window.open(URL.createObjectURL(blob), '_blank', 'noopener');
+      } catch (fetchErr) {
+        showStatus(fileEl, 'Could not load the file. Try again.', 'error');
+        return;
+      }
+    } else {
+      window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+    }
   }
 
   function applyAuthState() {

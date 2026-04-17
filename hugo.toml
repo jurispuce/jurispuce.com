@@ -15,10 +15,11 @@ title = 'Sparkurity by Juris Puce'
     name = 'Resources & Events'
     url = '/blog/'
     weight = 20
-  [[menu.main]]
-    name = 'Training Paths'
-    url = '/training/'
-    weight = 30
+  # Training Paths menu hidden — section kept but not linked
+  # [[menu.main]]
+  #   name = 'Training Paths'
+  #   url = '/training/'
+  #   weight = 30
   [[menu.main]]
     name = 'Courses'
     url = '/courses/'
