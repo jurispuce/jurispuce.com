@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "upload-course": "node scripts/upload-course.js"
+    "upload-course": "node scripts/upload-course.js",
+    "send-email": "node scripts/send-course-email.js"
   },
   "engines": {
     "node": ">=18"
@@ -13,5 +14,8 @@
     "dotenv": "^16.4.5",
     "js-yaml": "^4.1.0",
     "mime-types": "^2.1.35"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.5"
   }
 }

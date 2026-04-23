@@ -43,11 +43,11 @@ files:
   - path: risk_treatment_options_interactive.html
     title: Risku pārvaldības iespējas — interaktīva diagramma
     description: >-
-      ISO 27005/ISO 31000 risku apstrādes opcijas: pieņemt, modificēt (kontroles/pārnese), izvairīties. MedReg un
-      SmartCity scenāriji ar pirms/pēc risku līmeņiem.
+      ISO 27005/ISO 31000 risku pārvaldības opcijas: pieņemt, mainīt (6 apakšopcijas), izvairīties. MedReg un SmartCity
+      piemēri ar audita jautājumiem, lēmumu palīgu un atlikušā riska skaidrojumu.
     kind: lesson
     contentType: text/html
-    size: 15669
+    size: 36173
   - path: no_avota_lidz_secinajumam.html
     title: No avota līdz secinājumam
     description: >-
