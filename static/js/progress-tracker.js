@@ -17,8 +17,13 @@
    * Initialize the progress tracker
    */
   function init() {
-    // Check for Supabase
-    if (window.supabase && window.SUPABASE_CONFIG?.url !== 'https://your-project-id.supabase.co') {
+    // Reuse the shared client from auth.js when available; only create
+    // a new client as a last resort. This avoids the "Multiple GoTrueClient
+    // instances" warning and keeps session state consistent.
+    if (window.Auth?.getClient) {
+      supabase = window.Auth.getClient();
+    }
+    if (!supabase && window.supabase && window.SUPABASE_CONFIG?.url !== 'https://your-project-id.supabase.co') {
       supabase = window.supabase.createClient(
         window.SUPABASE_CONFIG.url,
         window.SUPABASE_CONFIG.anonKey

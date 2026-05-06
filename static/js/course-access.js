@@ -21,6 +21,15 @@
 
   function getClient() {
     if (supabaseClient) return supabaseClient;
+    // Prefer the shared client owned by auth.js to avoid creating
+    // multiple GoTrueClient instances against the same storage key.
+    if (window.Auth?.getClient) {
+      const shared = window.Auth.getClient();
+      if (shared) {
+        supabaseClient = shared;
+        return supabaseClient;
+      }
+    }
     const config = window.SUPABASE_CONFIG;
     if (!window.supabase || !config) return null;
     if (!config.url || config.url.includes('your-project-id')) return null;

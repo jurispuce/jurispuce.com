@@ -198,7 +198,7 @@
         .from('profiles')
         .select('*')
         .eq('id', currentUser.id)
-        .single();
+        .maybeSingle();
 
       if (data) {
         currentUser.profile = data;
@@ -515,7 +515,11 @@
     closeAuthModal,
     signOut,
     getCurrentUser,
-    isLoggedIn
+    isLoggedIn,
+    // Shared Supabase client. Other modules should call this instead
+    // of constructing their own to avoid the "Multiple GoTrueClient
+    // instances" warning and inconsistent session state.
+    getClient: () => supabase
   };
 
   // Initialize when DOM is ready
