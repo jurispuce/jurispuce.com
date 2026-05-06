@@ -3,9 +3,15 @@
  * Course material uploader.
  *
  * Usage:
- *   npm install
- *   cp .env.example .env      # then fill in SUPABASE_SERVICE_ROLE_KEY
- *   npm run upload-course -- <course-slug>
+ *   npm run upload-course -- <course-slug> [--dry-run] [--prune]
+ *
+ *   --dry-run   Print what would be uploaded / deleted without touching anything.
+ *               Also writes a preview of the generated markdown to stdout
+ *               instead of disk.  Safe to run at any time.
+ *
+ *   --prune     After uploading, find objects in Supabase under <slug>/ that are
+ *               no longer referenced in meta.yaml and delete them.  Combine with
+ *               --dry-run to list orphans without deleting.
  *
  * What it does:
  *   1. Reads course-source/<slug>/meta.yaml
@@ -13,6 +19,7 @@
  *   3. Uploads every file to <bucket>/<slug>/[<block-dir>/]<file>
  *      with the correct Content-Type, upserting on re-runs
  *   4. Regenerates content/courses/<slug>.md so Hugo stays in sync
+ *   5. (--prune) Deletes Supabase objects not present in meta.yaml
  *
  * ── Two meta.yaml formats are supported ──────────────────────────
  *
@@ -82,9 +89,19 @@ function warn(msg) {
 
 // ── CLI args ─────────────────────────────────────────────────────
 
-const slug = process.argv[2];
-if (!slug) die('Missing course slug.\n  Usage: npm run upload-course -- <course-slug>');
-if (!/^[a-z0-9-]+$/.test(slug)) die(`Invalid slug "${slug}". Use lowercase letters, digits, and hyphens only.`);
+const [slug, ...flags] = process.argv.slice(2);
+
+if (!slug || slug.startsWith('--')) {
+  die('Missing course slug.\n  Usage: npm run upload-course -- <course-slug> [--dry-run] [--prune]');
+}
+if (!/^[a-z0-9-]+$/.test(slug)) {
+  die(`Invalid slug "${slug}". Use lowercase letters, digits, and hyphens only.`);
+}
+
+const DRY_RUN = flags.includes('--dry-run');
+const PRUNE   = flags.includes('--prune');
+
+if (DRY_RUN) console.log('\n*** DRY RUN — no files will be uploaded, deleted, or written ***\n');
 
 // ── Env ──────────────────────────────────────────────────────────
 
@@ -130,10 +147,10 @@ if (!isBlocksMode && !isLegacyMode) {
 const tasks = [];
 
 if (isBlocksMode) {
-  console.log(`\nBlocks mode — ${meta.blocks.length} block(s) found in meta.yaml\n`);
+  console.log(`Blocks mode — ${meta.blocks.length} block(s) found in meta.yaml\n`);
 
   for (const [bIdx, block] of meta.blocks.entries()) {
-    if (!block.dir) die(`Block #${bIdx + 1} is missing "dir".`);
+    if (!block.dir)   die(`Block #${bIdx + 1} is missing "dir".`);
     if (!block.title) die(`Block "${block.dir}" is missing "title".`);
     if (!Array.isArray(block.lessons) || block.lessons.length === 0) {
       die(`Block "${block.dir}" must have at least one entry under "lessons".`);
@@ -146,7 +163,7 @@ if (isBlocksMode) {
       (a.file || '').localeCompare(b.file || '', undefined, { numeric: true, sensitivity: 'base' })
     );
 
-    // Warn if meta order differs from sorted order
+    // Warn if meta.yaml order differs from filename sort order
     const metaOrder   = block.lessons.map(l => l.file).join(',');
     const sortedOrder = sortedLessons.map(l => l.file).join(',');
     if (metaOrder !== sortedOrder) {
@@ -160,10 +177,10 @@ if (isBlocksMode) {
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       const listed = new Set(sortedLessons.map(l => l.file));
       for (const f of dirFiles) {
-        if (!listed.has(f)) warn(`Block "${block.dir}": file "${f}" exists in directory but is not listed in meta.yaml.`);
+        if (!listed.has(f)) warn(`Block "${block.dir}": "${f}" exists on disk but is not listed in meta.yaml.`);
       }
     } catch {
-      // directory might not exist yet — the stat() below will catch missing files
+      // block dir may not exist yet — stat() below will catch missing files
     }
 
     for (const lesson of sortedLessons) {
@@ -183,8 +200,7 @@ if (isBlocksMode) {
     }
   }
 } else {
-  // Legacy flat-file mode
-  console.log(`\nLegacy mode — ${meta.files.length} file(s) found in meta.yaml\n`);
+  console.log(`Legacy mode — ${meta.files.length} file(s) found in meta.yaml\n`);
 
   for (const entry of meta.files) {
     if (!entry?.path) die(`A file entry in meta.yaml is missing "path".`);
@@ -204,32 +220,73 @@ if (isBlocksMode) {
 
 // ── Upload ────────────────────────────────────────────────────────
 
-await ensureBucket(SUPABASE_COURSE_BUCKET);
+if (!DRY_RUN) await ensureBucket(SUPABASE_COURSE_BUCKET);
 
 const uploaded = [];
 for (const task of tasks) {
   const fileStat = await stat(task.localPath).catch(() =>
     die(`File not found: ${task.localPath}`)
   );
-  const bytes       = await readFile(task.localPath);
   const contentType = mime.lookup(task.localPath) || 'application/octet-stream';
 
-  const { error } = await supabase.storage
-    .from(SUPABASE_COURSE_BUCKET)
-    .upload(task.remotePath, bytes, { contentType, upsert: true, cacheControl: '3600' });
+  if (DRY_RUN) {
+    console.log(`  [upload] ${task.remotePath}  (${(fileStat.size / 1024).toFixed(1)} KB, ${contentType})`);
+  } else {
+    const bytes = await readFile(task.localPath);
+    const { error } = await supabase.storage
+      .from(SUPABASE_COURSE_BUCKET)
+      .upload(task.remotePath, bytes, { contentType, upsert: true, cacheControl: '3600' });
+    if (error) die(`Upload failed for ${task.remotePath}: ${error.message}`);
+    console.log(`  ✓ ${task.remotePath}  (${(fileStat.size / 1024).toFixed(1)} KB)`);
+  }
 
-  if (error) die(`Upload failed for ${task.remotePath}: ${error.message}`);
-
-  console.log(`  ✓ ${task.remotePath}  (${(fileStat.size / 1024).toFixed(1)} KB)`);
   uploaded.push({ ...task, size: fileStat.size, contentType });
+}
+
+// ── Prune orphaned Supabase objects ───────────────────────────────
+
+if (PRUNE) {
+  console.log('\nChecking for orphaned objects in Supabase storage…');
+
+  const knownPaths = new Set(uploaded.map(t => t.remotePath));
+  const remotePaths = await listAllRemotePaths(SUPABASE_COURSE_BUCKET, slug);
+  const orphans = remotePaths.filter(p => !knownPaths.has(p));
+
+  if (orphans.length === 0) {
+    console.log('  No orphaned objects found.');
+  } else {
+    console.log(`\n  Found ${orphans.length} orphaned object(s):`);
+    for (const p of orphans) console.log(`    ${DRY_RUN ? '[would delete]' : '[deleting]'} ${p}`);
+
+    if (!DRY_RUN) {
+      // Supabase remove() takes paths relative to the bucket root
+      const { error } = await supabase.storage
+        .from(SUPABASE_COURSE_BUCKET)
+        .remove(orphans);
+      if (error) {
+        warn(`Could not delete some objects: ${error.message}`);
+      } else {
+        console.log(`\n  Deleted ${orphans.length} orphaned object(s).`);
+      }
+    }
+  }
 }
 
 // ── Write catalog markdown ─────────────────────────────────────────
 
-await writeCatalog(slug, meta, uploaded, isBlocksMode);
+const catalogContent = buildCatalog(slug, meta, uploaded, isBlocksMode);
 
-console.log(`\nDone. Uploaded ${uploaded.length} file(s) to bucket "${SUPABASE_COURSE_BUCKET}/${slug}".`);
-console.log(`Catalog written to content/courses/${slug}.md`);
+if (DRY_RUN) {
+  console.log(`\n--- preview: content/courses/${slug}.md ---\n`);
+  console.log(catalogContent);
+  console.log('--- end preview ---\n');
+  console.log(`Dry run complete. ${uploaded.length} file(s) would be uploaded to "${SUPABASE_COURSE_BUCKET}/${slug}".`);
+  if (PRUNE) console.log('Run without --dry-run to apply uploads and deletions.');
+} else {
+  await writeCatalog(slug, catalogContent);
+  console.log(`\nDone. Uploaded ${uploaded.length} file(s) to bucket "${SUPABASE_COURSE_BUCKET}/${slug}".`);
+  console.log(`Catalog written to content/courses/${slug}.md`);
+}
 
 // ── Helpers ───────────────────────────────────────────────────────
 
@@ -242,10 +299,48 @@ async function ensureBucket(name) {
   console.log(`Created private bucket "${name}".`);
 }
 
-async function writeCatalog(slug, meta, uploaded, blocksMode) {
-  const outDir = join(REPO_ROOT, 'content', 'courses');
-  await mkdir(outDir, { recursive: true });
+/**
+ * List every object stored under <bucket>/<slug>/, recursing one level
+ * deep to cover both flat (legacy) and block-subdirectory layouts.
+ * Returns full bucket-relative paths: ["<slug>/file.html", "<slug>/01_dir/file.html", …]
+ */
+async function listAllRemotePaths(bucket, slug) {
+  const paths = [];
 
+  const { data: rootItems, error: rootErr } = await supabase.storage
+    .from(bucket)
+    .list(slug, { limit: 1000 });
+
+  if (rootErr) {
+    warn(`Could not list bucket contents: ${rootErr.message}`);
+    return paths;
+  }
+
+  for (const item of rootItems ?? []) {
+    if (item.id) {
+      // item.id is set for real files; absent for virtual folder prefixes
+      paths.push(`${slug}/${item.name}`);
+    } else {
+      // Virtual folder — list one level deeper
+      const { data: subItems, error: subErr } = await supabase.storage
+        .from(bucket)
+        .list(`${slug}/${item.name}`, { limit: 1000 });
+
+      if (subErr) {
+        warn(`Could not list "${slug}/${item.name}": ${subErr.message}`);
+        continue;
+      }
+
+      for (const sub of subItems ?? []) {
+        if (sub.id) paths.push(`${slug}/${item.name}/${sub.name}`);
+      }
+    }
+  }
+
+  return paths;
+}
+
+function buildCatalog(slug, meta, uploaded, blocksMode) {
   // Always write a flat `files` list (used by legacy layout fallback + search)
   const filesFlat = uploaded.map(f => ({
     path:        f.storagePath,
@@ -275,7 +370,6 @@ async function writeCatalog(slug, meta, uploaded, blocksMode) {
     frontMatter.blocks = meta.blocks.map(block => {
       blockSeq++;
 
-      // Sort by filename (same order used during upload)
       const sortedLessons = [...block.lessons].sort((a, b) =>
         (a.file || '').localeCompare(b.file || '', undefined, { numeric: true, sensitivity: 'base' })
       );
@@ -307,7 +401,7 @@ async function writeCatalog(slug, meta, uploaded, blocksMode) {
     });
   }
 
-  const body = [
+  return [
     '---',
     yaml.dump(frontMatter, { lineWidth: 120 }).trimEnd(),
     '---',
@@ -315,6 +409,10 @@ async function writeCatalog(slug, meta, uploaded, blocksMode) {
     '<!-- Generated by scripts/upload-course.js from course-source/' + slug + '/meta.yaml. Do not edit by hand. -->',
     ''
   ].join('\n');
+}
 
-  await writeFile(join(outDir, `${slug}.md`), body);
+async function writeCatalog(slug, content) {
+  const outDir = join(REPO_ROOT, 'content', 'courses');
+  await mkdir(outDir, { recursive: true });
+  await writeFile(join(outDir, `${slug}.md`), content);
 }
