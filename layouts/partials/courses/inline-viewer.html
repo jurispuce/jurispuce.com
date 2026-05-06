@@ -6,6 +6,17 @@
   {{/* Toolbar */}}
   <div class="cviewer__toolbar">
     <div class="cviewer__toolbar-left">
+      <button type="button" class="cviewer__nav-btn" id="cviewer-prev-btn" title="Previous lesson" aria-label="Previous lesson">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <span class="cviewer__position" id="cviewer-position" aria-hidden="true"></span>
+      <button type="button" class="cviewer__nav-btn" id="cviewer-next-btn" title="Next lesson" aria-label="Next lesson">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
       <span class="cviewer__lesson-label" id="cviewer-title">Lesson</span>
     </div>
     <div class="cviewer__toolbar-right">

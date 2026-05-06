@@ -476,8 +476,44 @@
   min-height: 48px;
 }
 
-.cviewer__toolbar-left { min-width: 0; }
+.cviewer__toolbar-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.cviewer__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border-color, #e3e3e3);
+  background: var(--background, #fff);
+  color: var(--text-color, #111);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, opacity 0.12s;
+}
+.cviewer__nav-btn:hover:not(:disabled) {
+  background: var(--background-alt, #f4f4f4);
+  border-color: var(--text-light, #999);
+}
+.cviewer__nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.cviewer__position {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-light, #666);
+  min-width: 3.25rem;
+  text-align: center;
+  white-space: nowrap;
+}
 .cviewer__lesson-label {
+  margin-left: 0.25rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-color, #111);

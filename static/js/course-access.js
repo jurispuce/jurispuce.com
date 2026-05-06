@@ -166,12 +166,28 @@
     resetBtn:   null,
     closeBtn:   null,
     retryBtn:   null,
+    prevBtn:    null,
+    nextBtn:    null,
+    posEl:      null,
     // state
     currentFilePath: null,
     currentSlug:     null,
     currentBucket:   null,
+    currentIndex:    -1,
+    lessonList:      [],   // [{ path, title, videoUrl }] in catalog order
     isExpanded:      false,
   };
+
+  // Read every lesson on the page in document order (= block order ×
+  // lesson order). Used to drive prev/next navigation across blocks.
+  function collectLessonList() {
+    const items = document.querySelectorAll('.cblock__lesson[data-lesson-path]');
+    return Array.from(items).map(el => ({
+      path:     el.dataset.lessonPath,
+      videoUrl: el.dataset.videoUrl || null,
+      title:    el.querySelector('.cblock__lesson-title')?.textContent.trim() || el.dataset.lessonPath,
+    }));
+  }
 
   function initViewer() {
     viewer.el          = document.getElementById('course-inline-viewer');
@@ -193,6 +209,11 @@
     viewer.resetBtn    = document.getElementById('cviewer-reset-btn');
     viewer.closeBtn    = document.getElementById('cviewer-close-btn');
     viewer.retryBtn    = document.getElementById('cviewer-retry-btn');
+    viewer.prevBtn     = document.getElementById('cviewer-prev-btn');
+    viewer.nextBtn     = document.getElementById('cviewer-next-btn');
+    viewer.posEl       = document.getElementById('cviewer-position');
+
+    viewer.lessonList  = collectLessonList();
 
     viewer.closeBtn?.addEventListener('click', closeViewer);
     viewer.backdrop?.addEventListener('click', closeViewer);
@@ -200,10 +221,17 @@
     viewer.resetBtn?.addEventListener('click', resetPanels);
     viewer.newTabBtn?.addEventListener('click', openCurrentInNewTab);
     viewer.retryBtn?.addEventListener('click', retryLoad);
+    viewer.prevBtn?.addEventListener('click', () => goRelative(-1));
+    viewer.nextBtn?.addEventListener('click', () => goRelative(+1));
 
-    // Close on Escape
+    // Close on Escape; arrow-key nav when viewer is open and focus
+    // isn't inside the iframe (iframe captures its own keys).
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !viewer.el.hidden) closeViewer();
+      if (viewer.el.hidden) return;
+      if (e.key === 'Escape')     { closeViewer();   return; }
+      if (e.target?.tagName === 'IFRAME') return;
+      if (e.key === 'ArrowLeft')  goRelative(-1);
+      if (e.key === 'ArrowRight') goRelative(+1);
     });
 
     if (viewer.handle) initDragHandle();
@@ -213,8 +241,10 @@
     viewer.currentFilePath = filePath;
     viewer.currentSlug     = slug;
     viewer.currentBucket   = bucket;
+    viewer.currentIndex    = viewer.lessonList.findIndex(l => l.path === filePath);
 
     if (viewer.titleEl) viewer.titleEl.textContent = title || filePath;
+    updateNavState();
 
     // Video panel: show only when a videoUrl is provided
     if (viewer.videoPanel && viewer.htmlPanel && viewer.handle) {
@@ -281,6 +311,27 @@
   function retryLoad() {
     if (viewer.currentFilePath) {
       loadIntoViewer(viewer.currentFilePath, viewer.currentSlug, viewer.currentBucket);
+    }
+  }
+
+  // Step ±1 across the flat lesson list (which spans all blocks in
+  // catalog order), reusing openViewer so video panel + title + load
+  // logic stays in one place.
+  function goRelative(delta) {
+    if (viewer.currentIndex < 0) return;
+    const next = viewer.currentIndex + delta;
+    if (next < 0 || next >= viewer.lessonList.length) return;
+    const lesson = viewer.lessonList[next];
+    openViewer(lesson.path, lesson.videoUrl, lesson.title, viewer.currentSlug, viewer.currentBucket);
+  }
+
+  function updateNavState() {
+    const total = viewer.lessonList.length;
+    const idx   = viewer.currentIndex;
+    if (viewer.prevBtn) viewer.prevBtn.disabled = idx <= 0;
+    if (viewer.nextBtn) viewer.nextBtn.disabled = idx < 0 || idx >= total - 1;
+    if (viewer.posEl) {
+      viewer.posEl.textContent = (idx >= 0 && total > 0) ? `${idx + 1} / ${total}` : '';
     }
   }
 
