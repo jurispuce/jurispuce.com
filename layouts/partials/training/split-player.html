@@ -1,0 +1,149 @@
+{{/* Split-Screen Player — 1/3 YouTube video | 2/3 interactive HTML */}}
+{{/* Expects: .item (content item map), .moduleTitle (string) */}}
+
+{{ $item := .item }}
+{{ $moduleTitle := .moduleTitle }}
+
+<div class="split-player"
+     id="split-{{ $item.id }}"
+     data-content-id="{{ $item.id }}"
+     data-access-level="{{ $item.accessLevel }}"
+     {{ with $item.videoUrl }}data-video-url="{{ . }}"{{ end }}
+     {{ with $item.htmlFile }}data-html-file="{{ . }}"{{ end }}
+     {{ with $item.htmlUrl }}data-html-url="{{ . }}"{{ end }}>
+
+  {{/* Toolbar */}}
+  <div class="split-toolbar">
+    <div class="split-toolbar-left">
+      <span class="split-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="18" rx="2"/>
+          <line x1="9" y1="3" x2="9" y2="21"/>
+        </svg>
+        {{ $item.title }}
+      </span>
+    </div>
+    <div class="split-toolbar-right">
+      <button class="split-tool-btn" id="split-expand-html-{{ $item.id }}" title="Expand HTML panel to full width">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+          <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+        Expand HTML
+      </button>
+      <button class="split-tool-btn" id="split-new-tab-{{ $item.id }}" title="Open HTML in new tab">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        New Tab
+      </button>
+      <button class="split-tool-btn split-reset-btn" id="split-reset-{{ $item.id }}" title="Reset panel sizes">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+        </svg>
+        Reset
+      </button>
+    </div>
+  </div>
+
+  {{/* Two-panel layout */}}
+  <div class="split-panels" id="split-panels-{{ $item.id }}">
+
+    {{/* Left panel — YouTube video (1/3) */}}
+    <div class="split-panel split-panel-video" id="split-video-{{ $item.id }}" style="width: 33.333%">
+      <div class="split-panel-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+        Video Guide
+      </div>
+
+      {{ if eq $item.accessLevel "free" }}
+      <div class="split-video-wrapper">
+        <iframe
+          src="{{ $item.videoUrl }}"
+          title="{{ $item.title }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          class="split-video-iframe">
+        </iframe>
+      </div>
+      {{ else }}
+      <div class="split-video-locked">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <p>{{ if eq $item.accessLevel "authorized" }}Login to watch{{ else }}Premium content{{ end }}</p>
+        <button class="auth-btn auth-btn--primary" data-auth-trigger>
+          {{ if eq $item.accessLevel "authorized" }}Sign In{{ else }}Upgrade{{ end }}
+        </button>
+      </div>
+      {{ end }}
+    </div>
+
+    {{/* Drag handle */}}
+    <div class="split-handle" id="split-handle-{{ $item.id }}" title="Drag to resize panels" role="separator" aria-orientation="vertical">
+      <div class="split-handle-grip">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    {{/* Right panel — Interactive HTML (2/3) */}}
+    <div class="split-panel split-panel-html" id="split-html-{{ $item.id }}" style="width: 66.666%">
+      <div class="split-panel-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+        Interactive Demo
+        <span class="split-html-hint">— try it yourself</span>
+      </div>
+
+      {{ if eq $item.accessLevel "free" }}
+      <div class="split-html-wrapper">
+        {{ $htmlSrc := "" }}
+        {{ with $item.htmlFile }}{{ $htmlSrc = printf "/%s" . }}{{ end }}
+        {{ with $item.htmlUrl }}{{ $htmlSrc = . }}{{ end }}
+
+        {{ if $htmlSrc }}
+        <iframe
+          src="{{ $htmlSrc }}"
+          title="Interactive Demo"
+          frameborder="0"
+          class="split-html-iframe"
+          id="split-html-frame-{{ $item.id }}"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+        </iframe>
+        {{ else }}
+        <div class="split-html-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <p>Interactive HTML content will appear here.</p>
+        </div>
+        {{ end }}
+      </div>
+      {{ else }}
+      <div class="split-html-locked">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <p>{{ if eq $item.accessLevel "authorized" }}Login to access interactive content{{ else }}Premium content{{ end }}</p>
+        <button class="auth-btn auth-btn--primary" data-auth-trigger>
+          {{ if eq $item.accessLevel "authorized" }}Sign In{{ else }}Upgrade{{ end }}
+        </button>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+
+  {{ with $item.description }}
+  <div class="split-description">
+    <p>{{ . }}</p>
+  </div>
+  {{ end }}
+</div>

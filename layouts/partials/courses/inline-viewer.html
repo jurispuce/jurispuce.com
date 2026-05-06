@@ -1,0 +1,106 @@
+{{/* Inline split-screen viewer — fixed overlay, populated by JS */}}
+{{/* Wired by course-access.js when data-inline-open buttons are clicked */}}
+
+<div class="cviewer" id="course-inline-viewer" hidden aria-modal="true" role="dialog" aria-label="Lesson viewer">
+
+  {{/* Toolbar */}}
+  <div class="cviewer__toolbar">
+    <div class="cviewer__toolbar-left">
+      <span class="cviewer__lesson-label" id="cviewer-title">Lesson</span>
+    </div>
+    <div class="cviewer__toolbar-right">
+      <button type="button" class="cviewer__tool-btn" id="cviewer-expand-btn" title="Expand HTML to full width">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+          <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+        Expand
+      </button>
+      <button type="button" class="cviewer__tool-btn" id="cviewer-newtab-btn" title="Open in new tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        New Tab
+      </button>
+      <button type="button" class="cviewer__tool-btn" id="cviewer-reset-btn" title="Reset panel sizes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+        </svg>
+        Reset
+      </button>
+      <button type="button" class="cviewer__close-btn" id="cviewer-close-btn" aria-label="Close viewer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {{/* Two-panel split */}}
+  <div class="cviewer__panels" id="cviewer-panels">
+
+    {{/* Left: YouTube video (shown only when lesson has videoUrl) */}}
+    <div class="cviewer__panel cviewer__panel--video" id="cviewer-video-panel" style="width:33.333%">
+      <div class="cviewer__panel-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+        Video Guide
+      </div>
+      <div class="cviewer__video-wrapper">
+        <iframe id="cviewer-video-iframe"
+                src=""
+                title="Lesson video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    {{/* Drag handle */}}
+    <div class="cviewer__handle" id="cviewer-handle" role="separator" aria-orientation="vertical" title="Drag to resize">
+      <div class="cviewer__handle-grip"><span></span><span></span><span></span></div>
+    </div>
+
+    {{/* Right: HTML content */}}
+    <div class="cviewer__panel cviewer__panel--html" id="cviewer-html-panel" style="width:66.666%">
+      <div class="cviewer__panel-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+        Interactive Content
+        <span class="cviewer__hint">— try it yourself</span>
+      </div>
+
+      <div class="cviewer__html-wrapper">
+        {{/* Loading state */}}
+        <div class="cviewer__loading" id="cviewer-loading">
+          <div class="cviewer__spinner"></div>
+          <p>Loading content…</p>
+        </div>
+
+        {{/* Error state */}}
+        <div class="cviewer__error" id="cviewer-error" hidden>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <p id="cviewer-error-msg">Could not load this lesson.</p>
+          <button type="button" class="cviewer__retry-btn" id="cviewer-retry-btn">Try again</button>
+        </div>
+
+        <iframe id="cviewer-html-iframe"
+                src=""
+                title="Lesson content"
+                frameborder="0"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                hidden>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/* Backdrop */}}
+<div class="cviewer__backdrop" id="cviewer-backdrop" hidden></div>

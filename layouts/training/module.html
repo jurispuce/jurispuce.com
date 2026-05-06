@@ -76,6 +76,7 @@
                 {{ if eq .type "exercise" }}⚙{{ end }}
                 {{ if eq .type "case-study" }}📋{{ end }}
                 {{ if eq .type "reading" }}📖{{ end }}
+                {{ if eq .type "split-screen" }}⊞{{ end }}
               </div>
               <div class="content-section-info">
                 <h3>{{ .title }}</h3>
@@ -178,6 +179,11 @@
               {{ end }}
             </div>
             {{ end }}
+
+            {{/* Split-Screen: video + interactive HTML */}}
+            {{ if eq .type "split-screen" }}
+            {{ partial "training/split-player.html" (dict "item" . "moduleTitle" $.Title) }}
+            {{ end }}
           </div>
           {{ end }}
         </div>
@@ -212,6 +218,7 @@
                 {{ if eq .type "exercise" }}⚙{{ end }}
                 {{ if eq .type "case-study" }}📋{{ end }}
                 {{ if eq .type "reading" }}📖{{ end }}
+                {{ if eq .type "split-screen" }}⊞{{ end }}
               </span>
               <span class="nav-title">{{ .title }}</span>
               <span class="nav-status"></span>
@@ -235,6 +242,7 @@
 {{/* Auth Modal */}}
 {{ partial "auth/auth-modal.html" . }}
 
+<script src="/js/training-blocks.js" defer></script>
 <script>
   // Initialize module page interactions
   document.addEventListener('DOMContentLoaded', function() {
