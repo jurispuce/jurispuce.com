@@ -79,6 +79,15 @@ content:
     accessLevel: "commercial"
     description: "Deep dive into documented AI security incidents and their implications"
 
+  - type: "split-screen"
+    id: "split-threat-viz"
+    title: "Interactive Threat Visualization"
+    duration: "20 min"
+    accessLevel: "free"
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    htmlFile: "tna/ict_services_dashboard.html"
+    description: "Watch the walkthrough video while interacting with the live threat-mapping dashboard side by side."
+
 certificate:
   enabled: true
   title: "AI Security Foundations"
