@@ -9,6 +9,12 @@ weight: 10               # order in the courses list
 difficulty: "Intermediate"
 duration: "4 hours"
 
+# Visibility. Set `private: true` to hide this course from the public
+# catalog. It will only appear for signed-in users who have a row in
+# the `course_access` table for this slug. File access is always gated
+# by storage RLS regardless — `private` only controls discovery.
+private: false
+
 # Files are uploaded in the order listed here, and that order is what
 # the catalog page shows. Add/remove entries and re-run the uploader.
 files:

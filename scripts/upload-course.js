@@ -358,6 +358,10 @@ function buildCatalog(slug, meta, uploaded, blocksMode) {
     weight:      meta.weight      ?? 50,
     difficulty:  meta.difficulty  ?? null,
     duration:    meta.duration    ?? null,
+    // Visibility: when true, the catalog hides this course from
+    // visitors not in course_access for this slug. File access is
+    // already gated by storage RLS — `private` only affects discovery.
+    private:     meta.private === true,
     courseSlug:  slug,
     bucket:      SUPABASE_COURSE_BUCKET,
     generated:   true,

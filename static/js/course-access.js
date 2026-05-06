@@ -491,11 +491,45 @@
     });
   }
 
+  // ── Private-course catalog visibility ─────────────────────────
+  //
+  // Cards rendered with `data-course-private="true"` start `hidden`.
+  // For a logged-in user we read their `course_access` rows once and
+  // unhide cards whose slug is in the set. File access is independently
+  // gated by storage RLS — this only controls catalog discovery.
+
+  async function applyPrivateCourseVisibility() {
+    const cards = document.querySelectorAll('[data-course-private="true"]');
+    if (cards.length === 0) return;
+
+    const loggedIn = !!(window.Auth && window.Auth.isLoggedIn && window.Auth.isLoggedIn());
+    if (!loggedIn) {
+      cards.forEach(c => { c.hidden = true; });
+      return;
+    }
+
+    const client = getClient();
+    if (!client) return;
+
+    const { data, error } = await client
+      .from('course_access')
+      .select('course_slug');
+    if (error) return;
+
+    const allowed = new Set((data || []).map(r => r.course_slug));
+    cards.forEach(c => {
+      c.hidden = !allowed.has(c.dataset.courseSlug);
+    });
+  }
+
   // ── Boot ──────────────────────────────────────────────────────
 
   function init() {
     if (!document.querySelector('.course-single')) {
       applyAuthState();
+      applyPrivateCourseVisibility();
+      document.addEventListener('userLoggedIn',  applyPrivateCourseVisibility);
+      document.addEventListener('userLoggedOut', applyPrivateCourseVisibility);
       return;
     }
 
@@ -505,9 +539,12 @@
     wireFileButtons();
     wireSearch();
     applyAuthState();
+    applyPrivateCourseVisibility();
 
     document.addEventListener('userLoggedIn',  applyAuthState);
     document.addEventListener('userLoggedOut', applyAuthState);
+    document.addEventListener('userLoggedIn',  applyPrivateCourseVisibility);
+    document.addEventListener('userLoggedOut', applyPrivateCourseVisibility);
   }
 
   if (document.readyState === 'loading') {

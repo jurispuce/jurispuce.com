@@ -10,7 +10,9 @@
     {{ if $courses }}
     <div class="training-paths-grid">
       {{ range $courses.ByWeight }}
-      <article class="training-path-card">
+      <article class="training-path-card"
+               data-course-slug="{{ .Params.courseSlug | default .File.BaseFileName }}"
+               {{ if .Params.private }}data-course-private="true" hidden{{ end }}>
         <div class="training-path-card-content">
           <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
           <div class="training-path-meta">

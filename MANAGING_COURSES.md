@@ -101,6 +101,13 @@ npm run send-email -- is-auditor course-update
 
 1. Create `course-source/<new-slug>/` directory
 2. Copy `scripts/meta.example.yaml` to `course-source/<new-slug>/meta.yaml` and fill it in
-3. Add HTML lesson files to the directory
-4. Run `npm run upload-course -- <new-slug>`
-5. Commit the generated `content/courses/<new-slug>.md`
+3. Decide visibility — set `private: true` in `meta.yaml` if the course should only show in the catalog for users on its allowlist (see below). Default is public.
+4. Add HTML lesson files to the directory
+5. Run `npm run upload-course -- <new-slug>`
+6. Commit the generated `content/courses/<new-slug>.md`
+
+## Public vs private courses
+
+By default, courses appear in `/courses/` for every visitor. Set `private: true` in `meta.yaml` to hide a course from the public catalog — it will only render for signed-in users with a matching `(email, course_slug)` row in `public.course_access`.
+
+File access (the lessons themselves) is always gated by storage RLS regardless of `private` — the flag only controls catalog discovery. To grant access, add rows via Supabase dashboard → Table Editor → `public.course_access`.
