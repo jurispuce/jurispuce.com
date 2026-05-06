@@ -70,6 +70,23 @@
       throw new Error('Please sign in with your invited email first.');
     }
 
+    // Pre-check allowlist. Storage RLS hides unauthorised objects as
+    // "Object not found", which is indistinguishable from a real missing
+    // file — so we check course_access first to give a clear message.
+    const userEmail = sessionData.session.user?.email || '';
+    const { data: accessRows, error: accessErr } = await client
+      .from('course_access')
+      .select('course_slug')
+      .eq('course_slug', slug)
+      .limit(1);
+    if (!accessErr && (!accessRows || accessRows.length === 0)) {
+      throw new Error(
+        `Your account (${userEmail}) is not authorised for this course. ` +
+        `If you have an invitation under a different email, sign out and sign in with that address. ` +
+        `Otherwise contact the course owner.`
+      );
+    }
+
     const remotePath = `${slug}/${filePath}`;
     const { data, error } = await client.storage
       .from(bucket)
@@ -77,10 +94,10 @@
 
     if (error || !data?.signedUrl) {
       const raw = error?.message || '';
-      const friendly = /not found|object not found|does not exist/i.test(raw)
-        ? 'This file is not available.'
-        : /permission|row-level security|denied|not authorized/i.test(raw)
-          ? 'This email is not on the allowlist for this course. Contact the course owner if you believe this is a mistake.'
+      const friendly = /permission|row-level security|denied|not authorized/i.test(raw)
+        ? `Your account (${userEmail}) is not authorised for this course. Sign in with the invited email or contact the course owner.`
+        : /not found|object not found|does not exist/i.test(raw)
+          ? 'This file is not available.'
           : raw || 'Could not open this file.';
       throw new Error(friendly);
     }

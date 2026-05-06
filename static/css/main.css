@@ -32,11 +32,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Fraunces', Georgia, 'Iowan Old Style', 'Charter', 'Times New Roman', serif;
     font-weight: 600;
     line-height: 1.1;
     margin-bottom: 1.2rem;
     color: var(--text-color);
+    font-synthesis: none;
 }
 
 h1 {
