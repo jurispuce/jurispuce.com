@@ -99,8 +99,32 @@
     </div>
     {{ end }}
 
+    {{/* View Toggle */}}
+    {{ if .Params.blocks }}
+    <div class="path-view-toggle" role="tablist" aria-label="Path view">
+      <button class="view-toggle-btn active" role="tab" aria-selected="true"
+              data-view="flow" aria-controls="flow-diagram-section">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/>
+          <line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/>
+        </svg>
+        Flow View
+      </button>
+      <button class="view-toggle-btn" role="tab" aria-selected="false"
+              data-view="blocks" aria-controls="blocks-section">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        Sequential View
+      </button>
+    </div>
+    {{ end }}
+
     {{/* Flow Diagram Section */}}
-    <div class="flow-diagram-section">
+    <div class="flow-diagram-section" id="flow-diagram-section">
       <h2>Choose Your Learning Path</h2>
 
       {{/* Legend */}}
@@ -240,7 +264,14 @@
         {{ end }}
 
       </div>
+    </div>{{/* end flow-diagram-section */}}
+
+    {{/* Blocks / Sequential View */}}
+    {{ if .Params.blocks }}
+    <div id="blocks-section" style="display: none;">
+      {{ partial "training/blocks-view.html" (dict "blocks" .Params.blocks "modules" $modules "pathId" $pathId) }}
     </div>
+    {{ end }}
 
     {{/* Module Panel */}}
     {{ partial "training/module-panel.html" (dict "modules" $modules "pathId" $pathId) }}
@@ -257,6 +288,7 @@
 {{/* Auth Modal */}}
 {{ partial "auth/auth-modal.html" . }}
 
+<script src="/js/training-blocks.js" defer></script>
 <script>
   // Show progress card if logged in
   document.addEventListener('userLoggedIn', function() {
