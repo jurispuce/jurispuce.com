@@ -608,6 +608,8 @@
   color: var(--text-light, #666);
   font-size: 0.9rem;
 }
+/* `display: flex` above outranks the UA default for [hidden]; restore it. */
+.cviewer__loading[hidden] { display: none; }
 .cviewer__spinner {
   width: 36px;
   height: 36px;
@@ -632,6 +634,7 @@
   text-align: center;
   padding: 2rem;
 }
+.cviewer__error[hidden] { display: none; }
 .cviewer__error[hidden] { display: none; }
 .cviewer__error p { margin: 0; font-size: 0.9rem; }
 .cviewer__retry-btn {
