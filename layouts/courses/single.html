@@ -1,7 +1,10 @@
 {{ define "main" }}
+{{ $slug   := .Params.courseSlug | default .File.BaseFileName }}
+{{ $bucket := .Params.bucket     | default "course-materials" }}
+
 <section class="course-single"
-         data-course-slug="{{ .Params.courseSlug | default .File.BaseFileName }}"
-         data-course-bucket="{{ .Params.bucket | default "course-materials" }}">
+         data-course-slug="{{ $slug }}"
+         data-course-bucket="{{ $bucket }}">
   <div class="container">
     <nav class="module-breadcrumb">
       <a href="/courses/">Courses</a>
@@ -15,21 +18,41 @@
       <div class="course-meta">
         {{ with .Params.duration }}<span>⏱ {{ . }}</span>{{ end }}
         {{ with .Params.difficulty }}<span>★ {{ . }}</span>{{ end }}
-        {{ with .Params.files }}<span>{{ len . }} files</span>{{ end }}
+        {{ with .Params.blocks }}
+          <span>{{ len . }} blocks</span>
+          {{ $total := 0 }}
+          {{ range . }}{{ $total = add $total (len .lessons) }}{{ end }}
+          <span>{{ $total }} lessons</span>
+        {{ else }}
+          {{ with .Params.files }}<span>{{ len . }} lessons</span>{{ end }}
+        {{ end }}
       </div>
     </header>
 
+    {{/* ── Sign-out gate ───────────────────────────────────────── */}}
     <div class="course-gate" data-show-when="logged-out">
       <p>Sign in with the email from your invitation to open the course materials.</p>
       <button class="path-start-btn" data-auth-trigger>Sign in</button>
     </div>
 
+    {{/* ── Logged-in content ──────────────────────────────────── */}}
     <div class="course-gate" data-show-when="logged-in" hidden>
+
+      {{/* Search bar (always shown) */}}
       <div class="course-toolbar">
         <input type="search" class="course-search" data-course-search
-               placeholder="Search lessons and slides…" aria-label="Search course materials">
+               placeholder="Search lessons…" aria-label="Search course materials">
       </div>
 
+      {{ if .Params.blocks }}
+      {{/* ── Blocks view ──────────────────────────────────────── */}}
+      {{ partial "courses/blocks-view.html" (dict
+            "blocks"     .Params.blocks
+            "courseSlug" $slug
+            "bucket"     $bucket) }}
+
+      {{ else }}
+      {{/* ── Legacy flat-list view ────────────────────────────── */}}
       {{ with .Params.files }}
       <ul class="course-files">
         {{ range . }}
@@ -50,9 +73,16 @@
       {{ else }}
       <p class="course-empty">No materials uploaded yet.</p>
       {{ end }}
-    </div>
+      {{ end }}
+
+    </div>{{/* end logged-in gate */}}
   </div>
 </section>
+
+{{/* Inline split-screen viewer (blocks mode only) */}}
+{{ if .Params.blocks }}
+{{ partial "courses/inline-viewer.html" . }}
+{{ end }}
 
 {{ partial "auth/auth-modal.html" . }}
 {{ end }}
