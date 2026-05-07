@@ -21,7 +21,7 @@ files:
     kind: lesson
     contentType: text/html
     size: 17122
-    videoUrl: https://youtu.be/aIQWwwrlULo
+    videoUrl: https://www.youtube.com/embed/aIQWwwrlULo
   - path: 01_foundations/02_glossary.html
     title: Glossary — risk, issue, incident, nonconformity, control gap, KRI
     description: >-
@@ -127,7 +127,7 @@ blocks:
           assignment. The cost of running risk as a compliance checkbox. Introduces the Veridion Dynamics case study.
         kind: lesson
         sequence: 1
-        videoUrl: https://youtu.be/aIQWwwrlULo
+        videoUrl: https://www.youtube.com/embed/aIQWwwrlULo
         size: 17122
         contentType: text/html
       - path: 01_foundations/02_glossary.html
