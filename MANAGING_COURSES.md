@@ -89,11 +89,28 @@ npm run send-email -- <slug> <template> --to your@email.com
 npm run send-email -- <slug> <template>
 ```
 
+### Targeting a subset of participants
+
+By default the script emails **every** enrolled user for the slug. To target a
+subset (e.g. people you just added), use one of:
+
+- `--to a@x.com,b@y.com` — comma-separated explicit list. Replaces the
+  Supabase-derived list. Addresses not enrolled get a warning but are still
+  sent to.
+- `--emails-file <path>` — newline-delimited file of addresses. Blank lines and
+  lines starting with `#` are ignored. Combine with `--to` to union the two.
+- `--since <ISO-date>` — only enrolled users whose `granted_at >= <date>`.
+  Useful right after a bulk insert into `public.course_access`. Ignored if
+  `--to` or `--emails-file` is also set.
+
 ### Examples
 
 ```bash
 npm run send-email -- is-auditor welcome-lv --dry-run
 npm run send-email -- is-auditor welcome-lv --to test@example.com
+npm run send-email -- is-auditor welcome --to a@example.com,b@example.com --dry-run
+npm run send-email -- is-auditor welcome --emails-file ./batch.txt --dry-run
+npm run send-email -- is-auditor welcome --since 2026-05-01 --dry-run
 npm run send-email -- is-auditor course-update
 ```
 

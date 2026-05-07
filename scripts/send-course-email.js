@@ -3,19 +3,29 @@
  * Send emails to course participants.
  *
  * Usage:
- *   npm run send-email -- <course-slug> <template> [--dry-run] [--to email@example.com]
+ *   npm run send-email -- <course-slug> <template> [options]
  *
  * Arguments:
- *   course-slug   Which course's participants to email (e.g. "is-auditor")
- *   template      Email template name: "welcome" or "course-update"
+ *   course-slug             Which course's participants to email (e.g. "is-auditor")
+ *   template                Email template name: "welcome", "welcome-lv", or "course-update"
  *
  * Options:
- *   --dry-run     Preview recipients and rendered email without sending
- *   --to <email>  Send to a single address only (for testing)
+ *   --dry-run               Preview recipients and rendered email without sending
+ *   --to a@x.com,b@y.com    Send to an explicit list of addresses (comma-separated).
+ *                           Replaces the Supabase-derived list. Addresses not enrolled
+ *                           are warned but still sent to.
+ *   --emails-file <path>    Read recipients from a newline-delimited file. Blank lines
+ *                           and lines starting with "#" are ignored. Replaces the
+ *                           Supabase-derived list (unioned with --to if both given).
+ *   --since <ISO-date>      Only include enrolled users whose granted_at >= the given
+ *                           date. Ignored if --to or --emails-file is also set.
  *
  * Examples:
  *   npm run send-email -- is-auditor welcome --dry-run
  *   npm run send-email -- is-auditor welcome --to your@email.com
+ *   npm run send-email -- is-auditor welcome --to a@x.com,b@y.com
+ *   npm run send-email -- is-auditor welcome --emails-file ./batch.txt --dry-run
+ *   npm run send-email -- is-auditor welcome --since 2026-05-01 --dry-run
  *   npm run send-email -- is-auditor course-update
  *
  * Prerequisites:
@@ -51,12 +61,46 @@ const args = process.argv.slice(2);
 const slug = args[0];
 const templateName = args[1];
 const dryRun = args.includes('--dry-run');
-const toIndex = args.indexOf('--to');
-const singleRecipient = toIndex !== -1 ? args[toIndex + 1] : null;
+
+function flagValue(name) {
+  const i = args.indexOf(name);
+  return i !== -1 ? args[i + 1] : null;
+}
+
+const toArg = flagValue('--to');
+const emailsFileArg = flagValue('--emails-file');
+const sinceArg = flagValue('--since');
 
 if (!slug || !templateName) {
-  die('Missing arguments.\n  Usage: npm run send-email -- <course-slug> <template> [--dry-run] [--to email]');
+  die('Missing arguments.\n  Usage: npm run send-email -- <course-slug> <template> [--dry-run] [--to a@x.com,b@y.com] [--emails-file path] [--since ISO-date]');
 }
+
+let sinceIso = null;
+if (sinceArg) {
+  const d = new Date(sinceArg);
+  if (Number.isNaN(d.getTime())) die(`Invalid --since value "${sinceArg}". Expected an ISO date like 2026-05-01.`);
+  sinceIso = d.toISOString();
+}
+
+function parseEmailList(raw) {
+  return raw
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+async function readEmailsFile(path) {
+  const abs = resolve(path);
+  const content = await readFile(abs, 'utf8').catch(() => {
+    die(`Emails file not found or unreadable: ${abs}`);
+  });
+  return content
+    .split(/\r?\n/)
+    .map((s) => s.trim())
+    .filter((s) => s && !s.startsWith('#'))
+    .map((s) => s.toLowerCase());
+}
+
 if (!/^[a-z0-9-]+$/.test(slug)) {
   die(`Invalid slug "${slug}". Use lowercase letters, digits, and hyphens only.`);
 }
@@ -94,20 +138,41 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
-const { data: participants, error: queryError } = await supabase
+let query = supabase
   .from('course_access')
-  .select('email')
+  .select('email, granted_at')
   .eq('course_slug', slug);
 
-if (queryError) die(`Supabase query failed: ${queryError.message}`);
-if (!participants || participants.length === 0) die(`No participants found for course "${slug}".`);
+const explicitListUsed = Boolean(toArg || emailsFileArg);
+if (sinceIso && !explicitListUsed) query = query.gte('granted_at', sinceIso);
 
-let recipients = participants.map((p) => p.email);
-if (singleRecipient) {
-  if (!recipients.includes(singleRecipient)) {
-    console.log(`Note: ${singleRecipient} is not enrolled in "${slug}", but sending anyway (--to override).`);
+const { data: participants, error: queryError } = await query;
+if (queryError) die(`Supabase query failed: ${queryError.message}`);
+
+const enrolledEmails = (participants || []).map((p) => p.email.toLowerCase());
+const enrolledSet = new Set(enrolledEmails);
+
+let recipients;
+if (explicitListUsed) {
+  if (sinceIso) {
+    console.log('Note: --since is ignored because --to/--emails-file was provided.');
   }
-  recipients = [singleRecipient];
+  const fromTo = toArg ? parseEmailList(toArg) : [];
+  const fromFile = emailsFileArg ? await readEmailsFile(emailsFileArg) : [];
+  recipients = Array.from(new Set([...fromTo, ...fromFile]));
+  if (recipients.length === 0) die('No recipients resolved from --to / --emails-file.');
+  for (const email of recipients) {
+    if (!enrolledSet.has(email)) {
+      console.log(`Note: ${email} is not enrolled in "${slug}", but sending anyway (override).`);
+    }
+  }
+} else {
+  if (enrolledEmails.length === 0) {
+    die(sinceIso
+      ? `No participants found for course "${slug}" with granted_at >= ${sinceIso}.`
+      : `No participants found for course "${slug}".`);
+  }
+  recipients = Array.from(new Set(enrolledEmails));
 }
 
 // --- Render template ---
