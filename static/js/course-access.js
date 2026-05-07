@@ -65,11 +65,25 @@
     el.hidden = true;
   }
 
+  // Fire-and-forget audit insert. Failures are swallowed so a logging
+  // outage never blocks the user from opening their material.
+  function logAccess(client, userId, userEmail, slug, filePath, mode) {
+    try {
+      client.from('access_log').insert({
+        user_id:     userId,
+        user_email:  userEmail,
+        course_slug: slug,
+        file_path:   filePath,
+        mode:        mode || 'inline',
+      }).then(() => {}, () => {});
+    } catch (_e) { /* ignore */ }
+  }
+
   /**
    * Fetch a signed URL + convert HTML to a blob URL.
    * Returns { blobUrl, signedUrl } on success, throws on error.
    */
-  async function fetchBlobUrl(slug, bucket, filePath) {
+  async function fetchBlobUrl(slug, bucket, filePath, mode) {
     const client = getClient();
     if (!client) throw new Error('Sign-in is not configured yet.');
 
@@ -111,6 +125,8 @@
       throw new Error(friendly);
     }
 
+    logAccess(client, sessionData.session.user?.id, userEmail, slug, filePath, mode);
+
     if (/\.html?$/i.test(filePath)) {
       const resp = await fetch(data.signedUrl);
       if (!resp.ok) throw new Error('Could not load the file. Try again.');
@@ -137,7 +153,7 @@
 
     btn.setAttribute('aria-busy', 'true');
     try {
-      const { blobUrl } = await fetchBlobUrl(slug, bucket, filePath);
+      const { blobUrl } = await fetchBlobUrl(slug, bucket, filePath, 'newtab');
       window.open(blobUrl, '_blank', 'noopener');
     } catch (err) {
       setLessonStatus(lessonEl, err.message, 'error');
@@ -288,7 +304,7 @@
     if (viewer.htmlIframe) viewer.htmlIframe.hidden  = true;
 
     try {
-      const { blobUrl } = await fetchBlobUrl(slug, bucket, filePath);
+      const { blobUrl } = await fetchBlobUrl(slug, bucket, filePath, 'inline');
       viewer.htmlIframe.src    = blobUrl;
       viewer.htmlIframe.hidden = false;
       if (viewer.loadingEl) viewer.loadingEl.hidden = true;
@@ -339,7 +355,7 @@
     if (!viewer.currentFilePath) return;
     try {
       const { blobUrl } = await fetchBlobUrl(
-        viewer.currentSlug, viewer.currentBucket, viewer.currentFilePath
+        viewer.currentSlug, viewer.currentBucket, viewer.currentFilePath, 'newtab'
       );
       window.open(blobUrl, '_blank', 'noopener');
     } catch (err) {
