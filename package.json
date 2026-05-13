@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "upload-course": "node scripts/upload-course.js",
-    "send-email": "node scripts/send-course-email.js"
+    "send-email": "node scripts/send-course-email.js",
+    "grant-access": "node scripts/grant-course-access.js"
   },
   "engines": {
     "node": ">=18"
