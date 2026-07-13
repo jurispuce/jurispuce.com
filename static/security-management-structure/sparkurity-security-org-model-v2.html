@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Organisational Model — ENISA ECSF Mapping · Sparkurity</title>
+<!-- SELF-CONTAINED FILE: no external requests.
+     Brand fonts (Fraunces / Inter / JetBrains Mono) are referenced by family name only:
+     · On the Sparkurity website they load from the site's existing font setup automatically.
+     · Standalone/offline, the stacks below fall back gracefully.
+     · For a brand-exact standalone file, paste base64 @font-face rules here, e.g.:
+       @font-face{font-family:'Fraunces';font-weight:400 700;src:url(data:font/woff2;base64,...) format('woff2')}
+       @font-face{font-family:'Inter';font-weight:400 800;src:url(data:font/woff2;base64,...) format('woff2')}
+       @font-face{font-family:'JetBrains Mono';font-weight:400 600;src:url(data:font/woff2;base64,...) format('woff2')} -->
+<style>
+  :root{
+    --spark:#4A95D1; --action:#2F6FA3; --blue800:#25557C; --blue100:#D4E6F5; --blue50:#EDF4FB;
+    --petrol:#2C6374; --petrol-dark:#214B58;
+    --ink:#2B2C2E; --body:#56575A; --grey:#6D6E71; --grey200:#CFCFD1;
+    --line:#E7E7E8; --mist:#F4F4F5; --white:#FFFFFF;
+    --terracotta:#B25C43; --terra50:#F7EDE9; --sand:#DCC8AE; --success:#2F855A;
+    --r:14px; --r-sm:9px;
+    --fh:'Fraunces','Iowan Old Style','Charter','Bitstream Charter',Georgia,serif;
+    --fb:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --fm:'JetBrains Mono',ui-monospace,'SF Mono','Cascadia Code',Consolas,'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{font-family:var(--fb);background:var(--mist);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+  a{color:var(--action)}
+
+  /* ── Header ─────────────────────────── */
+  header{background:var(--petrol);color:var(--white);padding:52px 0 58px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle at center, rgba(74,149,209,.28), transparent 65%);pointer-events:none}
+  .lockup{font-weight:800;font-size:21px;letter-spacing:-.3px}
+  .lockup .a{color:#fff}.lockup .b{color:rgba(255,255,255,.55)}
+  .eyebrow{display:inline-block;margin:30px 0 14px;padding:5px 14px;border-radius:999px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue100)}
+  h1{font-family:var(--fh);font-weight:600;font-size:42px;line-height:1.12;max-width:840px;letter-spacing:-.01em}
+  .sub{margin-top:16px;max-width:740px;font-size:15.5px;color:rgba(255,255,255,.82)}
+  .sub b{color:#fff;font-weight:600}
+
+  /* ── Sticky nav ─────────────────────────── */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:0;padding-bottom:0}
+  nav a{display:block;padding:13px 14px;font-size:12.5px;font-weight:600;color:var(--body);
+    text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap}
+  nav a:hover{color:var(--petrol);border-bottom-color:var(--blue100)}
+
+  /* ── Sections ─────────────────────────── */
+  section{padding:52px 0 8px}
+  .kicker{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--action);font-weight:600}
+  h2{font-family:var(--fh);font-weight:600;font-size:29px;margin:8px 0 6px;letter-spacing:-.01em}
+  h3{font-family:var(--fh);font-weight:600;font-size:19px;margin:26px 0 10px}
+  .lede{color:var(--body);font-size:15px;max-width:800px;margin-bottom:24px}
+  .lede a, .card a, .gap a, .lg a{color:var(--action);text-decoration:none;border-bottom:1px solid var(--blue100)}
+  .lede a:hover, .card a:hover, .gap a:hover, .lg a:hover{border-bottom-color:var(--action)}
+
+  /* target highlight */
+  :target{animation:flash 1.8s ease-out}
+  @keyframes flash{0%{box-shadow:0 0 0 3px var(--spark)}100%{box-shadow:0 0 0 3px transparent}}
+
+  /* ── Chips & pills ─────────────────────────── */
+  .chip{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--fm);font-size:11px;font-weight:600;color:#fff;background:var(--blue800)}
+  .chip.gov{background:var(--action)} .chip.ops{background:var(--petrol)} .chip.eng{background:var(--spark)}
+  a.t{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 6px;
+    border-radius:6px;font-family:var(--fm);font-size:10px;font-weight:600;color:#fff;background:var(--blue800);
+    text-decoration:none;border:none}
+  a.t:hover{background:var(--action)}
+  .gap-pill{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:999px;
+    font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--terracotta);background:var(--terra50);border:1px solid #E4C4B8}
+  .never{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:999px;
+    font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--petrol);background:#E3EDEB;border:1px solid #C4D8D4}
+  .pill{display:inline-flex;align-items:center;height:23px;padding:0 11px;border-radius:999px;
+    font-family:var(--fm);font-size:10px;font-weight:600;letter-spacing:.05em;white-space:nowrap}
+  .p-ded{background:var(--petrol);color:#fff}
+  .p-frac{background:var(--spark);color:#fff}
+  .p-virt{background:var(--white);color:var(--blue800);border:1.5px solid var(--blue800)}
+  .p-out{background:var(--grey);color:#fff}
+  .p-auto{background:var(--terracotta);color:#fff}
+
+  /* ── Org chart ─────────────────────────── */
+  .orgbox{background:var(--white);border:1px solid var(--line);border-radius:var(--r);
+    padding:14px;box-shadow:0 3px 9px rgba(0,0,0,.05);overflow-x:auto}
+  .orgbox svg{min-width:900px;width:100%;height:auto;display:block}
+  .orgbox svg text{font-family:var(--fb)}
+  .orgbox svg a{cursor:pointer}
+  .orgbox svg a:hover rect{filter:brightness(.96)}
+  .orgnote{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  .onote{background:var(--white);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;font-size:12.5px;color:var(--body)}
+  .onote b{color:var(--ink);display:block;margin-bottom:4px;font-size:13px}
+
+  /* ── Layers & expandable cards ─────────────────────────── */
+  .layer{display:grid;grid-template-columns:190px 1fr;background:var(--white);border:1px solid var(--line);
+    border-radius:var(--r);margin-bottom:14px;overflow:hidden;box-shadow:0 3px 9px rgba(0,0,0,.05)}
+  .layer-label{padding:22px 20px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+  .layer-label .num{font-family:var(--fm);font-size:11px;letter-spacing:.12em;color:var(--grey)}
+  .layer-label .name{font-family:var(--fh);font-weight:600;font-size:19px;line-height:1.2}
+  .layer-label .lod{font-size:11.5px;color:var(--grey);line-height:1.4}
+  .l-direction .layer-label{background:linear-gradient(135deg,var(--petrol),var(--petrol-dark));color:#fff}
+  .l-direction .layer-label .num,.l-direction .layer-label .lod{color:rgba(255,255,255,.7)}
+  .l-gov .layer-label{background:var(--blue50)} .l-gov .layer-label .name{color:var(--blue800)}
+  .l-ops .layer-label{background:#EAF1F0} .l-ops .layer-label .name{color:var(--petrol)}
+  .l-eng .layer-label{background:var(--blue50)} .l-eng .layer-label .name{color:var(--action)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;padding:16px;border-left:1px solid var(--line)}
+  details.card{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--white);transition:box-shadow .15s}
+  details.card:hover{box-shadow:0 6px 16px rgba(37,85,124,.13)}
+  details.card[open]{grid-column:1 / -1;box-shadow:0 6px 16px rgba(37,85,124,.10);border-color:var(--blue100)}
+  details.card summary{list-style:none;cursor:pointer;padding:12px 13px;display:flex;flex-direction:column;gap:8px}
+  details.card summary::-webkit-details-marker{display:none}
+  details.card summary h4{font-size:13.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em;display:flex;justify-content:space-between;gap:8px}
+  details.card summary h4::after{content:"+";font-family:var(--fm);color:var(--grey200);font-weight:400;font-size:15px}
+  details.card[open] summary h4::after{content:"–"}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .cbody{padding:0 14px 14px;font-size:12.5px;color:var(--body);border-top:1px dashed var(--line);margin:0 13px;padding-top:11px}
+  .cbody p{margin-bottom:8px;line-height:1.55}
+  .cbody .meta{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--grey);text-transform:uppercase;margin:10px 0 3px}
+  .cbody ul{margin:2px 0 6px 16px}
+  .cbody li{margin-bottom:2px;font-size:12px}
+
+  /* ── ECSF legend expandable ─────────────────────────── */
+  .legend{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  details.lg{background:var(--white);border:1px solid var(--line);border-radius:var(--r-sm)}
+  details.lg summary{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:12.5px;font-weight:600;
+    cursor:pointer;list-style:none}
+  details.lg summary::-webkit-details-marker{display:none}
+  details.lg summary::after{content:"+";margin-left:auto;font-family:var(--fm);color:var(--grey200)}
+  details.lg[open] summary::after{content:"–"}
+  details.lg .cbody{margin:0 12px;padding:10px 2px 12px}
+
+  /* ── Red team section ─────────────────────────── */
+  .redgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+  .redcard{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:0 3px 9px rgba(0,0,0,.05)}
+  .redcard.accent{border-left:4px solid var(--terracotta)}
+  .redcard h3{margin-top:0}
+  .roles{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .role{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-sm)}
+  .role .rname{font-size:13px;font-weight:700}
+  .role .rdesc{font-size:11.5px;color:var(--body);margin-top:2px;line-height:1.45}
+  .role .tags{margin-left:auto;flex:0 0 auto}
+  .ladder{counter-reset:step;margin-top:6px}
+  .ladder li{list-style:none;counter-increment:step;position:relative;padding:9px 0 9px 44px;border-bottom:1px dashed var(--line);font-size:12.5px;color:var(--body)}
+  .ladder li:last-child{border-bottom:none}
+  .ladder li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:9px;
+    font-family:var(--fm);font-size:11px;font-weight:600;color:var(--terracotta);background:var(--terra50);
+    border:1px solid #E4C4B8;border-radius:6px;width:30px;height:22px;display:flex;align-items:center;justify-content:center}
+  .ladder b{color:var(--ink)}
+  .rules li{font-size:12.5px;color:var(--body);margin:0 0 7px 16px}
+  .rules b{color:var(--ink)}
+
+  /* ── Matrix ─────────────────────────── */
+  .matrix{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 3px 9px rgba(0,0,0,.05)}
+  .matrix .scroller{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:840px}
+  thead th{background:var(--petrol);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-size:12px}
+  thead th:first-child{width:28%}
+  thead th .thsub{display:block;font-weight:400;font-size:10.5px;color:rgba(255,255,255,.72);margin-top:2px}
+  tbody td{padding:10px 16px;border-top:1px solid var(--line);vertical-align:middle}
+  tbody tr:nth-child(even){background:#FAFBFB}
+  .pname{display:flex;align-items:center;gap:10px;font-weight:600;font-size:12.5px}
+  .pname a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--grey200)}
+  .ai-note{font-size:11px;color:var(--body);line-height:1.4}
+  .mlegend{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+  .mlegend span.lbl{font-size:11.5px;color:var(--grey);align-self:center;margin-right:2px;font-family:var(--fm);letter-spacing:.08em;text-transform:uppercase}
+
+  /* ── Gaps ─────────────────────────── */
+  .gaps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .gap{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--terracotta);
+    border-radius:var(--r-sm);padding:18px 20px;box-shadow:0 3px 9px rgba(0,0,0,.04)}
+  .gap h4{font-family:var(--fh);font-weight:600;font-size:17px;margin-bottom:6px}
+  .gap p{font-size:12.5px;color:var(--body)}
+  .gap .who{margin-top:10px;font-family:var(--fm);font-size:10.5px;color:var(--action);letter-spacing:.04em}
+
+  footer{margin-top:56px;padding:26px 0 40px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  footer .lockup{font-size:16px}
+  footer .lockup .a{color:var(--spark)} footer .lockup .b{color:var(--grey)}
+  footer .meta{font-family:var(--fm);font-size:10.5px;color:var(--grey);letter-spacing:.04em;text-align:right}
+
+  @media(max-width:900px){
+    .legend,.gaps,.orgnote{grid-template-columns:1fr}
+    .redgrid{grid-template-columns:1fr}
+    .layer{grid-template-columns:1fr}
+    .cards{border-left:none;border-top:1px solid var(--line)}
+    h1{font-size:30px}
+    thead th .thsub{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}:target{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="lockup"><span class="a">spark</span><span class="b">urity</span></div>
+    <div class="eyebrow">Sparkurity Method · Organisational Design · v0.2</div>
+    <h1>The Security Organisational Model, mapped to the ENISA ECSF</h1>
+    <p class="sub">Every organisation needs every <b>capability</b> — what varies is the <b>staffing pattern</b>. An organisational structure with reporting lines and interfaces, nineteen capabilities across four layers anchored to the twelve ECSF role profiles, an internal offensive security function, and the places where the ECSF runs out. Click any numbered chip or link to navigate; click cards to expand.</p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#orgchart">Organisational structure</a>
+  <a href="#capmap">Capability map</a>
+  <a href="#redteam">Offensive security</a>
+  <a href="#profiles">ECSF profiles</a>
+  <a href="#sourcing">Sourcing matrix</a>
+  <a href="#gaps">ECSF gaps</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ═══════════ ORG STRUCTURE ═══════════ -->
+<section id="orgchart">
+  <div class="kicker">Visualisation 01</div>
+  <h2>Organisational structure, reporting lines and interfaces</h2>
+  <p class="lede">The reference structure for an ICT-heavy organisation. Solid lines are reporting lines; dashed lines are interfaces, assurance relationships or on-demand activation. In ICT-light organisations the four pillars remain as capabilities but collapse into fractional and outsourced patterns — see the <a href="#sourcing">sourcing matrix</a>. Every element links to its description.</p>
+
+  <div class="orgbox">
+  <svg viewBox="0 0 1120 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Security organisational chart with reporting lines and interfaces">
+    <defs>
+      <style>
+        .bx{rx:9;stroke-width:1.5}
+        .tt{font-size:13px;font-weight:700;fill:#2B2C2E}
+        .ts{font-size:9.5px;fill:#6D6E71;letter-spacing:.06em}
+        .it{font-size:10.5px;fill:#2F6FA3}
+        .ln{stroke:#6D6E71;stroke-width:1.6;fill:none}
+        .dsh{stroke:#6D6E71;stroke-width:1.3;fill:none;stroke-dasharray:4 4}
+        .lbl{font-size:9px;fill:#6D6E71;font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+      </style>
+    </defs>
+
+    <!-- legend -->
+    <g transform="translate(60,18)">
+      <line x1="0" y1="6" x2="30" y2="6" class="ln"/><text x="36" y="10" class="lbl">REPORTING LINE</text>
+      <line x1="0" y1="24" x2="30" y2="24" class="dsh"/><text x="36" y="28" class="lbl">INTERFACE / ACTIVATION</text>
+    </g>
+
+    <!-- Tier 1: Management body + audit committee -->
+    <a href="#cap-board"><g>
+      <rect x="430" y="16" width="280" height="54" class="bx" fill="#2C6374" stroke="#214B58"/>
+      <text x="570" y="39" text-anchor="middle" class="tt" fill="#FFFFFF" style="fill:#fff">MANAGEMENT BODY / BOARD</text>
+      <text x="570" y="56" text-anchor="middle" class="ts" style="fill:rgba(255,255,255,.75)">NIS2 ART. 20 · APPROVES &amp; OVERSEES · TRAINED</text>
+    </g></a>
+    <g>
+      <rect x="760" y="16" width="190" height="54" class="bx" fill="#EDF4FB" stroke="#D4E6F5"/>
+      <text x="855" y="39" text-anchor="middle" class="tt">Audit committee</text>
+      <text x="855" y="56" text-anchor="middle" class="ts">RECEIVES 3RD-LINE ASSURANCE</text>
+    </g>
+
+    <!-- Tier 2: CEO -->
+    <rect x="470" y="112" width="200" height="46" class="bx" fill="#FFFFFF" stroke="#CFCFD1"/>
+    <text x="570" y="133" text-anchor="middle" class="tt">CEO</text>
+    <text x="570" y="149" text-anchor="middle" class="ts">EXECUTIVE ACCOUNTABILITY</text>
+    <line x1="570" y1="70" x2="570" y2="112" class="ln"/>
+
+    <!-- Tier 3: CISO + peers -->
+    <a href="#cap-ciso"><g>
+      <rect x="450" y="198" width="240" height="54" class="bx" fill="#2F6FA3" stroke="#25557C"/>
+      <text x="570" y="221" text-anchor="middle" class="tt" style="fill:#fff">CISO</text>
+      <text x="570" y="238" text-anchor="middle" class="ts" style="fill:rgba(255,255,255,.78)">INDEPENDENT OF CIO/CTO LINE</text>
+    </g></a>
+    <line x1="570" y1="158" x2="570" y2="198" class="ln"/>
+    <!-- dotted unfiltered access CISO -> board -->
+    <path d="M 450 225 H 400 V 43 H 430" class="dsh"/>
+    <text x="393" y="130" class="lbl" transform="rotate(-90 393 130)">UNFILTERED BOARD ACCESS</text>
+
+    <!-- CIO/CTO peer -->
+    <rect x="130" y="202" width="190" height="46" class="bx" fill="#FFFFFF" stroke="#CFCFD1"/>
+    <text x="225" y="223" text-anchor="middle" class="tt">CIO / CTO</text>
+    <text x="225" y="239" text-anchor="middle" class="ts">PEER — RUNS IT, NOT SECURITY</text>
+    <line x1="320" y1="225" x2="450" y2="225" class="dsh"/>
+
+    <!-- Internal audit -->
+    <rect x="765" y="202" width="175" height="46" class="bx" fill="#FFFFFF" stroke="#CFCFD1"/>
+    <text x="852" y="223" text-anchor="middle" class="tt">Internal audit</text>
+    <text x="852" y="239" text-anchor="middle" class="ts">3RD LINE · INDEPENDENT</text>
+    <line x1="855" y1="70" x2="852" y2="202" class="ln"/>
+    <line x1="765" y1="225" x2="690" y2="225" class="dsh"/>
+
+    <!-- DPO -->
+    <rect x="965" y="202" width="135" height="46" class="bx" fill="#FFFFFF" stroke="#CFCFD1"/>
+    <text x="1032" y="223" text-anchor="middle" class="tt">DPO</text>
+    <text x="1032" y="239" text-anchor="middle" class="ts">INDEPENDENT · RACI</text>
+    <path d="M 690 242 H 715 V 266 H 1032 V 248" class="dsh"/>
+    <text x="860" y="262" class="lbl">DEFINED RACI</text>
+
+    <!-- Bus from CISO to pillars -->
+    <line x1="570" y1="252" x2="570" y2="286" class="ln"/>
+    <line x1="182" y1="286" x2="995" y2="286" class="ln"/>
+    <line x1="182" y1="286" x2="182" y2="322" class="ln"/>
+    <line x1="457" y1="286" x2="457" y2="322" class="ln"/>
+    <line x1="732" y1="286" x2="732" y2="322" class="ln"/>
+    <line x1="995" y1="286" x2="995" y2="322" class="ln"/>
+
+    <!-- Pillar: Governance -->
+    <g>
+      <rect x="60" y="322" width="245" height="196" class="bx" fill="#EDF4FB" stroke="#D4E6F5"/>
+      <text x="76" y="346" class="tt" style="fill:#25557C">Security governance</text>
+      <text x="76" y="361" class="ts">2ND LINE · SETS RULES &amp; MEASURES</text>
+      <a href="#cap-risk"><text x="76" y="386" class="it">→ Risk management</text></a>
+      <a href="#cap-policy"><text x="76" y="406" class="it">→ Policy &amp; compliance</text></a>
+      <a href="#cap-tprm"><text x="76" y="426" class="it">→ Third-party security</text></a>
+      <a href="#cap-human"><text x="76" y="446" class="it">→ Human risk</text></a>
+      <a href="#cap-aigov"><text x="76" y="466" class="it">→ AI governance</text></a>
+      <a href="#cap-dp"><text x="76" y="486" class="it">→ Data protection interface</text></a>
+    </g>
+
+    <!-- Pillar: SecOps -->
+    <g>
+      <rect x="335" y="322" width="245" height="196" class="bx" fill="#EAF1F0" stroke="#C4D8D4"/>
+      <text x="351" y="346" class="tt" style="fill:#2C6374">Security operations</text>
+      <text x="351" y="361" class="ts">1ST LINE · DETECT &amp; RESPOND</text>
+      <a href="#cap-soc"><text x="351" y="386" class="it">→ SOC &amp; monitoring</text></a>
+      <a href="#cap-ti"><text x="351" y="406" class="it">→ Threat intelligence</text></a>
+      <a href="#cap-vuln"><text x="351" y="426" class="it">→ Vulnerability management</text></a>
+      <a href="#cap-ir"><text x="351" y="446" class="it">→ Incident response</text></a>
+      <a href="#cap-forensics"><text x="351" y="466" class="it">→ Digital forensics</text></a>
+      <a href="#cap-crisis"><text x="351" y="486" class="it">→ Crisis &amp; resilience</text></a>
+    </g>
+
+    <!-- Pillar: Engineering -->
+    <g>
+      <rect x="610" y="322" width="245" height="196" class="bx" fill="#EDF4FB" stroke="#D4E6F5"/>
+      <text x="626" y="346" class="tt" style="fill:#2F6FA3">Security engineering</text>
+      <text x="626" y="361" class="ts">1ST LINE · BUILD SECURITY IN</text>
+      <a href="#cap-arch"><text x="626" y="386" class="it">→ Security architecture</text></a>
+      <a href="#cap-sdlc"><text x="626" y="406" class="it">→ Secure SDLC / AppSec</text></a>
+      <a href="#cap-iam"><text x="626" y="426" class="it">→ Identity &amp; access</text></a>
+      <a href="#cap-iam"><text x="626" y="446" class="it">→ Non-human identity</text></a>
+    </g>
+
+    <!-- Pillar: Offensive -->
+    <g>
+      <rect x="885" y="322" width="220" height="196" class="bx" fill="#F7EDE9" stroke="#E4C4B8"/>
+      <text x="901" y="346" class="tt" style="fill:#B25C43">Offensive security</text>
+      <text x="901" y="361" class="ts">1ST LINE · INDEPENDENT OF BLUE</text>
+      <a href="#cap-red"><text x="901" y="386" class="it">→ Red team</text></a>
+      <a href="#rt-purple"><text x="901" y="406" class="it">→ Purple exercises</text></a>
+      <a href="#cap-aisec"><text x="901" y="426" class="it">→ AI red teaming</text></a>
+      <a href="#rt-asm"><text x="901" y="446" class="it">→ Attack surface validation</text></a>
+      <text x="901" y="492" class="lbl" style="fill:#B25C43">REPORTS ONLY TO CISO</text>
+    </g>
+
+    <!-- Virtual IR team -->
+    <a href="#cap-ir"><g>
+      <rect x="300" y="556" width="320" height="50" rx="9" fill="#FFFFFF" stroke="#25557C" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text x="460" y="577" text-anchor="middle" class="tt" style="font-size:12px;fill:#25557C">Virtual incident response team</text>
+      <text x="460" y="594" text-anchor="middle" class="ts">ACTIVATES: IT · LEGAL · COMMS · HR</text>
+    </g></a>
+    <line x1="457" y1="518" x2="457" y2="556" class="dsh"/>
+
+    <!-- purple dashed between offsec and secops -->
+    <path d="M 885 420 H 862 V 306 H 592 V 322" class="dsh" style="stroke:#B25C43"/>
+    <text x="618" y="302" class="lbl" style="fill:#B25C43">PURPLE: FINDINGS → DETECTIONS</text>
+
+    <!-- Interface band -->
+    <g>
+      <rect x="60" y="646" width="1045" height="58" rx="12" fill="#F4F4F5" stroke="#E7E7E8"/>
+      <text x="80" y="670" class="lbl">STANDING INTERFACES</text>
+      <text x="80" y="691" class="it" style="fill:#56575A;font-size:11px">Business units · IT operations · Legal · HR · Communications · Procurement · DPO · Internal audit · MSSP / MDR · National CSIRT · Supervisory authority</text>
+    </g>
+    <line x1="182" y1="518" x2="182" y2="646" class="dsh"/>
+    <line x1="460" y1="606" x2="460" y2="646" class="dsh"/>
+    <line x1="732" y1="518" x2="732" y2="646" class="dsh"/>
+    <line x1="995" y1="518" x2="995" y2="646" class="dsh"/>
+  </svg>
+  </div>
+
+  <div class="orgnote">
+    <div class="onote"><b>Why the CISO is not under the CIO</b>The CIO is measured on delivery and uptime; security is a control function on that delivery. DORA makes control-function independence explicit; under NIS2 it is implied by the management body's personal accountability. Minimum viable variant: CISO under CIO administratively, with a guaranteed, unfiltered reporting line to the <a href="#cap-board">management body</a>.</div>
+    <div class="onote"><b>Why offensive security is a fourth pillar</b>If the <a href="#cap-red">red team</a> reports through the same manager as the <a href="#cap-soc">SOC</a>, findings get softened before they reach the CISO and TLPT independence fails. Separate pillar, same CISO — adversarial inside the function, aligned above it. Detail in <a href="#redteam">offensive security</a>.</div>
+    <div class="onote"><b>What stays outside the security organisation</b><a href="#cap-board">Management body duties</a> (can't be delegated), internal audit (3rd line — audits the CISO too), and the DPO (independence under GDPR Art. 38). The model defines <em>interfaces</em> to these, never ownership of them.</div>
+  </div>
+</section>
+
+<!-- ═══════════ CAPABILITY MAP ═══════════ -->
+<section id="capmap">
+  <div class="kicker">Visualisation 02</div>
+  <h2>Capability map with ECSF anchoring</h2>
+  <p class="lede">Nineteen capabilities across four layers. Click a card to expand its description, interfaces and related capabilities. Numbered chips link to the <a href="#profiles">ECSF profile</a> that carries the capability; terracotta pills mark capabilities the ECSF does not fully cover — collected in <a href="#gaps">ECSF gaps</a>.</p>
+
+  <!-- DIRECTION -->
+  <div class="layer l-direction">
+    <div class="layer-label">
+      <span class="num">LAYER A</span>
+      <span class="name">Direction</span>
+      <span class="lod">Accountability — never outsourced, never automated</span>
+    </div>
+    <div class="cards">
+      <details class="card" id="cap-board">
+        <summary><h4>Management body oversight</h4>
+          <div class="tags"><span class="gap-pill">ECSF GAP</span><span class="never">NEVER DELEGATED</span></div></summary>
+        <div class="cbody">
+          <p>The layer above the CISO. Approves the cybersecurity strategy and risk appetite, oversees implementation of risk-management measures, formally accepts residual risk, and receives security metrics on a defined cadence. Under NIS2 Art. 20 the management body is personally accountable and must undergo cybersecurity training; under DORA Art. 5 it bears ultimate responsibility for ICT risk. These duties cannot be delegated to the CISO, outsourced, or automated.</p>
+          <div class="meta">Concrete duties</div>
+          <ul><li>Approve risk appetite statement and security strategy annually</li><li>Formally accept residual risks above CISO authority threshold</li><li>Receive incident and metrics reporting; attend annual training</li><li>Approve TLPT / major testing programmes and crisis exercises</li></ul>
+          <div class="meta">Interfaces</div>
+          <p>Audit committee (3rd-line assurance) · <a href="#cap-ciso">CISO</a> (unfiltered reporting line) · supervisory authority (accountability)</p>
+          <div class="meta">Related</div>
+          <p><a href="#cap-risk">Risk management</a> · <a href="#cap-crisis">Crisis &amp; resilience</a> · <a href="#gap-board">Why this is an ECSF gap</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-ciso">
+        <summary><h4>Security leadership (CISO)</h4>
+          <div class="tags"><a class="t" href="#p01">01</a><span class="never">NEVER ABSENT</span></div></summary>
+        <div class="cbody">
+          <p>Owns strategy, budget, the security organisation and the interface to the management body. Independent of the CIO/CTO delivery line — explicitly required as a control function under DORA, and structurally necessary wherever security must be able to say no to delivery. May be fractional (vCISO) in ICT-light organisations, but never absent and never anonymous: a named person carries the role.</p>
+          <div class="meta">Concrete duties</div>
+          <ul><li>Security strategy, budget and organisational design (this model)</li><li>Risk acceptance within delegated threshold; escalation above it</li><li>Owns <a href="#cap-aigov">AI governance</a> to prevent orphaning between legal, IT and data</li><li>Approves red team rules of engagement and TLPT scope</li></ul>
+          <div class="meta">Interfaces</div>
+          <p><a href="#cap-board">Management body</a> · CIO/CTO (peer) · DPO · internal audit · supervisory authority / national CSIRT</p>
+          <div class="meta">Related</div>
+          <p><a href="#orgchart">Reporting-line design</a> · <a href="#cap-crisis">Crisis management</a></p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- GOVERNANCE -->
+  <div class="layer l-gov">
+    <div class="layer-label">
+      <span class="num">LAYER B · 2nd line</span>
+      <span class="name">Governance</span>
+      <span class="lod">Sets rules, measures risk, verifies</span>
+    </div>
+    <div class="cards">
+      <details class="card" id="cap-risk">
+        <summary><h4>Risk management</h4><div class="tags"><a class="t" href="#p10">10</a></div></summary>
+        <div class="cbody">
+          <p>Owns the risk register, assessment methodology and cadence, treatment tracking and reporting. Second line: assesses risk but never accepts it — acceptance sits with risk owners, the <a href="#cap-ciso">CISO</a>, or the <a href="#cap-board">management body</a> depending on threshold. This assessor ≠ acceptor split is the incompatibility rule that makes fractional staffing safe.</p>
+          <div class="meta">Interfaces</div>
+          <p>Business risk owners · <a href="#cap-tprm">third-party security</a> (vendor risk feeds) · <a href="#cap-vuln">vulnerability management</a> (technical risk feeds) · internal audit</p>
+          <div class="meta">Related</div>
+          <p><a href="#cap-aigov">AI governance</a> · <a href="#cap-crisis">Crisis &amp; resilience</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-policy">
+        <summary><h4>Policy, compliance &amp; audit coordination</h4><div class="tags"><a class="t" href="#p03">03</a><a class="t" href="#p06">06</a></div></summary>
+        <div class="cbody">
+          <p>Policy lifecycle, regulatory mapping (NIS2, DORA, GDPR, AI Act, sector regimes), evidence management and the interface to internal and external audit. The audit function itself stays third-line and independent — this capability coordinates with it, never performs it. Control operator ≠ control auditor.</p>
+          <div class="meta">Interfaces</div>
+          <p>Internal audit · external auditors and certification bodies · legal · <a href="#cap-dp">data protection</a></p>
+          <div class="meta">Related</div>
+          <p><a href="#cap-risk">Risk management</a> · <a href="#cap-human">Human risk</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-tprm">
+        <summary><h4>Third-party &amp; supply chain security</h4><div class="tags"><a class="t" href="#p10">10</a><a class="t" href="#p03">03</a><span class="gap-pill">ECSF THIN</span></div></summary>
+        <div class="cbody">
+          <p>Vendor security assessment, contractual security requirements, concentration-risk monitoring, exit strategies and the register of ICT third-party arrangements. Explicit in NIS2 Art. 21(2)(d); the dominant function under DORA (register of information, critical ICT third-party providers). For ICT-light organisations this is often the single most important capability — their posture <em>is</em> their vendor management.</p>
+          <div class="meta">Interfaces</div>
+          <p>Procurement (embedded in sourcing gates) · legal (contracts) · <a href="#cap-risk">risk management</a> · business owners of vendor relationships</p>
+          <div class="meta">Related</div>
+          <p><a href="#gap-tprm">Why the ECSF is thin here</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-human">
+        <summary><h4>Human risk management</h4><div class="tags"><a class="t" href="#p07">07</a></div></summary>
+        <div class="cbody">
+          <p>Awareness programmes, role-based training (including mandatory management-body training under NIS2), phishing simulation, and insider-risk signals in cooperation with HR. By 2026 delivery is substantially AI-personalised — content per role, language and prior behaviour — with the Educator profile curating rather than lecturing.</p>
+          <div class="meta">Interfaces</div>
+          <p>HR (onboarding, insider risk, sanctions) · communications · all business units</p>
+          <div class="meta">Related</div>
+          <p><a href="#cap-board">Management body training duty</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-aigov">
+        <summary><h4>AI governance</h4><div class="tags"><a class="t" href="#p03">03</a><a class="t" href="#p10">10</a><a class="t" href="#p09">09</a><span class="gap-pill">ECSF GAP</span></div></summary>
+        <div class="cbody">
+          <p>AI usage policy and shadow-AI handling, the AI system inventory and risk classification required by the EU AI Act, security requirements for AI systems the organisation builds or buys, and oversight rules for agentic automation inside the security function itself (who is accountable for what an agent does). Owned by the <a href="#cap-ciso">CISO</a> in this model, precisely because no ECSF profile owns it and it otherwise orphans between legal, IT and data teams.</p>
+          <div class="meta">Interfaces</div>
+          <p>Legal (AI Act obligations) · <a href="#cap-dp">DPO</a> (data in AI systems) · <a href="#cap-sdlc">secure SDLC</a> (AI in the pipeline) · <a href="#cap-aisec">AI security testing</a></p>
+          <div class="meta">Related</div>
+          <p><a href="#gap-aigov">Why this is an ECSF gap</a> · <a href="#cap-iam">Non-human identity</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-dp">
+        <summary><h4>Data protection interface</h4><div class="tags"><a class="t" href="#p03">03</a></div></summary>
+        <div class="cbody">
+          <p>A defined RACI between security and the DPO: breach assessment and notification (72h GDPR vs 24h/72h NIS2 tracks run in parallel), DPIA security input, records of processing alignment. The DPO itself stays independent under GDPR Art. 38 — the model defines the interface, never absorbs the role.</p>
+          <div class="meta">Interfaces</div>
+          <p>DPO · legal · <a href="#cap-ir">incident response</a> (breach track)</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- DEFENSIVE OPS -->
+  <div class="layer l-ops">
+    <div class="layer-label">
+      <span class="num">LAYER C · 1st line</span>
+      <span class="name">Defensive operations</span>
+      <span class="lod">Detect, respond, recover — increasingly AI-augmented</span>
+    </div>
+    <div class="cards">
+      <details class="card" id="cap-soc">
+        <summary><h4>Security monitoring / SOC</h4><div class="tags"><a class="t" href="#p02">02</a><a class="t" href="#p08">08</a></div></summary>
+        <div class="cbody">
+          <p>Detection engineering, alert triage, threat hunting, telemetry pipeline ownership. Tier-1 triage and enrichment are substantially agentic by 2026; the standard therefore requires a named human owner for detection coverage and for every automated action class — the accountability sits above the automation, not inside it. Receives detection improvements from <a href="#rt-purple">purple exercises</a>.</p>
+          <div class="meta">Interfaces</div>
+          <p>IT operations (telemetry sources) · MSSP/MDR where outsourced · <a href="#cap-ti">threat intelligence</a> · <a href="#cap-ir">incident response</a> (escalation)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-ti">
+        <summary><h4>Threat intelligence</h4><div class="tags"><a class="t" href="#p04">04</a></div></summary>
+        <div class="cbody">
+          <p>Collects and contextualises threat data for both blue and red: detection priorities for the <a href="#cap-soc">SOC</a>, realistic scenarios for the <a href="#cap-red">red team</a>. TLPT is threat-<em>led</em> by definition, and under DORA the TI provider for TLPT must be external — one reason this stays a named capability even when fully consumed as a service.</p>
+          <div class="meta">Interfaces</div>
+          <p>National CSIRT and sector ISACs · TI vendors · <a href="#cap-vuln">vulnerability management</a> (exploitation context)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-vuln">
+        <summary><h4>Vulnerability management</h4><div class="tags"><a class="t" href="#p12">12</a><a class="t" href="#p08">08</a><span class="gap-pill">ECSF SPLIT</span></div></summary>
+        <div class="cbody">
+          <p>Continuous scanning, prioritisation (exploitability × exposure × asset criticality — SSVC-style decision trees), patch coordination with IT, and SLA tracking. Deliberately split from the red team: this is always-on and operational; red teaming is periodic and adversarial. Receives validated findings from <a href="#cap-red">red team</a> operations and <a href="#rt-asm">attack surface validation</a>, and feeds technical risk into the <a href="#cap-risk">register</a>.</p>
+          <div class="meta">Interfaces</div>
+          <p>IT operations (patching) · <a href="#cap-sdlc">AppSec</a> (code-level findings) · <a href="#cap-tprm">third-party security</a> (vendor vulnerabilities)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-ir">
+        <summary><h4>Incident response</h4><div class="tags"><a class="t" href="#p02">02</a><span class="never">VIRTUAL TEAM</span></div></summary>
+        <div class="cbody">
+          <p>The canonical virtual-team capability: a small permanent core (incident manager, technical lead) with pre-nominated, pre-trained members from IT, legal, communications and HR who activate on declaration. Pre-assigned owners for the NIS2 24-hour early warning and 72-hour notification, and the parallel GDPR 72-hour breach track. Escalates to <a href="#cap-crisis">crisis management</a> when impact crosses defined thresholds.</p>
+          <div class="meta">Interfaces</div>
+          <p>All virtual-team home functions · national CSIRT (notifications) · <a href="#cap-forensics">forensics</a> · <a href="#cap-dp">DPO</a> (breach track)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-forensics">
+        <summary><h4>Digital forensics</h4><div class="tags"><a class="t" href="#p11">11</a></div></summary>
+        <div class="cbody">
+          <p>Evidence preservation, artefact analysis, chain of custody. Retainer-based for almost every organisation — the capability that must exist as a <em>contract and a runbook</em> before the incident, because procurement during an incident fails. Internal minimum: first-responder evidence-preservation skills inside the <a href="#cap-ir">IR core</a>.</p>
+          <div class="meta">Interfaces</div>
+          <p>Law enforcement · legal (privilege, admissibility) · insurers</p>
+        </div>
+      </details>
+      <details class="card" id="cap-crisis">
+        <summary><h4>Crisis management &amp; resilience</h4><div class="tags"><a class="t" href="#p01">01</a><a class="t" href="#p10">10</a></div></summary>
+        <div class="cbody">
+          <p>The escalation layer above IR: business continuity, disaster-recovery testing, backup verification, crisis communications, and regulator/customer notification workflows. Chaired at executive level — the <a href="#cap-ciso">CISO</a> advises, the business decides. DORA's digital operational resilience testing programme lives here, alongside the annual crisis exercise the <a href="#cap-board">management body</a> approves.</p>
+          <div class="meta">Interfaces</div>
+          <p>Executive team · communications · facilities · key customers and suppliers</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ENGINEERING -->
+  <div class="layer l-eng">
+    <div class="layer-label">
+      <span class="num">LAYER D · 1st line</span>
+      <span class="name">Engineering</span>
+      <span class="lod">Build security in, verify it continuously</span>
+    </div>
+    <div class="cards">
+      <details class="card" id="cap-arch">
+        <summary><h4>Security architecture</h4><div class="tags"><a class="t" href="#p05">05</a></div></summary>
+        <div class="cbody">
+          <p>Design-time: reference architectures, security patterns, technology selection, threat modelling of new systems. Distinct from gate-time review in the <a href="#cap-sdlc">SDLC</a> — one shapes what gets built, the other checks what was built. In small organisations one person wears both hats; the model still names both so the design activity doesn't silently disappear.</p>
+          <div class="meta">Interfaces</div>
+          <p>Enterprise/solution architects under CIO · product management · <a href="#cap-aigov">AI governance</a> (architecture of AI systems)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-sdlc">
+        <summary><h4>Secure SDLC / AppSec</h4><div class="tags"><a class="t" href="#p08">08</a><a class="t" href="#p05">05</a></div></summary>
+        <div class="cbody">
+          <p>Gate-time: pipeline guardrails, policy-as-code, dependency and secrets scanning, security review of changes. AI-generated code multiplies change volume, so the capability shifts from human line-review toward automated gates with AI-assisted review and <em>human sampling</em> — the standard defines the sampling rate and the classes of change that always require human sign-off.</p>
+          <div class="meta">Interfaces</div>
+          <p>Engineering teams (embedded champions) · <a href="#cap-vuln">vulnerability management</a> · <a href="#cap-red">red team</a> (findings loop)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-iam">
+        <summary><h4>Identity &amp; access governance</h4><div class="tags"><a class="t" href="#p08">08</a><span class="gap-pill">ECSF THIN</span></div></summary>
+        <div class="cbody">
+          <p>Joiner-mover-leaver, privileged access, access recertification — and increasingly <em>non-human identity</em>: service accounts, workload identities and AI-agent credentials, which now grow faster than human identities. Every agent identity gets an owner, a scope and an expiry; agentic AI without identity governance is the new shadow IT.</p>
+          <div class="meta">Interfaces</div>
+          <p>HR (JML triggers) · IT operations (directory, PAM) · <a href="#cap-aigov">AI governance</a> (agent authority rules)</p>
+          <div class="meta">Related</div>
+          <p><a href="#gap-nhi">Why non-human identity is an ECSF gap</a></p>
+        </div>
+      </details>
+      <details class="card" id="cap-red">
+        <summary><h4>Offensive testing (red team)</h4><div class="tags"><a class="t" href="#p12">12</a><span class="never">INDEPENDENT OF BLUE</span></div></summary>
+        <div class="cbody">
+          <p>Periodic adversarial simulation against people, processes and technology, threat-led scenarios, TLPT under DORA. Organisationally separate from the <a href="#cap-soc">SOC</a> — same CISO, different pillar — so findings reach leadership unsoftened. Full operating model, team composition and maturity ladder in the <a href="#redteam">offensive security section</a>.</p>
+          <div class="meta">Interfaces</div>
+          <p><a href="#cap-vuln">Vulnerability management</a> (findings intake) · <a href="#cap-ti">threat intelligence</a> (scenarios) · <a href="#cap-soc">SOC</a> (purple exercises, deconfliction)</p>
+        </div>
+      </details>
+      <details class="card" id="cap-aisec">
+        <summary><h4>AI security testing &amp; research</h4><div class="tags"><a class="t" href="#p09">09</a><a class="t" href="#p12">12</a></div></summary>
+        <div class="cbody">
+          <p>Adversarial testing of AI systems: prompt injection, jailbreak resistance, data poisoning, model extraction, agent-authority abuse — OWASP LLM Top 10 territory. Sits inside <a href="#redteam">offensive security</a> for AI-heavy organisations; consumed as specialist service otherwise. The Researcher profile contributes methods; the Penetration Tester contributes operations.</p>
+          <div class="meta">Interfaces</div>
+          <p><a href="#cap-aigov">AI governance</a> (test obligations per risk class) · product engineering · external AI security researchers</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ RED TEAM ═══════════ -->
+<section id="redteam">
+  <div class="kicker">Visualisation 03</div>
+  <h2>Offensive security inside the organisation</h2>
+  <p class="lede">Not a procurement line item — an organisational function. For ICT-heavy organisations the red team is internal, continuous and structurally independent of blue; for ICT-light organisations the same capability is delivered through PTaaS and periodic external engagements, but the operating rules below still apply to whoever performs the work.</p>
+
+  <div class="redgrid">
+    <div class="redcard">
+      <h3>Team composition</h3>
+      <div class="roles">
+        <div class="role" id="rt-lead">
+          <div><div class="rname">Offensive security lead</div>
+          <div class="rdesc">Owns scoping, rules of engagement, safety and the findings pipeline. Reports directly to the <a href="#cap-ciso">CISO</a> — never through the SOC manager. Translates findings into business risk language for the <a href="#cap-board">management body</a>.</div></div>
+          <div class="tags"><a class="t" href="#p12">12</a><a class="t" href="#p01">01</a></div>
+        </div>
+        <div class="role" id="rt-operator">
+          <div><div class="rname">Adversary emulation operators</div>
+          <div class="rdesc">Execute threat-led scenarios end to end: initial access, lateral movement, objective actions. Scenario realism comes from <a href="#cap-ti">threat intelligence</a>, not from the operators' favourite techniques.</div></div>
+          <div class="tags"><a class="t" href="#p12">12</a></div>
+        </div>
+        <div class="role" id="rt-ai">
+          <div><div class="rname">AI red teamer</div>
+          <div class="rdesc">Adversarial testing of the organisation's AI systems and AI-enabled attack simulation against the organisation. Carries <a href="#cap-aisec">AI security testing</a>; methods from the Researcher profile, operations from the Penetration Tester profile.</div></div>
+          <div class="tags"><a class="t" href="#p09">09</a><a class="t" href="#p12">12</a></div>
+        </div>
+        <div class="role" id="rt-tooling">
+          <div><div class="rname">Tooling &amp; infrastructure engineer</div>
+          <div class="rdesc">Maintains attack infrastructure, implants and automation safely — segregated from production, with evidence handling that survives audit. Often fractional with <a href="#cap-sdlc">AppSec</a> in mid-size teams (allowed: builder of red tooling; not allowed: approver of the changes they test).</div></div>
+          <div class="tags"><a class="t" href="#p12">12</a><a class="t" href="#p08">08</a></div>
+        </div>
+        <div class="role" id="rt-purple">
+          <div><div class="rname">Purple exercise facilitation</div>
+          <div class="rdesc">Not a standing team — a scheduled joint activity. Red replays techniques with blue watching; every undetected step becomes a detection-engineering backlog item for the <a href="#cap-soc">SOC</a>. This feedback loop is the main economic argument for having red in-house at all.</div></div>
+          <div class="tags"><a class="t" href="#p12">12</a><a class="t" href="#p02">02</a></div>
+        </div>
+        <div class="role" id="rt-asm">
+          <div><div class="rname">Attack surface validation</div>
+          <div class="rdesc">Continuous, largely automated: external attack surface discovery, breach-and-attack simulation, control validation (CTEM-style). The always-on complement to periodic campaigns; validated exposures route into <a href="#cap-vuln">vulnerability management</a>.</div></div>
+          <div class="tags"><a class="t" href="#p12">12</a><span class="pill p-auto" style="height:20px;font-size:9px">AI-AUGMENTED</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="redcard accent" style="margin-bottom:14px">
+        <h3>Operating rules</h3>
+        <ul class="rules">
+          <li><b>Reporting line:</b> offensive security lead → CISO directly. Findings are never routed through, or softened by, the function being tested.</li>
+          <li><b>Scoping authority:</b> rules of engagement approved by the CISO and the affected system owner; management body approves the annual programme and any TLPT.</li>
+          <li><b>Deconfliction:</b> a sealed-envelope protocol with the <a href="#cap-soc">SOC</a> lead — exercises are detectable as exercises within minutes when safety requires, without pre-warning the floor.</li>
+          <li><b>Findings pipeline:</b> every validated finding enters <a href="#cap-vuln">vulnerability management</a> with an owner and SLA; every undetected technique enters the SOC detection backlog. No report-and-forget.</li>
+          <li><b>TLPT under DORA (Art. 26–27):</b> the threat-intelligence provider must be external; internal testers may be used only under strict independence and resourcing conditions — in practice, alternate internal and external cycles.</li>
+          <li><b>People and process in scope:</b> social engineering and physical vectors require explicit, per-campaign approval and HR/legal sign-off — never blanket authorisation.</li>
+        </ul>
+      </div>
+      <div class="redcard">
+        <h3>Maturity ladder</h3>
+        <ol class="ladder">
+          <li><b>Annual external pentest</b> — compliance-driven, point-in-time. The ICT-light baseline.</li>
+          <li><b>Continuous validation</b> — PTaaS, attack surface management, bug bounty. Findings flow into <a href="#cap-vuln">vuln management</a> continuously.</li>
+          <li><b>Internal red + purple loop</b> — threat-led campaigns, detection engineering feedback, social/physical vectors. The ICT-heavy target.</li>
+          <li><b>Adversarial exposure management</b> — CTEM operating rhythm, AI-augmented emulation, <a href="#cap-aisec">AI systems in scope</a>, TLPT-ready.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ECSF PROFILES ═══════════ -->
+<section id="profiles">
+  <div class="kicker">Reference · ENISA ECSF 2022</div>
+  <h2>The twelve ECSF role profiles</h2>
+  <p class="lede">Click a profile for its mission and the capabilities it carries in this model. Chip colour indicates the layer where the profile does most of its work.</p>
+  <div class="legend">
+    <details class="lg" id="p01"><summary><span class="chip">01</span>Chief Information Security Officer</summary>
+      <div class="cbody"><p>Manages the organisation's cybersecurity strategy and its implementation; the accountability interface to executive management.</p>
+      <div class="meta">Carries</div><p><a href="#cap-ciso">Security leadership</a> · <a href="#cap-crisis">Crisis &amp; resilience</a> (chair-advisor) · owns <a href="#cap-aigov">AI governance</a></p></div></details>
+    <details class="lg" id="p02"><summary><span class="chip ops">02</span>Cyber Incident Responder</summary>
+      <div class="cbody"><p>Monitors, assesses and responds to incidents; restores systems and processes to operational state. The ECSF folds monitoring/detection work into this profile.</p>
+      <div class="meta">Carries</div><p><a href="#cap-soc">SOC &amp; monitoring</a> · <a href="#cap-ir">Incident response</a> · blue side of <a href="#rt-purple">purple exercises</a></p></div></details>
+    <details class="lg" id="p03"><summary><span class="chip gov">03</span>Cyber Legal, Policy &amp; Compliance Officer</summary>
+      <div class="cbody"><p>Manages compliance with cybersecurity-related legal and regulatory frameworks and internal policy.</p>
+      <div class="meta">Carries</div><p><a href="#cap-policy">Policy &amp; compliance</a> · <a href="#cap-dp">Data protection interface</a> · shares <a href="#cap-tprm">third-party security</a> and <a href="#cap-aigov">AI governance</a></p></div></details>
+    <details class="lg" id="p04"><summary><span class="chip ops">04</span>Cyber Threat Intelligence Specialist</summary>
+      <div class="cbody"><p>Collects, processes and analyses threat data into actionable intelligence.</p>
+      <div class="meta">Carries</div><p><a href="#cap-ti">Threat intelligence</a> — feeding both <a href="#cap-soc">blue</a> and <a href="#cap-red">red</a></p></div></details>
+    <details class="lg" id="p05"><summary><span class="chip eng">05</span>Cybersecurity Architect</summary>
+      <div class="cbody"><p>Plans and designs security solutions and secure system architectures.</p>
+      <div class="meta">Carries</div><p><a href="#cap-arch">Security architecture</a> · shares <a href="#cap-sdlc">secure SDLC</a></p></div></details>
+    <details class="lg" id="p06"><summary><span class="chip gov">06</span>Cybersecurity Auditor</summary>
+      <div class="cbody"><p>Performs independent cybersecurity audits against standards and regulation. Third line — independence is the point.</p>
+      <div class="meta">Carries</div><p>Audit side of <a href="#cap-policy">policy, compliance &amp; audit coordination</a>; audits everything else in this model, including the CISO</p></div></details>
+    <details class="lg" id="p07"><summary><span class="chip gov">07</span>Cybersecurity Educator</summary>
+      <div class="cbody"><p>Improves cybersecurity knowledge, skills and awareness across the organisation.</p>
+      <div class="meta">Carries</div><p><a href="#cap-human">Human risk management</a>, including the <a href="#cap-board">management body training duty</a></p></div></details>
+    <details class="lg" id="p08"><summary><span class="chip eng">08</span>Cybersecurity Implementer</summary>
+      <div class="cbody"><p>Develops, deploys and operates cybersecurity solutions and controls.</p>
+      <div class="meta">Carries</div><p><a href="#cap-sdlc">Secure SDLC / AppSec</a> · <a href="#cap-iam">Identity &amp; access</a> · tooling in <a href="#cap-soc">SOC</a> and <a href="#cap-vuln">vuln management</a></p></div></details>
+    <details class="lg" id="p09"><summary><span class="chip eng">09</span>Cybersecurity Researcher</summary>
+      <div class="cbody"><p>Researches the cybersecurity domain; converts findings into methods, prototypes and innovation. Optional for ICT-light; near-mandatory for AI-heavy product organisations.</p>
+      <div class="meta">Carries</div><p>Methods for <a href="#cap-aisec">AI security testing</a> · contributes to <a href="#cap-aigov">AI governance</a></p></div></details>
+    <details class="lg" id="p10"><summary><span class="chip gov">10</span>Cybersecurity Risk Manager</summary>
+      <div class="cbody"><p>Manages the risk assessment and treatment process; maintains the organisation's risk picture.</p>
+      <div class="meta">Carries</div><p><a href="#cap-risk">Risk management</a> · shares <a href="#cap-tprm">third-party security</a> and <a href="#cap-crisis">resilience</a></p></div></details>
+    <details class="lg" id="p11"><summary><span class="chip ops">11</span>Digital Forensics Investigator</summary>
+      <div class="cbody"><p>Collects, preserves and analyses digital evidence with chain of custody.</p>
+      <div class="meta">Carries</div><p><a href="#cap-forensics">Digital forensics</a> — retainer-based in most organisations</p></div></details>
+    <details class="lg" id="p12"><summary><span class="chip eng">12</span>Penetration Tester</summary>
+      <div class="cbody"><p>Assesses control effectiveness by identifying and exploiting vulnerabilities.</p>
+      <div class="meta">Carries</div><p><a href="#cap-red">Red team</a> · operations side of <a href="#cap-aisec">AI security testing</a> · shares <a href="#cap-vuln">vulnerability management</a> · <a href="#rt-asm">attack surface validation</a></p></div></details>
+  </div>
+</section>
+
+<!-- ═══════════ SOURCING MATRIX ═══════════ -->
+<section id="sourcing">
+  <div class="kicker">Visualisation 04</div>
+  <h2>Sourcing patterns by archetype</h2>
+  <p class="lede">The same twelve profiles, staffed differently. <b>ICT-heavy</b>: technology is the product (SaaS, IT service providers, data centres, trust service providers). <b>ICT-light</b>: technology supports the business. Regulatory criticality (NIS2 essential, DORA entity, supervised regimes) shifts patterns one notch toward dedicated.</p>
+
+  <div class="mlegend">
+    <span class="lbl">Patterns</span>
+    <span class="pill p-ded">DEDICATED</span>
+    <span class="pill p-frac">FRACTIONAL</span>
+    <span class="pill p-virt">VIRTUAL TEAM</span>
+    <span class="pill p-out">OUTSOURCED</span>
+    <span class="pill p-auto">AI-AUGMENTED</span>
+  </div>
+
+  <div class="matrix"><div class="scroller">
+    <table>
+      <thead>
+        <tr>
+          <th>ECSF profile</th>
+          <th>ICT-heavy<span class="thsub">technology is the product</span></th>
+          <th>ICT-light<span class="thsub">technology supports the business</span></th>
+          <th>AI augmentation by 2026<span class="thsub">human accountability retained</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="pname"><span class="chip">01</span><a href="#p01">CISO</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-frac">FRACTIONAL / vCISO</span></td><td class="ai-note">Low — accountability is human by rule</td></tr>
+        <tr><td><span class="pname"><span class="chip ops">02</span><a href="#p02">Cyber Incident Responder</a></span></td><td><span class="pill p-ded">DEDICATED</span> <span class="pill p-virt">+ VIRTUAL</span></td><td><span class="pill p-virt">VIRTUAL</span> <span class="pill p-out">+ MDR</span></td><td class="ai-note">High — agentic triage &amp; enrichment; human decides containment</td></tr>
+        <tr><td><span class="pname"><span class="chip gov">03</span><a href="#p03">Legal, Policy &amp; Compliance</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-frac">FRACTIONAL</span> <span class="pill p-out">/ OUTSOURCED</span></td><td class="ai-note">High — evidence collection, questionnaire handling, mapping</td></tr>
+        <tr><td><span class="pname"><span class="chip ops">04</span><a href="#p04">Threat Intelligence Specialist</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-out">OUTSOURCED (consumed)</span></td><td class="ai-note">High — collection &amp; correlation; human validates relevance</td></tr>
+        <tr><td><span class="pname"><span class="chip eng">05</span><a href="#p05">Cybersecurity Architect</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-out">ON-DEMAND</span></td><td class="ai-note">Medium — pattern drafting; human owns trade-offs</td></tr>
+        <tr><td><span class="pname"><span class="chip gov">06</span><a href="#p06">Cybersecurity Auditor</a></span></td><td><span class="pill p-out">INDEPENDENT / OUTSOURCED</span></td><td><span class="pill p-out">OUTSOURCED</span></td><td class="ai-note">Medium — evidence sampling; independence rules unchanged</td></tr>
+        <tr><td><span class="pname"><span class="chip gov">07</span><a href="#p07">Cybersecurity Educator</a></span></td><td><span class="pill p-frac">FRACTIONAL</span> <span class="pill p-auto">+ AI</span></td><td><span class="pill p-auto">AI PLATFORM</span> <span class="pill p-out">/ OUTSOURCED</span></td><td class="ai-note">High — personalised, role-based delivery at scale</td></tr>
+        <tr><td><span class="pname"><span class="chip eng">08</span><a href="#p08">Cybersecurity Implementer</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-out">OUTSOURCED (MSP)</span></td><td class="ai-note">High — config, hardening &amp; pipeline guardrails increasingly agentic</td></tr>
+        <tr><td><span class="pname"><span class="chip eng">09</span><a href="#p09">Cybersecurity Researcher</a></span></td><td><span class="pill p-ded">DEDICATED (AI-heavy)</span></td><td class="ai-note" style="font-family:var(--fm);font-size:10px;color:var(--grey)">NOT REQUIRED</td><td class="ai-note">Medium — literature &amp; PoC acceleration</td></tr>
+        <tr><td><span class="pname"><span class="chip gov">10</span><a href="#p10">Cybersecurity Risk Manager</a></span></td><td><span class="pill p-ded">DEDICATED</span></td><td><span class="pill p-frac">FRACTIONAL</span></td><td class="ai-note">High — register upkeep &amp; correlation; human accepts risk</td></tr>
+        <tr><td><span class="pname"><span class="chip ops">11</span><a href="#p11">Digital Forensics Investigator</a></span></td><td><span class="pill p-out">RETAINER</span></td><td><span class="pill p-out">OUTSOURCED RETAINER</span></td><td class="ai-note">Medium — artefact processing; chain of custody stays human</td></tr>
+        <tr><td><span class="pname"><span class="chip eng">12</span><a href="#p12">Penetration Tester</a></span></td><td><span class="pill p-ded">DEDICATED RED TEAM</span> <span class="pill p-out">+ EXTERNAL TLPT</span></td><td><span class="pill p-out">OUTSOURCED (PTaaS)</span></td><td class="ai-note">High — autonomous scanning &amp; exploit chaining under <a href="#redteam">RoE</a></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+</section>
+
+<!-- ═══════════ GAPS ═══════════ -->
+<section id="gaps">
+  <div class="kicker">Visualisation 05</div>
+  <h2>Where the ECSF runs out</h2>
+  <p class="lede">Four capabilities the model requires that the twelve profiles do not cleanly own. These are the extension points the Sparkurity method adds on top of the framework.</p>
+  <div class="gaps">
+    <div class="gap" id="gap-board">
+      <h4>Management body oversight</h4>
+      <p>The ECSF stops at the CISO. NIS2 Art. 20 makes the management body personally accountable for approving and overseeing risk measures — a defined layer above every profile, with duties that cannot be delegated, outsourced, or automated.</p>
+      <div class="who"><a href="#cap-board">MODEL EXTENSION → LAYER A, HARD RULE</a></div>
+    </div>
+    <div class="gap" id="gap-aigov">
+      <h4>AI governance</h4>
+      <p>No profile owns AI usage policy, shadow-AI handling, AI system inventory and risk classification, or security of AI systems themselves. Fragments sit in profiles 03, 09 and 10 — the model assigns ownership explicitly to the CISO to keep it from being orphaned.</p>
+      <div class="who"><a href="#cap-aigov">COMPOSITE OF 03 + 09 + 10, OWNED BY 01</a></div>
+    </div>
+    <div class="gap" id="gap-tprm">
+      <h4>Third-party &amp; supply chain security</h4>
+      <p>Explicit in NIS2 Art. 21(2)(d) and dominant under DORA, yet the ECSF spreads it across the Risk Manager and Compliance Officer. For ICT-light organisations this is often the single most important capability — their posture is their vendor management.</p>
+      <div class="who"><a href="#cap-tprm">COMPOSITE OF 10 + 03, FIRST-CLASS CAPABILITY</a></div>
+    </div>
+    <div class="gap" id="gap-nhi">
+      <h4>Non-human identity governance</h4>
+      <p>Service accounts, workload identities and AI-agent credentials are growing faster than human identities. The Implementer profile touches IAM operationally, but nobody owns the governance of machine identity at the rate agentic AI is creating it.</p>
+      <div class="who"><a href="#cap-iam">EXTENSION OF 08, GOVERNED VIA LAYER B</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="lockup"><span class="a">spark</span><span class="b">urity</span></div>
+  <div class="meta">SECURITY ORGANISATIONAL MODEL v0.2 · ENISA ECSF 2022 MAPPING · JULY 2026<br>CISO MAY BE FRACTIONAL, NEVER ABSENT · RED REPORTS ONLY TO CISO</div>
+</footer>
+
+</div>
+
+<script>
+// open <details> ancestors (or the target itself) when navigating via hash links
+function openTarget(){
+  var id = location.hash.slice(1);
+  if(!id) return;
+  var el = document.getElementById(id);
+  if(!el) return;
+  if(el.tagName === 'DETAILS') el.open = true;
+  var p = el.parentElement;
+  while(p){ if(p.tagName === 'DETAILS') p.open = true; p = p.parentElement; }
+  requestAnimationFrame(function(){ el.scrollIntoView({behavior:'smooth', block:'center'}); });
+}
+window.addEventListener('hashchange', openTarget);
+window.addEventListener('load', openTarget);
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a[href^="#"]');
+  if(a) setTimeout(openTarget, 0);
+});
+</script>
+</body>
+</html>
