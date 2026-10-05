@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What risk really is — and isn't · Sparkurity</title>
+<meta name="spk:id" content="spk.lesson.risk-management-en.what-risk-is">
+<meta name="spk:version" content="1.2.0">
+<script type="application/json" id="spk-artifact">
+{
+  "id": "spk.lesson.risk-management-en.what-risk-is",
+  "kind": "lesson",
+  "version": "1.2.0",
+  "title": "What risk really is — and isn't",
+  "course": "risk-management-en",
+  "block": "01_foundations",
+  "sequence": "1.1",
+  "lang": "en",
+  "duration": "12 min",
+  "updated": "2026-10-02",
+  "references": [
+    "spk.card.risk-management-en.glossary",
+    "spk.quiz.risk-management-en.risk-or-issue"
+  ],
+  "standards": ["ISO 31000", "ISO 27005"]
+}
+</script>
+<link rel="stylesheet" href="https://jurispuce.com/sparkurity/styles.css">
+<style>
+  .two { display: grid; grid-template-columns: 1.15fr .85fr; gap: 14px; align-items: start; }
+  @media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="spk-doc">
+
+<header class="spk-header spk-on-dark">
+  <div class="spk-wrap" style="position:relative;z-index:1">
+    <img src="https://jurispuce.com/sparkurity/assets/logo/sparkurity-logo-white.svg" alt="Sparkurity" style="height:22px;display:block">
+    <div style="margin:30px 0 14px"><span class="spk-eyebrow">Risk Management for Executives · Block 01 · Lesson 1</span></div>
+    <h1>What risk really is — and isn't</h1>
+    <p class="spk-sub">Risk is the <b>effect of uncertainty on objectives</b>. Why risk management is a different cognitive mode than assigning work — and what it costs to run it as a compliance checkbox.</p>
+    <div class="spk-artifact-meta" style="margin-top:22px">
+      <span class="spk-kind" data-kind="lesson">lesson</span>
+      <code>spk.lesson.risk-management-en.what-risk-is</code>
+      <span>v1.2.0</span><span>12 min</span><span>ISO 31000 · ISO 27005</span>
+    </div>
+  </div>
+</header>
+
+<nav class="spk-subnav"><div class="spk-wrap spk-subnav__inner">
+  <a href="#definition" aria-current="true">Definition</a>
+  <a href="#modes">Two modes</a>
+  <a href="#case">Case study</a>
+  <a href="#cost">The checkbox cost</a>
+  <a href="#next">Next</a>
+</div></nav>
+
+<main class="spk-wrap">
+
+  <section class="spk-section" id="definition">
+    <div class="spk-kicker">01 · Definition</div>
+    <h2>Uncertainty, measured against what you're trying to do</h2>
+    <p class="spk-lede">A risk only exists relative to an objective. No objective, no risk — just things that might happen. That is why the first question in any risk conversation is <b>"risk to what?"</b></p>
+    <div class="spk-grid">
+      <div class="spk-card spk-card--sm"><h4 class="spk-card__title">Risk</h4><div class="spk-card__body">Uncertain. Might happen, would affect an objective.</div></div>
+      <div class="spk-card spk-card--sm"><h4 class="spk-card__title">Issue</h4><div class="spk-card__body">Certain. Already happening — manage it, don't score it.</div></div>
+      <div class="spk-card spk-card--sm"><h4 class="spk-card__title">Control gap</h4><div class="spk-card__body">A missing or broken control. Often the cause of a risk, not the risk itself.</div></div>
+    </div>
+  </section>
+
+  <section class="spk-section" id="modes">
+    <div class="spk-kicker">02 · Two modes</div>
+    <h2>Work assignment vs. risk thinking</h2>
+    <p class="spk-lede">Executives are trained to turn ambiguity into tasks. Risk management asks for the opposite: keep the ambiguity visible long enough to decide how much of it you can live with.</p>
+    <div class="two">
+      <div class="spk-card">
+        <h3 style="margin-top:0">How a good risk conversation runs</h3>
+        <ol class="spk-ladder">
+          <li><b>Name the objective</b> — revenue target, launch date, licence to operate.</li>
+          <li><b>Describe the uncertainty</b> — cause, event, consequence in one sentence.</li>
+          <li><b>Estimate honestly</b> — likelihood and impact, with the evidence you have.</li>
+          <li><b>Decide</b> — treat, accept, or escalate against appetite.</li>
+        </ol>
+      </div>
+      <div class="spk-stack">
+        <details class="spk-details" open>
+          <summary>Why it feels uncomfortable</summary>
+          <div class="spk-details__body">There is no "done" state. A risk is monitored, not closed — which conflicts with how most leadership teams measure progress.</div>
+        </details>
+        <details class="spk-details">
+          <summary>What changes for the board</summary>
+          <div class="spk-details__body">Boards approve appetite and review movement, not individual scores.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="spk-section" id="case">
+    <div class="spk-kicker">03 · Case study</div>
+    <h2>Meet Veridion Dynamics</h2>
+    <p class="spk-lede">Our running example: a mid-size industrial software company whose risk register has 214 entries and no owners. Tagline: <i>risk, we manage it, allegedly.</i></p>
+    <div class="spk-table-wrap">
+      <table class="spk-table">
+        <thead><tr><th>Register entry</th><th>What it really is</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>"Ransomware"</td><td>A threat, not a risk — no objective named</td><td><span class="spk-pill spk-pill--warning spk-pill--sm">Rewrite</span></td></tr>
+          <tr><td>"Backups not tested"</td><td>Control gap</td><td><span class="spk-pill spk-pill--calm spk-pill--sm">Move</span></td></tr>
+          <tr><td>"Q3 launch slips due to key-vendor outage"</td><td>A well-formed risk</td><td><span class="spk-pill spk-pill--success spk-pill--sm">Keep</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="spk-section" id="cost">
+    <div class="spk-kicker">04 · The checkbox cost</div>
+    <h2>What compliance-only risk management costs</h2>
+    <div class="spk-card spk-card--attention" style="margin-top:14px">
+      <h4 class="spk-card__title">The register becomes theatre</h4>
+      <p style="margin:0">Scores are set once for the auditor, never revisited, and treatment plans describe controls nobody operates. The result looks managed and isn't.</p>
+    </div>
+  </section>
+
+  <section class="spk-section" id="next">
+    <div class="spk-kicker">Next</div>
+    <h2>Continue</h2>
+    <div class="spk-grid" style="margin-top:14px">
+      <a class="spk-card spk-card--sm spk-card--interactive" href="spk://spk.card.risk-management-en.glossary" style="border:1px solid var(--border-default);display:flex;flex-direction:column;gap:8px">
+        <span class="spk-kind" data-kind="card" style="align-self:flex-start">flashcards</span>
+        <span class="spk-card__title" style="margin:0">Glossary — six terms people blur</span>
+      </a>
+      <a class="spk-card spk-card--sm spk-card--interactive" href="spk://spk.quiz.risk-management-en.risk-or-issue" style="border:1px solid var(--border-default);display:flex;flex-direction:column;gap:8px">
+        <span class="spk-kind" data-kind="quiz" style="align-self:flex-start">quiz</span>
+        <span class="spk-card__title" style="margin:0">Risk or issue? Quick check</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="spk-footer">
+    <img src="https://jurispuce.com/sparkurity/assets/logo/sparkurity-logo.svg" alt="Sparkurity" style="height:16px">
+    <div class="spk-meta" style="text-align:right">spk.lesson.risk-management-en.what-risk-is · v1.2.0 · Updated 2 Oct 2026</div>
+  </footer>
+</main>
+</body>
+</html>

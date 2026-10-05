@@ -1,0 +1,81 @@
+/* Sparkurity color tokens — sourced from static/security-management-structure/sparkurity-security-org-model-v2.html */
+:root {
+  /* Brand blues */
+  --spk-spark: #4A95D1;      /* logo blue — accents, marks, focus. Not for body text on white (3.2:1) */
+  --spk-action: #2F6FA3;     /* links, primary buttons, kickers */
+  --spk-blue-800: #25557C;   /* hover/pressed, numbered chips, deep accents */
+  --spk-blue-100: #D4E6F5;   /* link underline, selected borders, text on petrol */
+  --spk-blue-50: #EDF4FB;    /* tinted surfaces */
+
+  /* Petrol — structural/brand dark */
+  --spk-petrol: #2C6374;
+  --spk-petrol-dark: #214B58;
+  --spk-petrol-100: #C4D8D4;
+  --spk-petrol-50: #EAF1F0;
+
+  /* Neutrals */
+  --spk-ink: #2B2C2E;
+  --spk-body: #56575A;
+  --spk-grey: #6D6E71;       /* logo grey — meta text */
+  --spk-grey-200: #CFCFD1;
+  --spk-line: #E7E7E8;
+  --spk-mist: #F4F4F5;
+  --spk-stripe: #FAFBFB;
+  --spk-white: #FFFFFF;
+
+  /* Warm accents */
+  --spk-terracotta: #B25C43; /* gaps, warnings, "attention" — the only warm hue */
+  --spk-terra-200: #E4C4B8;
+  --spk-terra-50: #F7EDE9;
+  --spk-sand: #DCC8AE;
+
+  /* Status */
+  --spk-success: #2F855A;
+  --spk-success-50: #E7F2EC;
+  --spk-danger: #B42318;
+  --spk-danger-50: #FDECEA;
+
+  /* ── Semantic aliases ── */
+  --text-primary: var(--spk-ink);
+  --text-body: var(--spk-body);
+  --text-muted: var(--spk-grey);
+  --text-on-dark: var(--spk-white);
+  --text-on-dark-muted: rgba(255,255,255,.82);
+  --text-link: var(--spk-action);
+
+  --surface-page: var(--spk-mist);
+  --surface-card: var(--spk-white);
+  --surface-tint: var(--spk-blue-50);
+  --surface-brand: var(--spk-petrol);
+  --surface-stripe: var(--spk-stripe);
+
+  --border-default: var(--spk-line);
+  --border-strong: var(--spk-grey-200);
+  --border-selected: var(--spk-blue-100);
+
+  --cta-bg: var(--spk-action);
+  --cta-bg-hover: var(--spk-blue-800);
+  --cta-fg: var(--spk-white);
+  --focus-ring: 0 0 0 3px rgba(74,149,209,.35);
+
+  --status-success: var(--spk-success);
+  --status-success-bg: var(--spk-success-50);
+  --status-warning: var(--spk-terracotta);
+  --status-warning-bg: var(--spk-terra-50);
+  --status-info: var(--spk-action);
+  --status-info-bg: var(--spk-blue-50);
+  --status-danger: var(--spk-danger);
+  --status-danger-bg: var(--spk-danger-50);
+
+  /* Artifact kinds (LMS tags) — fg / bg pairs */
+  --kind-lesson-fg: var(--spk-blue-800);   --kind-lesson-bg: var(--spk-blue-50);
+  --kind-exercise-fg: var(--spk-petrol);   --kind-exercise-bg: var(--spk-petrol-50);
+  --kind-quiz-fg: var(--spk-petrol-dark);  --kind-quiz-bg: #E3EDEB;
+  --kind-deck-fg: var(--spk-terracotta);   --kind-deck-bg: var(--spk-terra-50);
+  --kind-video-fg: var(--spk-action);      --kind-video-bg: var(--spk-blue-100);
+  --kind-handout-fg: var(--spk-success);   --kind-handout-bg: var(--spk-success-50);
+  --kind-card-fg: var(--spk-body);         --kind-card-bg: var(--spk-mist);
+  --kind-certificate-fg: var(--spk-petrol-dark); --kind-certificate-bg: var(--spk-petrol-100);
+  --kind-email-fg: var(--spk-blue-800);    --kind-email-bg: var(--spk-mist);
+  --kind-social-fg: var(--spk-terracotta); --kind-social-bg: var(--spk-mist);
+}

@@ -1,0 +1,28 @@
+:root {
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Charter', 'Bitstream Charter', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+
+  /* Display scale (Fraunces 600, letter-spacing -.01em) */
+  --text-hero: 3.5rem;      /* 56 — marketing hero (website .hero-text h1) */
+  --text-h1: 2.625rem;      /* 42 — artifact / page title (org model h1) */
+  --text-h2: 1.8125rem;     /* 29 — section title */
+  --text-h3: 1.1875rem;     /* 19 — sub-section, card group */
+  --text-h4: 1.0625rem;     /* 17 — card title (display) */
+
+  /* Body scale (Inter) */
+  --text-lead: 1.125rem;    /* 18 — lede on marketing pages */
+  --text-body: 0.9375rem;   /* 15 — default body in LMS & artifacts */
+  --text-ui: 0.875rem;      /* 14 — buttons, rows */
+  --text-small: 0.78125rem; /* 12.5 — card body, table cells */
+  --text-micro: 0.6875rem;  /* 11 — kickers, chips (mono) */
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.3;
+  --leading-body: 1.55;
+  --leading-relaxed: 1.75;
+
+  --tracking-display: -0.01em;
+  --tracking-kicker: 0.16em;
+  --tracking-meta: 0.08em;
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Risk lifecycle cheat sheet · Sparkurity</title>
+<meta name="spk:id" content="spk.handout.risk-management-en.lifecycle-cheat-sheet">
+<meta name="spk:version" content="1.0.0">
+<script type="application/json" id="spk-artifact">
+{"id":"spk.handout.risk-management-en.lifecycle-cheat-sheet","kind":"handout","format":"a4","version":"1.0.0","title":"Risk lifecycle — cheat sheet","course":"risk-management-en","block":"02_lifecycle","lang":"en","updated":"2026-10-05","references":["spk.deck.risk-management-en.lifecycle-briefing","spk.exercise.risk-management-en.treatment-decision"],"standards":["ISO 31000"]}
+</script>
+<link rel="stylesheet" href="https://jurispuce.com/sparkurity/styles.css">
+<style>
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; background: #E7E7E8; }
+  .page { width: 210mm; height: 297mm; margin: 0 auto; background: #fff; padding: 14mm 14mm 12mm; box-sizing: border-box; display: flex; flex-direction: column; gap: 6mm; overflow: hidden; font-family: var(--font-body); color: var(--spk-ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page p, .page li { font-size: 9.5pt; line-height: 1.45; color: var(--spk-body); margin: 0; }
+  .page h1, .page h2, .page h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; margin: 0; color: var(--spk-ink); }
+  .stage { display: grid; grid-template-columns: 9mm 30mm 1fr 1fr; gap: 3mm; align-items: start; padding: 2.6mm 0; border-top: 1px solid var(--spk-line); }
+  .lbl { font-family: var(--font-mono); font-size: 7pt; letter-spacing: .1em; text-transform: uppercase; color: var(--spk-grey); }
+  @media print { html, body { background: #fff; } .page { margin: 0; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;padding-bottom:4mm;border-bottom:2px solid var(--spk-petrol)">
+    <div style="display:flex;flex-direction:column;gap:2mm">
+      <span class="spk-kicker" style="font-size:7.5pt">Risk Management for Executives · Cheat sheet</span>
+      <h1 style="font-size:24pt;line-height:1.1">The risk lifecycle on one page</h1>
+      <p style="font-size:10pt">Six stages. Each one has a required output. If a stage produces nothing on paper, it didn't happen.</p>
+    </div>
+    <img src="https://jurispuce.com/sparkurity/assets/logo/sparkurity-logo.svg" alt="Sparkurity" style="height:16px;margin-top:2mm">
+  </header>
+
+  <section>
+    <div class="stage" style="border-top:none;padding-top:0"><span></span><span class="lbl">Stage</span><span class="lbl">Required output</span><span class="lbl">Common mistake</span></div>
+    <div class="stage"><span class="spk-chip spk-chip--petrol" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">01</span><h3 style="font-size:11pt">Draft</h3><p>One-sentence risk: cause → event → consequence, tied to an objective.</p><p>Logging threats ("ransomware") instead of risks.</p></div>
+    <div class="stage"><span class="spk-chip spk-chip--petrol" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">02</span><h3 style="font-size:11pt">Identified</h3><p>Named owner with authority over the objective. Linked assets and processes.</p><p>Owner = whoever was in the workshop.</p></div>
+    <div class="stage"><span class="spk-chip spk-chip--action" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">03</span><h3 style="font-size:11pt">Analysed</h3><p>Likelihood and impact with evidence. Existing controls listed and verified.</p><p>Scores set from gut feeling, never revisited.</p></div>
+    <div class="stage"><span class="spk-chip" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">04</span><h3 style="font-size:11pt">Evaluated</h3><p>Compared against board-approved appetite. Decision: treat, accept, escalate.</p><p>Treating everything "red" without an appetite.</p></div>
+    <div class="stage"><span class="spk-chip" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">05</span><h3 style="font-size:11pt">Treated</h3><p>New or improved control with owner, budget line and deadline in the action plan.</p><p>Treatment = changing the colour on a heatmap.</p></div>
+    <div class="stage"><span class="spk-chip" style="width:7mm;height:7mm;font-size:7.5pt;border-radius:2mm">06</span><h3 style="font-size:11pt">Monitored</h3><p>KRI with threshold and review date. Movement reported, not static scores.</p><p>Closing risks instead of monitoring them.</p></div>
+  </section>
+
+  <section style="display:grid;grid-template-columns:1fr 1fr;gap:5mm">
+    <div style="background:var(--spk-blue-50);border:1px solid var(--spk-blue-100);border-radius:3mm;padding:4mm 5mm;display:flex;flex-direction:column;gap:2mm">
+      <span class="lbl" style="color:var(--spk-blue-800)">Four treatment options</span>
+      <ul style="margin:0;padding-left:4mm;display:flex;flex-direction:column;gap:1mm">
+        <li><b>Mitigate</b> — add or improve a control.</li>
+        <li><b>Avoid</b> — stop the activity that creates the risk.</li>
+        <li><b>Transfer</b> — insurance or contract; residual risk stays with you.</li>
+        <li><b>Accept</b> — a recorded decision, not a default.</li>
+      </ul>
+    </div>
+    <div style="background:var(--spk-terra-50);border:1px solid var(--spk-terra-200);border-radius:3mm;padding:4mm 5mm;display:flex;flex-direction:column;gap:2mm">
+      <span class="lbl" style="color:var(--spk-terracotta)">Red flags in a register</span>
+      <ul style="margin:0;padding-left:4mm;display:flex;flex-direction:column;gap:1mm">
+        <li>No objective in the risk sentence.</li>
+        <li>Same score for 12+ months.</li>
+        <li>Controls that are documented but never operated.</li>
+        <li>More than 30 risks per owner.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:2mm">
+    <span class="lbl">Write a risk in one sentence</span>
+    <div style="border:1px solid var(--spk-line);border-radius:3mm;padding:4mm 5mm;font-size:10.5pt;line-height:1.6;color:var(--spk-ink)">
+      Because of <b style="color:var(--spk-action)">[cause]</b>, <b style="color:var(--spk-action)">[event]</b> may occur, which would affect <b style="color:var(--spk-action)">[objective]</b> by <b style="color:var(--spk-action)">[consequence]</b>.
+      <div style="font-size:9pt;color:var(--spk-body);margin-top:2mm">Because of a single cloud vendor, a regional outage may occur, which would delay the Q3 launch by 4–6 weeks.</div>
+    </div>
+  </section>
+
+  <footer style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:3mm;border-top:1px solid var(--spk-line)">
+    <span class="lbl">spk.handout.risk-management-en.lifecycle-cheat-sheet · v1.0.0</span>
+    <span class="lbl">ISO 31000 · sparkurity.com</span>
+  </footer>
+</div>
+</body>
+</html>
